@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,11 +14,9 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
+Route::get('/admin/dashboard', function () {
+    return Inertia::render('Admin/Dashboard');
+})->middleware(['auth.admin', 'role:admin'])
+    ->name('admin.dashboard');
+
+require __DIR__ . '/auth.php';
