@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Company\Admin\CompanyController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +14,12 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/company/dashboard', function () {
-    return Inertia::render('Company/Dashboard');
-})->middleware(['auth.company', 'role:company'])
-    ->name('company.dashboard');
+Route::prefix('company')->middleware(['auth.company', 'role:company'])->name('company.')->group(function () {
+    Route::get('/dashboard', [CompanyController::class, 'index'])
+        ->name('dashboard');
+    
+    Route::get('/profile/{user}', [CompanyController::class, 'show'])
+        ->name('profile');
+});
 
 require __DIR__ . '/auth.php';
