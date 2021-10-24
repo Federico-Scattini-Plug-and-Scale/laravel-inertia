@@ -20,6 +20,8 @@ Route::prefix('company')->middleware(['auth.company', 'role:company'])->name('co
     
     Route::get('/profile/{user}', [CompanyController::class, 'show'])
         ->name('profile');
+    Route::post('/profile/{user}/edit', [CompanyController::class, 'edit'])
+        ->name('profile.edit');
 });
 
 require __DIR__ . '/auth.php';

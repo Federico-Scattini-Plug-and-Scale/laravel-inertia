@@ -46,6 +46,11 @@ class User extends Authenticatable
 
     public function detail()
     {
-      return $this->morphTo();
+        return $this->morphTo();
+    }
+
+    public function getHasCompanyDetails()
+    {
+        return $this->detail_type == 'App\Models\CompanyDetail';
     }
 }
