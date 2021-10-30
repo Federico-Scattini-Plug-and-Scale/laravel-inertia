@@ -4,7 +4,7 @@
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Company Profile
+                {{ company.name }}
             </h2>
         </template>
 
@@ -17,22 +17,24 @@
                         </div>
                         <form @submit.prevent="submit" class="flex flex-col">
                             <div class="mb-6">
-                                <input type="text" v-model="form.name" class="sm:rounded-lg w-full">
+                                <label class="text-lg font-semibold">Company name</label>
+                                <input type="text" v-model="form.name" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
                             </div>
                             <div class="mb-6">
-                                <input type="text" v-model="form.email" class="sm:rounded-lg w-full">
+                                <label class="text-lg font-semibold">Email</label>
+                                <input type="text" v-model="form.email" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.email" class="text-red-500">{{ errors.email }}</div>
                             </div>
                             <div v-if="!canChangeAddress" class="mb-6">
                                 <button type="button" :disabled="form.processing" @click="setChangeAddress(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">Change location</button>
                             </div>
                             <div v-if="canChangeAddress" class="mb-6">
+                                <label class="text-lg font-semibold">Address</label>
                                 <GMapAutocomplete
-                                    placeholder="This is a placeholder"
                                     @place_changed="setPlace"
                                     id="googlePlaceInput"
-                                    class="w-full"
+                                    class="w-full mt-1"
                                 >
                                 </GMapAutocomplete>
                                 <div v-if="errors.address" class="text-red-500">{{ errors.address }}</div>
@@ -54,8 +56,21 @@
                             <input type="hidden" v-model="form.latitude" class="sm:rounded-lg w-full">
                             <input type="hidden" v-model="form.longitude" class="sm:rounded-lg w-full">
                             <div class="mb-6">
-                                <input type="text" v-model="form.website_link" class="sm:rounded-lg w-full">
+                                <label class="text-lg font-semibold">Website</label>
+                                <input type="text" v-model="form.website_link" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.website_link" class="text-red-500">{{ errors.website_link }}</div>
+                            </div>
+                            <div class="mb-6 flex">
+                                <label class="text-lg font-semibold mr-6">Logo</label>
+                                <div v-if="canChangeLogo || errors.logo">
+                                    <input type="file" @input="form.logo = $event.target.files[0]" />
+                                    <div v-if="errors.logo" class="text-red-500">{{ errors.logo }}</div>
+                                </div>
+                                <button v-else type="button" :disabled="form.processing" @click="setChangeLogo(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">Change logo</button>
+                            </div>
+                            <div v-if="company.detail.logo" class="mb-6 flex items-center">
+                                <img :src="'/img/' + company.detail.logo" class="rounded-full w-32 h-32 mr-6"/>
+                                <span>{{ company.detail.logo }}</span>
                             </div>
                             <button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">Save</button>
                         </form>
@@ -89,7 +104,7 @@ export default {
             address: '',
             latitude: '',
             longitude: '',
-            logo: 'test',
+            logo: '',
             website_link: '',
         })
 
@@ -97,10 +112,12 @@ export default {
         const mapCenter = ref({lat: 51.093048, lng: 6.842120})
         const myMapRef = ref()
         const canChangeAddress = ref(true)
+        const canChangeLogo = ref(true)
 
         onBeforeMount(() => {
             if (props.company.detail != null) {
                 setChangeAddress(false)
+                setChangeLogo(false)
 
                 form.address = props.company.detail.address
                 form.latitude = props.company.detail.latitude
@@ -157,7 +174,11 @@ export default {
             canChangeAddress.value = value
         }
 
-        return { form, submit, setPlace, setMarker, setMapCenter, markers, mapCenter, myMapRef, canChangeAddress, setChangeAddress }
+        function setChangeLogo(value) {
+            canChangeLogo.value = value
+        }
+
+        return { form, submit, setPlace, setMarker, setMapCenter, markers, mapCenter, myMapRef, canChangeAddress, setChangeAddress, canChangeLogo, setChangeLogo }
     },
 }
 </script>
