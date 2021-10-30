@@ -42,26 +42,19 @@ class CompanyController extends Controller
             'email' => $request->email
         ]);
 
+        $detail = CompanyDetail::updateOrCreate([
+            'user_id' => $user->id
+        ],[
+            'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'logo' => $request->logo,
+            'website_link' => $request->website_link,
+        ]);
+
         if (!$user->getHasCompanyDetails())
         {
-            $detail = CompanyDetail::create([
-                'address' => $request->address,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'logo' => $request->logo,
-                'website_link' => $request->website_link,
-            ]);
             $detail->user()->save($user);
-        }
-        else
-        {
-            $user->detail()->update([
-                'address' => $request->address,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'logo' => $request->logo,
-                'website_link' => $request->website_link,
-            ]);
         }
 
         return redirect()->route('company.profile', $user);
