@@ -12,7 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <div v-if="company.detail == null" class="bg-red-500 text-white">
+                        <div v-if="company.detail == null" class="bg-red-500 text-white sm:rounded-lg p-2 mb-6">
                             Your profile is incomplete. Please provide the missing information.
                         </div>
                         <form @submit.prevent="submit" class="flex flex-col">
@@ -68,7 +68,7 @@
                                 </div>
                                 <button v-else type="button" :disabled="form.processing" @click="setChangeLogo(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">Change logo</button>
                             </div>
-                            <div v-if="company.detail.logo" class="mb-6 flex items-center">
+                            <div v-if="company.detail && company.detail.logo" class="mb-6 flex items-center">
                                 <img :src="'/img/' + company.detail.logo" class="rounded-full w-32 h-32 mr-6"/>
                                 <span>{{ company.detail.logo }}</span>
                             </div>
@@ -141,7 +141,9 @@ export default {
         })
 
         function submit() {
-            Inertia.post(route('company.profile.edit', props.company), form)
+            Inertia.post(route('company.profile.edit', props.company), form, {
+                preserveScroll: (page) => Object.keys(page.props.errors).length,
+            })
         }
 
         function setPlace(e) {

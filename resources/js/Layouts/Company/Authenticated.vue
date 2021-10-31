@@ -41,7 +41,7 @@
                                         <BreezeDropdownLink :href="route('company.profile', $page.props.auth.user)">
                                             Profile
                                         </BreezeDropdownLink>
-                                        <BreezeDropdownLink :href="route('logout')" method="post" as="button">
+                                        <BreezeDropdownLink :href="route('company.logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
                                     </template>
@@ -80,7 +80,7 @@
                             <BreezeResponsiveNavLink :href="route('company.profile', $page.props.auth.user)">
                                 Profile
                             </BreezeResponsiveNavLink>
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
+                            <BreezeResponsiveNavLink :href="route('company.logout')" method="post" as="button">
                                 Log Out
                             </BreezeResponsiveNavLink>
                         </div>

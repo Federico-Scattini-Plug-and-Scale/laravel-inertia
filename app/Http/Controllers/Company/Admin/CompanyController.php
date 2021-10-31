@@ -30,26 +30,26 @@ class CompanyController extends Controller
 
     public function edit(User $user, Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'email|required',
-            'address' => 'string|required',
-            'latitude' => 'required|numeric|between:-90,90',
-            'longitude' => 'required|numeric|between:-180,180',
-            'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000'
-        ]);
+        $request->validate($this->validationRules($request->hasFile('logo')));
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email
         ]);
 
-        $oldLogo = $user->detail->logo;
+        $oldLogo = '';
+        if ($user->getHasCompanyDetails())
+        {
+            $oldLogo = $user->detail->logo;
+        }
 
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
             $imageName = $logo->getClientOriginalName();
             $logo->move(public_path() . '/img/', $imageName);
+
+            if (!empty($oldLogo))
+                $this->deleteImage($oldLogo);
         }
 
         $detail = CompanyDetail::updateOrCreate([
@@ -58,14 +58,9 @@ class CompanyController extends Controller
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'logo' => $imageName,
+            'logo' => !empty($imageName) ? $imageName : $oldLogo,
             'website_link' => $request->website_link,
         ]);
-
-        if(File::exists(public_path('img/' . $oldLogo)))
-        {
-            File::delete(public_path('img/' . $oldLogo));
-        }
 
         if (!$user->getHasCompanyDetails())
         {
@@ -73,5 +68,29 @@ class CompanyController extends Controller
         }
 
         return redirect()->route('company.profile', $user);
+    }
+
+    private function deleteImage($imageName)
+    {
+        if(File::exists(public_path('img/' . $imageName)))
+        {
+            File::delete(public_path('img/' . $imageName));
+        }
+    }
+
+    private function validationRules($hasLogo)
+    {
+        $validationRules = [
+            'name' => 'required',
+            'email' => 'email|required',
+            'address' => 'string|required',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+        ];
+
+        if ($hasLogo)
+            $validationRules['logo'] = 'image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000';
+
+        return $validationRules;
     }
 }

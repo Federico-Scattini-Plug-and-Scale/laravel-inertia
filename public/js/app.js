@@ -23549,7 +23549,7 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      this.form.post(this.route('register'), {
+      this.form.post(this.route('company.register'), {
         onFinish: function onFinish() {
           return _this.form.reset('password', 'password_confirmation');
         }
@@ -23777,7 +23777,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     });
 
     function submit() {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.post(route('company.profile.edit', props.company), form);
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.post(route('company.profile.edit', props.company), form, {
+        preserveScroll: function preserveScroll(page) {
+          return Object.keys(page.props.errors).length;
+        }
+      });
     }
 
     function setPlace(e) {
@@ -24849,7 +24853,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8
       /* PROPS */
       , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeDropdownLink, {
-        href: _ctx.route('logout'),
+        href: _ctx.route('company.logout'),
         method: "post",
         as: "button"
       }, {
@@ -24926,7 +24930,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8
   /* PROPS */
   , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeResponsiveNavLink, {
-    href: _ctx.route('logout'),
+    href: _ctx.route('company.logout'),
     method: "post",
     as: "button"
   }, {
@@ -27496,7 +27500,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-    href: _ctx.route('login'),
+    href: _ctx.route('company.login'),
     "class": "underline text-sm text-gray-600 hover:text-gray-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -27811,7 +27815,7 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = {
   key: 0,
-  "class": "bg-red-500 text-white"
+  "class": "bg-red-500 text-white sm:rounded-lg p-2 mb-6"
 };
 var _hoisted_7 = {
   "class": "mb-6"
@@ -28031,7 +28035,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bg-black text-white px-4 py-2 sm:rounded-lg"
       }, "Change logo", 8
       /* PROPS */
-      , _hoisted_25))]), $props.company.detail.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      , _hoisted_25))]), $props.company.detail && $props.company.detail.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         src: '/img/' + $props.company.detail.logo,
         "class": "rounded-full w-32 h-32 mr-6"
       }, null, 8
