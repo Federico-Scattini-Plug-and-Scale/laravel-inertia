@@ -12,7 +12,10 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        You're logged in!
+                        <div v-if="company.detail == null" class="bg-red-500 text-white sm:rounded-lg p-2 mb-6">
+                            Your profile is incomplete. Please provide the missing information.
+                            <Link :href="route('company.profile', company)">Go to your profile</Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -22,12 +25,16 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
+        Link
     },
+    props: {
+        company: Object
+    }
 }
 </script>

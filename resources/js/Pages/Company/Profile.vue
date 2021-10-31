@@ -66,7 +66,10 @@
                                     <input type="file" @input="form.logo = $event.target.files[0]" />
                                     <div v-if="errors.logo" class="text-red-500">{{ errors.logo }}</div>
                                 </div>
-                                <button v-else type="button" :disabled="form.processing" @click="setChangeLogo(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">Change logo</button>
+                                <button v-else type="button" :disabled="form.processing" @click="setChangeLogo(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">
+                                    <span v-if="company.detail.logo">Change logo</span>
+                                    <span v-else>Upload logo</span>
+                                </button>
                             </div>
                             <div v-if="company.detail && company.detail.logo" class="mb-6 flex items-center">
                                 <img :src="'/img/' + company.detail.logo" class="rounded-full w-32 h-32 mr-6"/>

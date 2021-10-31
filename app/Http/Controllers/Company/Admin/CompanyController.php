@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CompanyDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 
@@ -18,7 +19,9 @@ class CompanyController extends Controller
 
     public function index()
     {
-        return Inertia::render('Company/Dashboard');
+        return Inertia::render('Company/Dashboard', [
+            'company' => Auth::user()
+        ]);
     }
 
     public function show(User $user)
@@ -58,7 +61,7 @@ class CompanyController extends Controller
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'logo' => !empty($imageName) ? $imageName : $oldLogo,
+            'logo' => !empty($imageName) ? $imageName : (!empty($oldLogo) ? $oldLogo : null),
             'website_link' => $request->website_link,
         ]);
 
