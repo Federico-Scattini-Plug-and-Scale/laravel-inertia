@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Company\Admin\CompanyController;
+use App\Http\Controllers\Company\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,14 +27,9 @@ Route::prefix('company')->middleware(['auth.company', 'role:company'])->name('co
 
     Route::get('/pricing', [CompanyController::class, 'pricing'])
         ->name('pricing');
-    Route::get('/payment', [CompanyController::class, 'payment'])
+    Route::get('/payment', [PaymentController::class, 'payment'])
         ->name('payment');
-    Route::get('/success', function(Request $request){
-        \Stripe\Stripe::setApiKey(env('STRIPE_PRIVATE_API_KEY'));
-
-        $test=\Stripe\Checkout\Session::retrieve($request->get('session_id'));
-        return dd($test);
-    })
+    Route::get('/success', [PaymentController::class, 'success'])
         ->name('success');
     Route::get('/cancel', function(){
         return 'cancel';

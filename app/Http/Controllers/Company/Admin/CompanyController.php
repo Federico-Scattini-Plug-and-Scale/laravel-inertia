@@ -42,9 +42,7 @@ class CompanyController extends Controller
 
         $oldLogo = '';
         if ($user->getHasCompanyDetails())
-        {
             $oldLogo = $user->detail->logo;
-        }
 
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
@@ -66,9 +64,7 @@ class CompanyController extends Controller
         ]);
 
         if (!$user->getHasCompanyDetails())
-        {
             $detail->user()->save($user);
-        }
 
         return redirect()->route('company.profile', $user);
     }
@@ -78,43 +74,10 @@ class CompanyController extends Controller
         return Inertia::render('Company/Pricing');
     }
 
-    public function payment()
-    {
-        \Stripe\Stripe::setApiKey(env('STRIPE_PRIVATE_API_KEY'));
-
-        $product = \Stripe\Product::create([
-            'name' => 'T-shirt',
-        ]);
-
-        $price = \Stripe\Price::create([
-            'product' => $product->id,
-            'unit_amount' => 2000,
-            'currency' => 'pln',
-        ]);
-
-        $checkout_session = \Stripe\Checkout\Session::create([
-            'customer_email' => Auth::user()->email,
-            'line_items' => [[
-                'price' => $price->id,
-                'quantity' => 1,
-            ]],
-            'payment_method_types' => [
-                'card',
-            ],
-            'mode' => 'payment',
-            'success_url' => route('company.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('company.cancel'),
-        ]);
-
-        return redirect($checkout_session->url);
-    }
-
     private function deleteImage($imageName)
     {
         if(File::exists(public_path('img/' . $imageName)))
-        {
             File::delete(public_path('img/' . $imageName));
-        }
     }
 
     private function validationRules($hasLogo)

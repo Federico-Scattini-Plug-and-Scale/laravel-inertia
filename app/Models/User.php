@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->detail_type == 'App\Models\CompanyDetail';
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
