@@ -18,6 +18,9 @@
                                 <BreezeNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                                     Dashboard
                                 </BreezeNavLink>
+                                <BreezeNavLink :href="route('admin.tags')" :active="route().current('admin.tags')">
+                                    Tags
+                                </BreezeNavLink>
                             </div>
                         </div>
 
@@ -38,7 +41,10 @@
                                     </template>
 
                                     <template #content>
-                                        <BreezeDropdownLink :href="route('logout')" method="post" as="button">
+                                        <BreezeDropdownLink :href="route('admin.profile', $page.props.auth.user)" as="button">
+                                            Profile
+                                        </BreezeDropdownLink>
+                                        <BreezeDropdownLink :href="route('admin.logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
                                     </template>
@@ -64,6 +70,9 @@
                         <BreezeResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                             Dashboard
                         </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('admin.tags')" :active="route().current('admin.tags')">
+                            Tags
+                        </BreezeResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -74,7 +83,10 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
+                            <BreezeResponsiveNavLink :href="route('admin.profile', $page.props.auth.user)" as="button">
+                                Profile
+                            </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route('admin.logout')" method="post" as="button">
                                 Log Out
                             </BreezeResponsiveNavLink>
                         </div>

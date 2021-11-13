@@ -29,5 +29,8 @@ export default {
         BreezeAuthenticatedLayout,
         Head,
     },
+    props: {
+        admin: Object,
+    },
 }
 </script>
