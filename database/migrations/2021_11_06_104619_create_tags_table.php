@@ -19,7 +19,7 @@ class CreateTagsTable extends Migration
             $table->boolean('is_active');
             $table->integer('position')->nullable();
             
-            $table->foreignId('tag_group_id')->unsigned()->onDelete('cascade');
+            $table->foreignId('tag_group_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

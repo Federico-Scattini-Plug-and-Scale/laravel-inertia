@@ -4,7 +4,7 @@
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Tags Management
+                {{ taggroup.name }}
             </h2>
         </template>
 
@@ -12,24 +12,38 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        {{ tags }}
-                        <button class="" @click="add">Add</button>
+                        <button class="bg-black text-white px-4 py-2 mb-3 sm:rounded-lg" @click="add">Add</button>
                         <draggable 
                             :list="tags" 
-                            item-key="name" 
+                            item-key="position" 
                             handle=".handle"
+                            @end="changePosition"
                         >
                             <template #item="{ element, index }">
-                              <li class="list-group-item">
-                                {{index}}
-                                <span class="handle">handle</span>
-                                       
-                                <input type="text" class="form-control" v-model="element.text" />
-                    
-                                <button @click="removeAt(index)">Remove</button>
-                              </li>
+                              <div class="list-group-item flex items-center py-3 gap-4">
+                                <i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
+                                <span>{{index}}</span>  
+                                <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
+                                <div class="flex flex-col justify-center items-center">
+                                    <label>Active</label>
+                                    <input type="checkbox" class="form-control" v-model="element.is_active" />
+                                </div>
+                                <button @click="remove(index, element)">
+                                    <i class="fas fa-trash-alt cursor-pointer text-red-500"></i>
+                                </button>
+                              </div>
                             </template>
                         </draggable>
+                        <Link 
+                            :href="route('admin.tags.update', taggroup)" 
+                            as="button" 
+                            type="button" 
+                            method="post" 
+                            :data="{ tags: tags }" 
+                            class="bg-black text-white px-4 py-2 sm:rounded-lg mt-3"
+                        >
+                            Save
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -39,41 +53,47 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, Link  } from '@inertiajs/inertia-vue3';
 import Draggable from "vuedraggable";
-import { ref } from 'vue'
+import { toRef } from 'vue'
+import { Inertia } from '@inertiajs/inertia';
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
-        Draggable
+        Draggable,
+        Link
     },
     props: {
-        
+        tags: Object,
+        taggroup: Object,
     },
-    setup () {
-        const tags = ref([
-            {
-              text: "ertert",
-            },
-            {
-              text: '',
-            },
-            {
-              text: '',
-            }
-        ])
-
-        function removeAt(idx) {
-            tags.value.splice(idx, 1);
+    setup (props) {
+        const tags = toRef(props, 'tags')
+        const taggroup = toRef(props, 'taggroup')
+    
+        function remove(idx, element) {
+            if (element.id == null) tags.value.splice(idx, 1)
+            else Inertia.post(route('admin.tags.destroy.tag', [taggroup.value, element]))
         }
 
         function add() {
-            tags.value.push({ text: ''});
+            tags.value.push({
+                id: null, 
+                name: '', 
+                is_active: false, 
+                position: tags.value.length
+            });
         }
 
-        return { tags, removeAt, add }
+        function changePosition() {
+            tags.value.forEach((element, index) => {
+                element.position = index
+            });
+        }
+
+        return { remove, add, changePosition, taggroup }
     },
 }
 </script>

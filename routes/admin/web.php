@@ -30,8 +30,12 @@ Route::prefix('admin')->middleware(['auth.admin', 'role:admin'])->name('admin.')
         ->name('tags.save');
     Route::get('/tags/{taggroup}/edit', [TagController::class, 'edit'])
         ->name('tags.edit');
+    Route::post('/tags/{taggroup}/update', [TagController::class, 'update'])
+        ->name('tags.update');
     Route::post('/tags/{taggroup}/destroy', [TagController::class, 'destroy'])
         ->name('tags.destroy');
+    Route::post('/tags/{taggroup}/destroy/{tag}', [TagController::class, 'destroyTag'])
+        ->name('tags.destroy.tag');
 });
 
 require __DIR__ . '/auth.php';
