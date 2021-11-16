@@ -18,7 +18,7 @@
                                 <BreezeNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                                     Dashboard
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.tags')" :active="route().current('admin.tags')">
+                                <BreezeNavLink :href="route('admin.tags')" :active="route().current('admin.tags') || route().current('admin.tags.edit')">
                                     Tags
                                 </BreezeNavLink>
                             </div>
@@ -70,7 +70,7 @@
                         <BreezeResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                             Dashboard
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route('admin.tags')" :active="route().current('admin.tags')">
+                        <BreezeResponsiveNavLink :href="route('admin.tags')" :active="route().current('admin.tags') || route().current('admin.tags.edit')">
                             Tags
                         </BreezeResponsiveNavLink>
                     </div>

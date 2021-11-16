@@ -41,6 +41,7 @@
                             method="post" 
                             :data="{ tags: tags }" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg mt-3"
+                            v-if="tags.length > 0"
                         >
                             Save
                         </Link>
