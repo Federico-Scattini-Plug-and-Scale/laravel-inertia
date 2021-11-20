@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -41,4 +42,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $with = ['detail'];
+
+    public function detail()
+    {
+        return $this->morphTo();
+    }
+
+    public function getHasCompanyDetails()
+    {
+        return $this->detail_type == 'App\Models\CompanyDetail';
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
