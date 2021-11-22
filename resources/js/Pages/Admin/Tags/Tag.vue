@@ -22,7 +22,7 @@
                             <template #item="{ element, index }">
                               <div class="list-group-item flex items-center py-3 gap-4">
                                 <i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
-                                <span>{{index}}</span>  
+                                <span>{{ index }}</span>  
                                 <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
                                 <div class="flex flex-col justify-center items-center">
                                     <label>Active</label>
