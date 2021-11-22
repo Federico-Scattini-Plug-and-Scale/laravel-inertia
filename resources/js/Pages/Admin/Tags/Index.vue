@@ -22,8 +22,13 @@
                             <template #item="{ element, index }">
                               <div class="list-group-item flex items-center py-3 gap-4">
                                 <i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
-                                <span>{{index}}</span>  
+                                <span>{{ index }}</span>  
                                 <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
+                                <span 
+                                    v-if="Object.keys($page.props.errors).length && $page.props.errors.tagGroup['tags.'+index+'.name']"
+                                >
+                                    {{ $page.props.errors.tagGroup['tags.'+index+'.name'] }}
+                                </span>
                                 <div class="flex flex-col justify-center items-center">
                                     <label>Active</label>
                                     <input type="checkbox" class="form-control" v-model="element.is_active" />
@@ -70,7 +75,7 @@ export default {
         Link
     },
     props: {
-        tags: Object
+        tags: Object,
     },
     setup (props) {
         const tags = toRef(props, 'tags')
@@ -95,7 +100,7 @@ export default {
             });
         }
 
-        return { remove, add, changePosition }
+        return { remove, add, changePosition, tags }
     },
 }
 </script>

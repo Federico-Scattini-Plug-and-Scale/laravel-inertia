@@ -7,23 +7,38 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class TagController extends Controller
 {
     public function index()
     {
+        if(!empty(Arr::get(request()->old(), 'tags')))
+        {
+            $tags = Arr::get(request()->old(), 'tags');
+        }
+        else 
+        {
+            $tags = TagGroup::orderBy('position')->get();
+        }
+
         return Inertia::render('Admin/Tags/Index', [
-            'tags' => TagGroup::orderBy('position')->get()
+            'tags' => $tags
         ]);
     }
 
     public function save(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'tags.*.name' => 'required',
             'tags.*.is_active' => 'required'
         ]);
+
+        if ($validator->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validator, 'tagGroup');
+        }
 
         $tagGroups = $request->get('tags');
 
@@ -44,9 +59,18 @@ class TagController extends Controller
 
     public function edit(TagGroup $taggroup)
     {
+        if(!empty(Arr::get(request()->old(), 'tags')))
+        {
+            $tags = Arr::get(request()->old(), 'tags');
+        }
+        else
+        {
+            $tags = $taggroup->tags;
+        }
+
         return Inertia::render('Admin/Tags/Tag', [
             'taggroup' => $taggroup,
-            'tags' => $taggroup->tags
+            'tags' => $tags
         ]);
     }
 
@@ -59,10 +83,15 @@ class TagController extends Controller
 
     public function update(TagGroup $taggroup, Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'tags.*.name' => 'required',
             'tags.*.is_active' => 'required'
         ]);
+
+        if ($validator->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validator, 'tags');
+        }
 
         $tags = $request->get('tags');
 
