@@ -14,7 +14,7 @@ class AddColumnRankToJobOffersTable extends Migration
     public function up()
     {
         Schema::table('job_offers', function (Blueprint $table) {
-            $table->integer('rank')->default(0);
+            $table->integer('ranking')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnRankToJobOffersTable extends Migration
     public function down()
     {
         Schema::table('job_offers', function (Blueprint $table) {
-            $table->dropColumn('rank');
+            $table->dropColumn('ranking');
         });
     }
 }

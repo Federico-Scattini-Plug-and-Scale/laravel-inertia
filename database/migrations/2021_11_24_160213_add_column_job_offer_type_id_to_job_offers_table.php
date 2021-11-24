@@ -14,7 +14,7 @@ class AddColumnJobOfferTypeIdToJobOffersTable extends Migration
     public function up()
     {
         Schema::table('job_offers', function (Blueprint $table) {
-            $table->foreignId('job_offer_type_id')->unsigned()->nullable()->onDelete('set null');
+            $table->foreignId('job_offer_type_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 
