@@ -19,7 +19,7 @@ class PaymentController extends Controller
 
         $price = \Stripe\Price::create([
             'product' => $product->id,
-            'unit_amount' => 2000,
+            'unit_amount' => 0100,
             'currency' => 'pln',
         ]);
 

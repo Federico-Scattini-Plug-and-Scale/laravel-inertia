@@ -10,4 +10,9 @@ class JobOffer extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function job_offer_type()
+    {
+        return $this->hasOne(JobOfferType::class);
+    }
 }
