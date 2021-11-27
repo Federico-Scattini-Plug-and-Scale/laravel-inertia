@@ -25,10 +25,10 @@ class StoreJobOfferTypeRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'stripe_product_name' => 'required',
-            'rank' => 'numeric|required|min:0|max:10',
-            'currency' => 'required|max:10',
-            'price' => 'numeric|min:0|required',
+            'stripe_product_name' => 'required_if:is_free,=,false',
+            'ranking' => 'numeric|required|min:0|max:10',
+            'currency' => 'required_if:is_free,=,false|max:10',
+            'price' => 'numeric|min:1|required_if:is_free,=,false',
             'is_active' => 'required'
         ];
     }

@@ -20,7 +20,7 @@
                         </Link>
 						<div class="overflow-auto mt-6">
 							<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-								<table class="min-w-full leading-normal">
+								<table class="min-w-full leading-normal" v-if="jobOfferTypes.length > 0">
 									<thead>
 										<tr>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -42,36 +42,44 @@
 												ID Prezzo Stripe
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Stato
+												Attivo
+											</th>
+											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+												Gratis
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr v-for="(item, index) in jobOfferTypes" :key="index">
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">Test</p>
+												<p class="text-gray-900 whitespace-no-wrap">{{ item.name }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">Test stripe</p>
+												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_product_name }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">$20,000</p>
-												<p class="text-gray-600 whitespace-no-wrap">USD</p>
+												<p class="text-gray-900 whitespace-no-wrap">{{ item.is_free ? 'Gratis' : item.price + ' ' + item.currency }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">1</p>
+												<p class="text-gray-900 whitespace-no-wrap">{{ item.ranking }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">1456456</p>
+												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_product_id }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">145645645</p>
+												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_price_id }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
 												<span aria-hidden="" class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-												<span class="relative">Paid</span>
+												<span class="relative">{{ item.is_active ? 'Si' : 'No' }}</span>
+												</span>
+											</td>
+											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+												<span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+												<span aria-hidden="" class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+												<span class="relative">{{ item.is_free ? 'Si' : 'No' }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
@@ -111,8 +119,6 @@ export default {
 	setup(props) {
 		const jobOfferTypes = toRef(props, 'jobOfferTypes')
 		
-
-
 		return {
 			jobOfferTypes,
 		}

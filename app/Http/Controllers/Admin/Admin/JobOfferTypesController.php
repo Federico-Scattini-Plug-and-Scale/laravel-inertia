@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJobOfferTypeRequest;
 use App\Models\JobOfferType;
+use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
 class JobOfferTypesController extends Controller
@@ -23,18 +24,23 @@ class JobOfferTypesController extends Controller
 
     public function store(StoreJobOfferTypeRequest $request)
     {
+        $payload = $request->all();
+        
+        if (!Arr::get($payload, 'is_free'))
+        {
+            setStripeKey();
 
-        setStripeKey();
+            $productStripe = createStripeProduct($request->stripe_product_name);
+            $productStripeId = $productStripe->id;
 
-        $product = \Stripe\Product::create([
-            'name' => 'T-shirt',
-        ]);
+            $priceStripe = createStripePrice($productStripeId, number_format((Arr::get($payload, 'price')*100), 0, '', ''), Arr::get($payload, 'currency'));
+            $priceStripeId = $priceStripe->id;
 
-        $price = \Stripe\Price::create([
-            'product' => $product->id,
-            'unit_amount' => 2000,
-            'currency' => 'pln',
-        ]);
+            $payload['stripe_product_id'] = $productStripeId;
+            $payload['stripe_price_id'] = $priceStripeId;
+        }
+
+        JobOfferType::create($payload);
 
         return redirect()->back();
     }

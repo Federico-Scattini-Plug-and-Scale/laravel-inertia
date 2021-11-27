@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnRankToJobOffersTable extends Migration
+class RenameColumnRankInJobOfferTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddColumnRankToJobOffersTable extends Migration
      */
     public function up()
     {
-        Schema::table('job_offers', function (Blueprint $table) {
-            $table->integer('rank')->default(0);
+        Schema::table('job_offer_types', function (Blueprint $table) {
+            $table->renameColumn('rank', 'ranking');
         });
     }
 
@@ -25,8 +25,8 @@ class AddColumnRankToJobOffersTable extends Migration
      */
     public function down()
     {
-        Schema::table('job_offers', function (Blueprint $table) {
-            $table->dropColumn('rank');
+        Schema::table('job_offer_types', function (Blueprint $table) {
+            $table->renameColumn('ranking', 'rank');
         });
     }
 }
