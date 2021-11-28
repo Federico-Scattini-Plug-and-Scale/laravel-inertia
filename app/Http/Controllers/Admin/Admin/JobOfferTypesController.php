@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreJobOfferTypeRequest;
+use App\Http\Requests\JobOfferTypeRequest;
 use App\Models\JobOfferType;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
@@ -22,7 +22,7 @@ class JobOfferTypesController extends Controller
         return Inertia::render('Admin/JobOfferTypes/Create');
     }
 
-    public function store(StoreJobOfferTypeRequest $request)
+    public function store(JobOfferTypeRequest $request)
     {
         $payload = $request->all();
         
@@ -41,6 +41,22 @@ class JobOfferTypesController extends Controller
         }
 
         JobOfferType::create($payload);
+
+        return redirect()->back();
+    }
+
+    public function edit(JobOfferType $joboffertype)
+    {
+        return Inertia::render('Admin/JobOfferTypes/Edit', [
+            'jobOfferType' => $joboffertype
+        ]);
+    }
+
+    public function update(JobOfferType $joboffertype, JobOfferTypeRequest $request)
+    {
+        $payload = $request->all();
+
+        $joboffertype->update($payload);
 
         return redirect()->back();
     }
