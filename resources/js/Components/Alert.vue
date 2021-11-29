@@ -1,7 +1,7 @@
 <template>
     <div>
         <div 
-			:class="{ 'bg-red-500' : isError, 'bg-green-500' : isSuccess, 'text-white' : true, 'd-block' : true, 'p-2' : true, 'sm:rounded-lg' : true, 'text-center' : true }">
+			:class="{ 'bg-red-500' : isError, 'bg-green-500' : isSuccess }" class="text-white d-block p-2 sm:rounded-lg text-center">
 			{{ message }}
 		</div>
     </div>

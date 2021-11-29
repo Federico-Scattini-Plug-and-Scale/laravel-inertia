@@ -45,6 +45,12 @@ Route::prefix('admin')->middleware(['auth.admin', 'role:admin'])->name('admin.')
         ->name('joboffertypes.create');
     Route::post('/tipi-di-offerte', [JobOfferTypesController::class, 'store'])
         ->name('joboffertypes.store');
+    Route::get('/tipi-di-offerte/{joboffertype}/modifica', [JobOfferTypesController::class, 'edit'])
+        ->name('joboffertypes.edit');
+    Route::post('/tipi-di-offerte/{joboffertype}/modifica', [JobOfferTypesController::class, 'update'])
+        ->name('joboffertypes.update');
+    Route::post('/tipi-di-offerte/{joboffertype}/elimina', [JobOfferTypesController::class, 'destroy'])
+        ->name('joboffertypes.destroy');
 });
 
 require __DIR__ . '/auth.php';

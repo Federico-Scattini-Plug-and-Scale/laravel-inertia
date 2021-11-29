@@ -20,4 +20,9 @@ class JobOfferType extends Model
     {
         return $this->belongsToMany(JobOffer::class);
     }
+
+    public static function getAllPaginated($pager = 10)
+    {
+        return self::orderBy('updated_at', 'desc')->paginate($pager);
+    }
 }
