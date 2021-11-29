@@ -71,14 +71,14 @@
 												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_price_id }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-												<span aria-hidden="" class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{'text-green-900' : item.is_active, 'text-red-900' : !item.is_active}">
+												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{'bg-green-200' : item.is_active, 'bg-red-200' : !item.is_active}"></span>
 												<span class="relative">{{ item.is_active ? 'Si' : 'No' }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-												<span aria-hidden="" class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{'text-green-900' : item.is_free, 'text-red-900' : !item.is_free}">
+												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{'bg-green-200' : item.is_free, 'bg-red-200' : !item.is_free}"></span>
 												<span class="relative">{{ item.is_free ? 'Si' : 'No' }}</span>
 												</span>
 											</td>
