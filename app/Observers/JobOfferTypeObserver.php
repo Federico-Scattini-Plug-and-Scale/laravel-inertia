@@ -75,9 +75,15 @@ class JobOfferTypeObserver
     {
         setStripeKey();
 
-        updateStripePrice($jobOfferType->stripe_price_id, ['active' => false]);
+        if (!empty($jobOfferType->stripe_price_id))
+        {
+            updateStripePrice($jobOfferType->stripe_price_id, ['active' => false]);
+        }
 
-        updateStripeProduct($jobOfferType->stripe_product_id, ['active' => false]);
+        if (!empty($jobOfferType->stripe_product_id))
+        {
+            updateStripeProduct($jobOfferType->stripe_product_id, ['active' => false]);
+        }
     }
 
     /**

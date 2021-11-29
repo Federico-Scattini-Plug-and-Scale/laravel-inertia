@@ -20,7 +20,7 @@
                         </Link>
 						<div class="overflow-auto mt-6">
 							<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-								<table class="min-w-full leading-normal" v-if="jobOfferTypes.length > 0">
+								<table class="min-w-full leading-normal" v-if="jobOfferTypes.data.length > 0">
 									<thead>
 										<tr>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -51,7 +51,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(item, index) in jobOfferTypes" :key="index">
+										<tr v-for="(item, index) in jobOfferTypes.data" :key="index">
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<p class="text-gray-900 whitespace-no-wrap">{{ item.name }}</p>
 											</td>
@@ -106,6 +106,7 @@
 										</tr>
 									</tbody>
 								</table>
+								<Pagination class="mt-6" :links="jobOfferTypes.links" />
 							</div>
 						</div>
                     </div>
@@ -119,7 +120,8 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
-import { Head, Link  } from '@inertiajs/inertia-vue3';
+import Pagination from '@/Components/Pagination.vue'
+import { Head, Link  } from '@inertiajs/inertia-vue3'
 import { toRef } from 'vue'
 
 export default {
@@ -128,17 +130,11 @@ export default {
 		BreezeDropdown,
 		BreezeDropdownLink,
         Head,
-        Link
+        Link,
+		Pagination
     },
 	props: {
 		jobOfferTypes: Object,
 	},
-	setup(props) {
-		const jobOfferTypes = toRef(props, 'jobOfferTypes')
-		
-		return {
-			jobOfferTypes,
-		}
-	}
 }
 </script>
