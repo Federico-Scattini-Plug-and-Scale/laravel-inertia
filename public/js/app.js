@@ -29355,7 +29355,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["href", "active"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeNavLink, {
     href: _ctx.route('admin.joboffertypes'),
-    active: _ctx.route().current('admin.joboffertypes') || _ctx.route().current('admin.joboffertypes.create')
+    active: _ctx.route().current('admin.joboffertypes') || _ctx.route().current('admin.joboffertypes.create') || _ctx.route().current('admin.joboffertypes.edit')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_10];
@@ -29463,7 +29463,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["href", "active"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeResponsiveNavLink, {
     href: _ctx.route('admin.joboffertypes'),
-    active: _ctx.route().current('admin.joboffertypes') || _ctx.route().current('admin.joboffertypes.create')
+    active: _ctx.route().current('admin.joboffertypes') || _ctx.route().current('admin.joboffertypes.create') || _ctx.route().current('admin.joboffertypes.edit')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_23];

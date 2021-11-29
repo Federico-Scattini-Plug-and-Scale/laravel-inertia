@@ -21,7 +21,7 @@
                                 <BreezeNavLink :href="route('admin.tags')" :active="route().current('admin.tags') || route().current('admin.tags.edit')">
                                     Tags
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.joboffertypes')" :active="route().current('admin.joboffertypes') || route().current('admin.joboffertypes.create')">
+                                <BreezeNavLink :href="route('admin.joboffertypes')" :active="route().current('admin.joboffertypes') || route().current('admin.joboffertypes.create') || route().current('admin.joboffertypes.edit')">
                                     Pacchetti offerte
                                 </BreezeNavLink>
                             </div>
@@ -76,7 +76,7 @@
                         <BreezeResponsiveNavLink :href="route('admin.tags')" :active="route().current('admin.tags') || route().current('admin.tags.edit')">
                             Tags
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route('admin.joboffertypes')" :active="route().current('admin.joboffertypes') || route().current('admin.joboffertypes.create')">
+                        <BreezeResponsiveNavLink :href="route('admin.joboffertypes')" :active="route().current('admin.joboffertypes') || route().current('admin.joboffertypes.create') || route().current('admin.joboffertypes.edit')">
                             Pacchetti offerte
                         </BreezeResponsiveNavLink>
                     </div>
