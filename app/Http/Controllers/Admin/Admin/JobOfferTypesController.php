@@ -60,4 +60,11 @@ class JobOfferTypesController extends Controller
 
         return redirect()->back();
     }
+
+    public function destroy(JobOfferType $joboffertype)
+    {
+        $joboffertype->delete();
+
+        return redirect()->back();
+    }
 }

@@ -7,7 +7,7 @@ use App\Models\JobOfferType;
 class JobOfferTypeObserver
 {
     /**
-     * Handle the JobOffertType "created" event.
+     * Handle the JobOfferType "created" event.
      *
      * @param  \App\Models\JobOfferType  $jobOfferType
      * @return void
@@ -18,7 +18,7 @@ class JobOfferTypeObserver
     }
 
     /**
-     * Handle the JobOffertType "updated" event.
+     * Handle the JobOfferType "updated" event.
      *
      * @param  \App\Models\JobOfferType  $jobOfferType
      * @return void
@@ -66,18 +66,22 @@ class JobOfferTypeObserver
     }
 
     /**
-     * Handle the JobOffertType "deleted" event.
+     * Handle the JobOfferType "deleted" event.
      *
      * @param  \App\Models\JobOfferType  $jobOfferType
      * @return void
      */
     public function deleted(JobOfferType $jobOfferType)
     {
-        //
+        setStripeKey();
+
+        updateStripePrice($jobOfferType->stripe_price_id, ['active' => false]);
+
+        updateStripeProduct($jobOfferType->stripe_product_id, ['active' => false]);
     }
 
     /**
-     * Handle the JobOffertType "restored" event.
+     * Handle the JobOfferType "restored" event.
      *
      * @param  \App\Models\JobOfferType  $jobOfferType
      * @return void
@@ -88,7 +92,7 @@ class JobOfferTypeObserver
     }
 
     /**
-     * Handle the JobOffertType "force deleted" event.
+     * Handle the JobOfferType "force deleted" event.
      *
      * @param  \App\Models\JobOfferType  $jobOffertType
      * @return void
