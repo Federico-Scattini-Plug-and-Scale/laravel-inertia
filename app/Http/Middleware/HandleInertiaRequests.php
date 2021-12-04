@@ -36,7 +36,9 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
-            ]
+            ],
+            'locale' => app()->getLocale(),
+            'lang' => translations(resource_path('lang/' . app()->getLocale() .'/' . app()->getLocale() . '.json')),
         ]);
     }
 }

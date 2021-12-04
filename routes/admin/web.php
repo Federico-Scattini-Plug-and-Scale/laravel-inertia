@@ -37,20 +37,22 @@ Route::prefix('admin')->middleware(['auth.admin', 'role:admin'])->name('admin.')
         ->name('tags.destroy');
     Route::post('/tags/{taggroup}/elimina/{tag}', [TagController::class, 'destroyTag'])
         ->name('tags.destroy.tag');
-
+    
     //Job offer types
-    Route::get('/tipi-di-offerte', [JobOfferTypesController::class, 'index'])
-        ->name('joboffertypes');
-    Route::get('/tipi-di-offerte/crea', [JobOfferTypesController::class, 'create'])
-        ->name('joboffertypes.create');
-    Route::post('/tipi-di-offerte', [JobOfferTypesController::class, 'store'])
-        ->name('joboffertypes.store');
-    Route::get('/tipi-di-offerte/{joboffertype}/modifica', [JobOfferTypesController::class, 'edit'])
-        ->name('joboffertypes.edit');
-    Route::post('/tipi-di-offerte/{joboffertype}/modifica', [JobOfferTypesController::class, 'update'])
-        ->name('joboffertypes.update');
-    Route::post('/tipi-di-offerte/{joboffertype}/elimina', [JobOfferTypesController::class, 'destroy'])
-        ->name('joboffertypes.destroy');
+    Route::prefix('/' . trans('routes.job-offer-types'))->group(function () {
+        Route::get('/', [JobOfferTypesController::class, 'index'])
+            ->name('joboffertypes');
+        Route::get('/' . trans('routes.create'), [JobOfferTypesController::class, 'create'])
+            ->name('joboffertypes.create');
+        Route::post('/', [JobOfferTypesController::class, 'store'])
+            ->name('joboffertypes.store');
+        Route::get('/{joboffertype}/modifica', [JobOfferTypesController::class, 'edit'])
+            ->name('joboffertypes.edit');
+        Route::post('/{joboffertype}/modifica', [JobOfferTypesController::class, 'update'])
+            ->name('joboffertypes.update');
+        Route::post('/{joboffertype}/elimina', [JobOfferTypesController::class, 'destroy'])
+            ->name('joboffertypes.destroy');
+    });
 });
 
 require __DIR__ . '/auth.php';

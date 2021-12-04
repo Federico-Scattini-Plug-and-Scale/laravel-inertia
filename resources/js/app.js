@@ -22,6 +22,7 @@ createInertiaApp({
                 },
             })
             .mixin({ methods: { route } })
+            .mixin(require('./base'))
             .mount(el);
     },
 });
