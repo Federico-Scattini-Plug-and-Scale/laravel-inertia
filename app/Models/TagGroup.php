@@ -19,4 +19,9 @@ class TagGroup extends Model
     {
         return $this->hasMany(Tag::class)->orderBy('position');
     }
+
+    public static function getAll()
+    {
+        return self::orderBy('position')->get();
+    }
 }

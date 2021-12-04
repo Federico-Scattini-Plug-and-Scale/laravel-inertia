@@ -20,7 +20,7 @@ class TagController extends Controller
         }
         else 
         {
-            $tags = TagGroup::orderBy('position')->get();
+            $tags = TagGroup::getAll();
         }
 
         return Inertia::render('Admin/Tags/Index', [
