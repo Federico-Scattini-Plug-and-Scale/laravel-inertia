@@ -2,5 +2,8 @@
 
 return [
   'job-offer-types' => 'job-offer-types',
-  'create' => 'create'
+  'create' => 'create',
+  'delete' => 'delete',
+  'modify' => 'modify',
+  'save' => 'save'
 ];

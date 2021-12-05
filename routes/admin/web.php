@@ -21,22 +21,24 @@ Route::prefix('admin')->middleware(['auth.admin', 'role:admin'])->name('admin.')
         ->name('dashboard');
     Route::get('/profilo/{user}', [AdminController::class, 'show'])
         ->name('profile');
-    Route::post('/profilo/{user}/modifica', [AdminController::class, 'edit'])
+    Route::post('/profilo/{user}/' . trans('routes.modify'), [AdminController::class, 'edit'])
         ->name('profile.edit');
 
     //tags
-    Route::get('/tags', [TagController::class, 'index'])
-        ->name('tags');
-    Route::post('/tags', [TagController::class, 'save'])
-        ->name('tags.save');
-    Route::get('/tags/{taggroup}/modifica', [TagController::class, 'edit'])
-        ->name('tags.edit');
-    Route::post('/tags/{taggroup}/salva', [TagController::class, 'update'])
-        ->name('tags.update');
-    Route::post('/tags/{taggroup}/elimina', [TagController::class, 'destroy'])
-        ->name('tags.destroy');
-    Route::post('/tags/{taggroup}/elimina/{tag}', [TagController::class, 'destroyTag'])
-        ->name('tags.destroy.tag');
+    Route::prefix('/tags')->group(function () {
+        Route::get('/', [TagController::class, 'index'])
+            ->name('tags');
+        Route::post('/', [TagController::class, 'save'])
+            ->name('tags.save');
+        Route::get('/{taggroup}/' . trans('routes.modify'), [TagController::class, 'edit'])
+            ->name('tags.edit');
+        Route::post('/{taggroup}/' . trans('routes.save'), [TagController::class, 'update'])
+            ->name('tags.update');
+        Route::post('/{taggroup}/' . trans('routes.delete'), [TagController::class, 'destroy'])
+            ->name('tags.destroy');
+        Route::post('/{taggroup}/'. trans('routes.delete') .'/{tag}', [TagController::class, 'destroyTag'])
+            ->name('tags.destroy.tag');
+    });
     
     //Job offer types
     Route::prefix('/' . trans('routes.job-offer-types'))->group(function () {
@@ -46,11 +48,11 @@ Route::prefix('admin')->middleware(['auth.admin', 'role:admin'])->name('admin.')
             ->name('joboffertypes.create');
         Route::post('/', [JobOfferTypesController::class, 'store'])
             ->name('joboffertypes.store');
-        Route::get('/{joboffertype}/modifica', [JobOfferTypesController::class, 'edit'])
+        Route::get('/{joboffertype}/' . trans('routes.modify'), [JobOfferTypesController::class, 'edit'])
             ->name('joboffertypes.edit');
-        Route::post('/{joboffertype}/modifica', [JobOfferTypesController::class, 'update'])
+        Route::post('/{joboffertype}/' . trans('routes.modify'), [JobOfferTypesController::class, 'update'])
             ->name('joboffertypes.update');
-        Route::post('/{joboffertype}/elimina', [JobOfferTypesController::class, 'destroy'])
+        Route::post('/{joboffertype}/' . trans('routes.delete'), [JobOfferTypesController::class, 'destroy'])
             ->name('joboffertypes.destroy');
     });
 });
