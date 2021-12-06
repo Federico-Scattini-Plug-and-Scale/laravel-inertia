@@ -13,7 +13,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 						Pricing
-						<a :href="route('company.payment')">Pay</a>
+						<a :href="route($page.props.locale + '.company.payment')">Pay</a>
                     </div>
                 </div>
             </div>

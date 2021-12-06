@@ -1,10 +1,10 @@
 <template>
-    <Head title="Dashboard" />
+    <Head :title="__('Dashboard')" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Admin dashboard
+                {{ __('Admin dashboard') }}
             </h2>
         </template>
 

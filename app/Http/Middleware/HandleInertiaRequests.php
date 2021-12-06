@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -38,7 +39,8 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'locale' => app()->getLocale(),
-            'lang' => translations(resource_path('lang/' . app()->getLocale() .'/' . app()->getLocale() . '.json')),
+            'lang' => fn () => translations(resource_path('lang/' . app()->getLocale() .'/' . app()->getLocale() . '.json')),
+            'route' => fn () => Route::currentRouteName()
         ]);
     }
 }

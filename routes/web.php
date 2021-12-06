@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LangController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,7 @@ use Inertia\Inertia;
 */
 
 //set locale based on subdomain
-app() ->setLocale(request()->subdomain());
+app()->setLocale(request()->subdomain());
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -31,3 +32,5 @@ Route::get('/', function () {
 Route::get('/locale', function () {
     return App::getLocale();
 });
+
+Route::get('/lang', LangController::class)->name('lang');

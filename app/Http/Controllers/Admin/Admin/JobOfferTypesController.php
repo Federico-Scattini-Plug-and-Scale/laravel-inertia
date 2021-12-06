@@ -13,7 +13,7 @@ class JobOfferTypesController extends Controller
     public function index()
     {
         return Inertia::render('Admin/JobOfferTypes/Index', [
-            'jobOfferTypes' => JobOfferType::getAllPaginated(),
+            'jobOfferTypes' => JobOfferType::getAllPaginated(10, app()->getLocale()),
         ]);
     }
 

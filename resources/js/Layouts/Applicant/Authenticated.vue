@@ -8,14 +8,14 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <Link :href="route('applicant.dashboard')">
+                                <Link :href="route($page.props.locale + '.applicant.dashboard')">
                                     <BreezeApplicationLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('applicant.dashboard')" :active="route().current('applicant.dashboard')">
+                                <BreezeNavLink :href="route($page.props.locale + '.applicant.dashboard')" :active="route().current('applicant.dashboard')">
                                     Dashboard
                                 </BreezeNavLink>
                             </div>
@@ -38,7 +38,7 @@
                                     </template>
 
                                     <template #content>
-                                        <BreezeDropdownLink :href="route('logout')" method="post" as="button">
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
                                     </template>
@@ -61,7 +61,7 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route('applicant.dashboard')" :active="route().current('applicant.dashboard')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.applicant.dashboard')" :active="route().current('applicant.dashboard')">
                             Dashboard
                         </BreezeResponsiveNavLink>
                     </div>
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.logout')" method="post" as="button">
                                 Log Out
                             </BreezeResponsiveNavLink>
                         </div>

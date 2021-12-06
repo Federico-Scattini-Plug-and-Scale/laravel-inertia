@@ -21,8 +21,11 @@ class JobOfferType extends Model
         return $this->belongsToMany(JobOffer::class);
     }
 
-    public static function getAllPaginated($pager = 10)
+    public static function getAllPaginated($pager = 10, $locale = 'it')
     {
-        return self::orderBy('updated_at', 'desc')->paginate($pager);
+        return self::
+            where('locale', $locale)
+            ->orderBy('updated_at', 'desc')
+            ->paginate($pager);
     }
 }

@@ -4,7 +4,7 @@ module.exports = {
     	* Translate the given key.
     	*/
       	__(key, replace = {}) {
-          	var translation = this.$page.props.lang[key]
+          	let translation = this.$page.props.lang[key]
               	? this.$page.props.lang[key]
               	: key
 
@@ -14,5 +14,13 @@ module.exports = {
 
           	return translation
       	},
+		/**
+    	* Get translated record from DB object.
+    	*/
+		trans(value) {
+			let translation = value[this.$page.props.locale]
+
+			return translation ? translation : this.__('No translation available.')
+		},
   	},
 }

@@ -144,7 +144,7 @@ export default {
         })
 
         function submit() {
-            Inertia.post(route('company.profile.edit', props.company), form, {
+            Inertia.post(route($page.props.locale + '.company.profile.edit', props.company), form, {
                 preserveScroll: (page) => Object.keys(page.props.errors).length,
             })
         }

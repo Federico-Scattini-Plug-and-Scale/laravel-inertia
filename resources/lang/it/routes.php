@@ -5,5 +5,6 @@ return [
   'create' => 'crea',
   'delete' => 'elimina',
   'modify' => 'modifica',
-  'save' => 'salva'
+  'save' => 'salva',
+  'profile' => 'profilo'
 ];
