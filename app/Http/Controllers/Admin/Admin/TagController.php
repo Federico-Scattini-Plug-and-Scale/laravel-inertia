@@ -30,10 +30,7 @@ class TagController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required'
-        ]);
+        $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails())
         {
@@ -84,10 +81,7 @@ class TagController extends Controller
 
     public function update(TagGroup $taggroup, Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required'
-        ]);
+        $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails())
         {
@@ -118,5 +112,13 @@ class TagController extends Controller
         $tag->delete();
 
         return redirect()->route('admin.tags.edit', $taggroup);
+    }
+
+    private function rules()
+    {
+        return [
+            'tags.*.name' => 'required',
+            'tags.*.is_active' => 'required'
+        ];
     }
 }
