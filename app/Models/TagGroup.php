@@ -20,8 +20,11 @@ class TagGroup extends Model
         return $this->hasMany(Tag::class)->orderBy('position');
     }
 
-    public static function getAll()
+    public static function getAll($locale = 'it')
     {
-        return self::orderBy('position')->get();
+        return self::
+            where('locale', $locale)
+            ->orderBy('position')
+            ->get();
     }
 }
