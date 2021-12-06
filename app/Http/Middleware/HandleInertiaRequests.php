@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'locale' => app()->getLocale(),
+            'locales' => config('app.available_locales'),
             'lang' => fn () => translations(resource_path('lang/' . app()->getLocale() .'/' . app()->getLocale() . '.json')),
             'route' => fn () => Route::currentRouteName()
         ]);

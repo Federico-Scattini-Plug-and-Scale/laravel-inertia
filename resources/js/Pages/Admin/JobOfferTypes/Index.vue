@@ -18,12 +18,6 @@
                         >
                             {{ __('Create a new job offer type') }}
                         </Link>
-						<a 
-                            :href="route('lang', {locale: 'en', route : $page.props.route})" 
-                            class="bg-black text-white px-4 py-2 sm:rounded-lg"
-                        >
-                            {{ __('en') }}
-                        </a>
 						<div class="overflow-auto mt-6">
 							<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
 								<table class="min-w-full leading-normal mb-16" v-if="jobOfferTypes.data.length > 0">
@@ -128,7 +122,6 @@ import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
 import { Head, Link  } from '@inertiajs/inertia-vue3'
-import { toRef } from 'vue'
 
 export default {
     components: {
