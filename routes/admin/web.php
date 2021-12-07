@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Admin\AdminController;
+use App\Http\Controllers\Admin\Admin\CategoryController;
 use App\Http\Controllers\Admin\Admin\JobOfferTypesController;
 use App\Http\Controllers\Admin\Admin\TagController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,20 @@ Route::localized(function () {
                 ->name('joboffertypes.update');
             Route::post('/{joboffertype}/' . trans('routes.delete'), [JobOfferTypesController::class, 'destroy'])
                 ->name('joboffertypes.destroy');
+        });
+
+        //Categories
+        Route::prefix('/' . trans('routes.categories'))->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])
+                ->name('categories');
+            Route::post('/', [CategoryController::class, 'save'])
+                ->name('categories.save');
+            Route::get('/{category}/' . trans('routes.modify'), [CategoryController::class, 'edit'])
+                ->name('categories.edit');
+            Route::post('/{category}/' . trans('routes.modify'), [CategoryController::class, 'update'])
+                ->name('categories.update');
+            Route::post('/{category}/' . trans('routes.delete'), [CategoryController::class, 'destroy'])
+                ->name('categories.destroy');
         });
     });
 });

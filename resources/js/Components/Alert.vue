@@ -2,7 +2,7 @@
     <div>
         <div 
 			:class="{ 'bg-red-500' : isError, 'bg-green-500' : isSuccess }" class="text-white d-block p-2 sm:rounded-lg text-center">
-			{{ message }}
+			{{ __(message) }}
 		</div>
     </div>
 </template>

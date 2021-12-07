@@ -79,7 +79,7 @@ export default {
 			form.post(route(usePage().props.value.locale + '.admin.joboffertypes.update', jobOfferType.value), {
 				preserveScroll: true,
 				onSuccess: () => {
-					successMessage.value = 'Il tipo di offerta è stata modificata correttamente.'
+					successMessage.value = 'The job offer type has been modified succesfully.'
 				},
 			})
 		}

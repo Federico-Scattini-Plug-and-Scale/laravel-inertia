@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\JobOfferTypeRequest;
+use App\Http\Requests\Admin\JobOfferTypeRequest;
 use App\Models\JobOfferType;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
@@ -54,9 +54,7 @@ class JobOfferTypesController extends Controller
 
     public function update(JobOfferType $joboffertype, JobOfferTypeRequest $request)
     {
-        $payload = $request->all();
-
-        $joboffertype->update($payload);
+        $joboffertype->update($request->all());
 
         return redirect()->back();
     }

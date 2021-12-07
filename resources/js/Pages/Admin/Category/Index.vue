@@ -1,10 +1,10 @@
 <template>
-    <Head :title="__('Tags')" />
+    <Head :title="__('Categories')" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Tags Management') }}
+                {{ __('Categories Management') }}
             </h2>
         </template>
 
@@ -14,7 +14,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <button class="bg-black text-white px-4 py-2 mb-3 sm:rounded-lg" @click="add">{{ __('Add') }}</button>
                         <draggable 
-                            :list="tags" 
+                            :list="categories" 
                             item-key="position" 
                             handle=".handle"
                             @end="changePosition"
@@ -25,15 +25,15 @@
                                 <span>{{ index }}</span>  
                                 <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
                                 <span 
-                                    v-if="Object.keys($page.props.errors).length && $page.props.errors.tagGroup['tags.'+index+'.name']"
+                                    v-if="Object.keys($page.props.errors).length && $page.props.errors.categories['categories.'+index+'.name']"
                                 >
-                                    {{ $page.props.errors.tagGroup['tags.'+index+'.name'] }}
+                                    {{ $page.props.errors.categories['categories.'+index+'.name'] }}
                                 </span>
                                 <div class="flex flex-col justify-center items-center">
                                     <label>{{ __('Active') }}</label>
                                     <input type="checkbox" class="form-control" v-model="element.is_active" />
                                 </div>
-                                <Link v-if="element.id != null" :href="route($page.props.locale + '.admin.tags.edit', element)">
+                                <Link v-if="element.id != null" :href="route($page.props.locale + '.admin.categories.edit', element)">
                                     <i class="fas fa-edit cursor-pointer"></i>
                                 </Link>
                                 <button @click="remove(index, element)">
@@ -43,13 +43,13 @@
                             </template>
                         </draggable>
                         <Link 
-                            :href="route($page.props.locale + '.admin.tags.save')" 
+                            :href="route($page.props.locale + '.admin.categories.save')" 
                             as="button" 
                             type="button" 
                             method="post" 
-                            :data="{ tags: tags }" 
+                            :data="{ categories: categories }" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg mt-3"
-                            v-if="tags.length > 0"
+                            v-if="categories.length > 0"
                         >
                             {{ __('Save') }}
                         </Link>
@@ -75,32 +75,32 @@ export default {
         Link
     },
     props: {
-        tags: Object,
+        categories: Object,
     },
     setup (props) {
-        const tags = toRef(props, 'tags')
+        const categories = toRef(props, 'categories')
     
         function remove(idx, element) {
-            if (element.id == null) tags.value.splice(idx, 1)
-            else Inertia.post(route(usePage().props.value.locale + '.admin.tags.destroy', element))
+            if (element.id == null) categories.value.splice(idx, 1)
+            else Inertia.post(route(usePage().props.value.locale + '.admin.categories.destroy', element))
         }
 
         function add() {
-            tags.value.push({
+            categories.value.push({
                 id: null, 
                 name: '', 
                 is_active: false, 
-                position: tags.value.length
+                position: categories.value.length
             });
         }
 
         function changePosition() {
-            tags.value.forEach((element, index) => {
+            categories.value.forEach((element, index) => {
                 element.position = index
             });
         }
 
-        return { remove, add, changePosition, tags }
+        return { remove, add, changePosition, categories }
     },
 }
 </script>
