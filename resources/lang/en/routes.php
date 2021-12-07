@@ -6,5 +6,6 @@ return [
   'delete' => 'delete',
   'modify' => 'modify',
   'save' => 'save',
-  'profile' => 'profile'
+  'profile' => 'profile',
+  'categories' => 'categories'
 ];
