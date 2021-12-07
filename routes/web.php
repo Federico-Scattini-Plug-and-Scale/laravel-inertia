@@ -21,12 +21,7 @@ use Inertia\Inertia;
 app()->setLocale(request()->subdomain());
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return env('domain');
 })->name('home');
 
 Route::get('/locale', function () {
