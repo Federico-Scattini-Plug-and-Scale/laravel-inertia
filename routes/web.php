@@ -21,7 +21,7 @@ use Inertia\Inertia;
 app()->setLocale(request()->subdomain());
 
 Route::get('/', function () {
-    return config('localized-routes.supported-locales.it');
+    return config('localized-routes.supported-locales.it') . 'test';
 })->name('home');
 
 Route::get('/locale', function () {
