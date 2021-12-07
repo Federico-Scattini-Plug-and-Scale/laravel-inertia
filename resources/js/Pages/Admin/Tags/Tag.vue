@@ -1,5 +1,5 @@
 <template>
-    <Head title="Tags" />
+    <Head :title="__('Tags')" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -12,7 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <button class="bg-black text-white px-4 py-2 mb-3 sm:rounded-lg" @click="add">Add</button>
+                        <button class="bg-black text-white px-4 py-2 mb-3 sm:rounded-lg" @click="add">{{ __('Add') }}</button>
                         <draggable 
                             :list="tags" 
                             item-key="position" 
@@ -25,7 +25,7 @@
                                 <span>{{ index }}</span>  
                                 <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
                                 <div class="flex flex-col justify-center items-center">
-                                    <label>Active</label>
+                                    <label>{{ __('Active') }}</label>
                                     <input type="checkbox" class="form-control" v-model="element.is_active" />
                                 </div>
                                 <button @click="remove(index, element)">
@@ -35,7 +35,7 @@
                             </template>
                         </draggable>
                         <Link 
-                            :href="route('admin.tags.update', taggroup)" 
+                            :href="route($page.props.locale + '.admin.tags.update', taggroup)" 
                             as="button" 
                             type="button" 
                             method="post" 
@@ -43,7 +43,7 @@
                             class="bg-black text-white px-4 py-2 sm:rounded-lg mt-3"
                             v-if="tags.length > 0"
                         >
-                            Save
+                            {{ __('Save') }}
                         </Link>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
-import { Head, Link  } from '@inertiajs/inertia-vue3';
+import { Head, Link, usePage  } from '@inertiajs/inertia-vue3';
 import Draggable from "vuedraggable";
 import { toRef } from 'vue'
 import { Inertia } from '@inertiajs/inertia';
@@ -76,7 +76,7 @@ export default {
     
         function remove(idx, element) {
             if (element.id == null) tags.value.splice(idx, 1)
-            else Inertia.post(route('admin.tags.destroy.tag', [taggroup.value, element]))
+            else Inertia.post(route(usePage().props.value.locale + '.admin.tags.destroy.tag', [taggroup.value, element]))
         }
 
         function add() {

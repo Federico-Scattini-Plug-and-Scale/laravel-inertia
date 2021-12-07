@@ -1,10 +1,10 @@
 <template>
-    <Head title="Tipi di offerte" />
+    <Head :title="__('Job offer types')" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Tipi di offerte
+                {{ __('Job offer types') }}
             </h2>
         </template>
 
@@ -13,39 +13,39 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 						<Link 
-                            :href="route('admin.joboffertypes.create')" 
+                            :href="route($page.props.locale + '.admin.joboffertypes.create')" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg"
                         >
-                            Crea nuovo tipo di offerta
+                            {{ __('Create a new job offer type') }}
                         </Link>
 						<div class="overflow-auto mt-6">
 							<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-								<table class="min-w-full leading-normal" v-if="jobOfferTypes.data.length > 0">
+								<table class="min-w-full leading-normal mb-16" v-if="jobOfferTypes.data.length > 0">
 									<thead>
 										<tr>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Nome
+												{{ __('Name') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Nome Stripe
+												{{ __('Stripe name') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Prezzo
+												{{ __('Price') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Ranking
+												{{ __('Ranking') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												ID Prodotto Stripe
+												{{ __('Stripe product ID') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												ID Prezzo Stripe
+												{{ __('Stripe price ID') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Attivo
+												{{ __('Active') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												Gratis
+												{{ __('Free') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
 										</tr>
@@ -73,13 +73,13 @@
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{'text-green-900' : item.is_active, 'text-red-900' : !item.is_active}">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{'bg-green-200' : item.is_active, 'bg-red-200' : !item.is_active}"></span>
-												<span class="relative">{{ item.is_active ? 'Si' : 'No' }}</span>
+												<span class="relative">{{ item.is_active ? __('Yes') : __('No') }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{'text-green-900' : item.is_free, 'text-red-900' : !item.is_free}">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{'bg-green-200' : item.is_free, 'bg-red-200' : !item.is_free}"></span>
-												<span class="relative">{{ item.is_free ? 'Si' : 'No' }}</span>
+												<span class="relative">{{ item.is_free ? __('Yes') : __('No') }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
@@ -94,11 +94,11 @@
 														</span>
 													</template>
 													<template #content>
-														<BreezeDropdownLink :href="route('admin.joboffertypes.edit', item)" as="button">
-															Modifica
+														<BreezeDropdownLink :href="route($page.props.locale + '.admin.joboffertypes.edit', item)" as="button">
+															{{ __('Modify') }}
 														</BreezeDropdownLink>
-														<BreezeDropdownLink :href="route('admin.joboffertypes.destroy', item)" method="post" as="button">
-															Elimina
+														<BreezeDropdownLink :href="route($page.props.locale + '.admin.joboffertypes.destroy', item)" method="post" as="button">
+															{{ __('Delete') }}
 														</BreezeDropdownLink>
 													</template>
 												</BreezeDropdown>
@@ -122,7 +122,6 @@ import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
 import { Head, Link  } from '@inertiajs/inertia-vue3'
-import { toRef } from 'vue'
 
 export default {
     components: {

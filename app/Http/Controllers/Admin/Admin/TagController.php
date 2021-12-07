@@ -20,7 +20,7 @@ class TagController extends Controller
         }
         else 
         {
-            $tags = TagGroup::orderBy('position')->get();
+            $tags = TagGroup::getAll(app()->getLocale());
         }
 
         return Inertia::render('Admin/Tags/Index', [
@@ -30,10 +30,7 @@ class TagController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required'
-        ]);
+        $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails())
         {
@@ -49,7 +46,8 @@ class TagController extends Controller
                 [
                     'name' => Arr::get($group, 'name'), 
                     'is_active' => Arr::get($group, 'is_active'),
-                    'position' => $index
+                    'position' => $index,
+                    'locale' => app()->getLocale()
                 ]
             );
         }
@@ -83,10 +81,7 @@ class TagController extends Controller
 
     public function update(TagGroup $taggroup, Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required'
-        ]);
+        $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails())
         {
@@ -103,7 +98,8 @@ class TagController extends Controller
                     'name' => Arr::get($tag, 'name'), 
                     'is_active' => Arr::get($tag, 'is_active'),
                     'position' => $index,
-                    'tag_group_id' => $taggroup->id
+                    'tag_group_id' => $taggroup->id,
+                    'locale' => app()->getLocale()
                 ]
             );
         }
@@ -116,5 +112,13 @@ class TagController extends Controller
         $tag->delete();
 
         return redirect()->route('admin.tags.edit', $taggroup);
+    }
+
+    private function rules()
+    {
+        return [
+            'tags.*.name' => 'required',
+            'tags.*.is_active' => 'required'
+        ];
     }
 }

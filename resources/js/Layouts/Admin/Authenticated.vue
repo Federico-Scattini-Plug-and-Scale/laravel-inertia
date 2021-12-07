@@ -8,21 +8,24 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <Link :href="route('admin.dashboard')">
+                                <Link :href="route($page.props.locale + '.admin.dashboard')">
                                     <BreezeApplicationLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
-                                    Dashboard
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.dashboard')" :active="route().current($page.props.locale + '.admin.dashboard')">
+                                    {{ __('Dashboard') }}
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.tags')" :active="route().current('admin.tags') || route().current('admin.tags.edit')">
-                                    Tags
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.tags')" :active="route().current($page.props.locale + '.admin.tags') || route().current($page.props.locale + '.admin.tags.edit')">
+                                    {{ __('Tags') }}
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.joboffertypes')" :active="route().current('admin.joboffertypes') || route().current('admin.joboffertypes.create') || route().current('admin.joboffertypes.edit')">
-                                    Pacchetti offerte
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.joboffertypes')" :active="route().current($page.props.locale + '.admin.joboffertypes') || route().current($page.props.locale + '.admin.joboffertypes.create') || route().current($page.props.locale + '.admin.joboffertypes.edit')">
+                                    {{ __('Job offer types') }}
+                                </BreezeNavLink>
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.categories')" :active="route().current($page.props.locale + '.admin.categories') || route().current($page.props.locale + '.admin.categories.create') || route().current($page.props.locale + '.admin.categories.edit')">
+                                    {{ __('Categories') }}
                                 </BreezeNavLink>
                             </div>
                         </div>
@@ -44,15 +47,16 @@
                                     </template>
 
                                     <template #content>
-                                        <BreezeDropdownLink :href="route('admin.profile', $page.props.auth.user)" as="button">
-                                            Profile
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.admin.profile', $page.props.auth.user)" as="button">
+                                            {{ __('Profile') }}
                                         </BreezeDropdownLink>
-                                        <BreezeDropdownLink :href="route('admin.logout')" method="post" as="button">
-                                            Log Out
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.admin.logout')" method="post" as="button">
+                                            {{ __('Log Out') }}
                                         </BreezeDropdownLink>
                                     </template>
                                 </BreezeDropdown>
                             </div>
+                            <LangSwitcher />
                         </div>
 
                         <!-- Hamburger -->
@@ -70,14 +74,17 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
-                            Dashboard
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.dashboard')" :active="route().current($page.props.locale + '.admin.dashboard')">
+                            {{ __('Dashboard') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route('admin.tags')" :active="route().current('admin.tags') || route().current('admin.tags.edit')">
-                            Tags
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.tags')" :active="route().current($page.props.locale + '.admin.tags') || route().current($page.props.locale + '.admin.tags.edit')">
+                            {{ __('Tags') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route('admin.joboffertypes')" :active="route().current('admin.joboffertypes') || route().current('admin.joboffertypes.create') || route().current('admin.joboffertypes.edit')">
-                            Pacchetti offerte
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.joboffertypes')" :active="route().current($page.props.locale + '.admin.joboffertypes') || route().current($page.props.locale + '.admin.joboffertypes.create') || route().current($page.props.locale + '.admin.joboffertypes.edit')">
+                            {{ __('Job offer types') }}
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.categories')" :active="route().current($page.props.locale + '.admin.categories') || route().current($page.props.locale + '.admin.categories.create') || route().current($page.props.locale + '.admin.categories.edit')">
+                            {{ __('Categories') }}
                         </BreezeResponsiveNavLink>
                     </div>
 
@@ -89,11 +96,11 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('admin.profile', $page.props.auth.user)" as="button">
-                                Profile
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.profile', $page.props.auth.user)" as="button">
+                                {{ __('Profile') }}
                             </BreezeResponsiveNavLink>
-                            <BreezeResponsiveNavLink :href="route('admin.logout')" method="post" as="button">
-                                Log Out
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.logout')" method="post" as="button">
+                                {{ __('Log Out') }}
                             </BreezeResponsiveNavLink>
                         </div>
                     </div>
@@ -121,6 +128,7 @@ import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
+import LangSwitcher from '@/Components/LangSwitcher.vue'
 import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
@@ -131,6 +139,7 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
         Link,
+        LangSwitcher
     },
 
     data() {

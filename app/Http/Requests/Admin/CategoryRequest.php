@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobOfferTypeRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,6 @@ class JobOfferTypeRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'stripe_product_name' => 'required_if:is_free,=,false',
-            'ranking' => 'numeric|required|min:0|max:10',
-            'currency' => 'required_if:is_free,=,false|max:10',
-            'price' => 'numeric|min:1|required_if:is_free,=,false',
             'is_active' => 'required'
         ];
     }

@@ -1,5 +1,5 @@
 <template>
-    <Head title="Profile" />
+    <Head :title="__('Profile')" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
@@ -14,16 +14,16 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <form @submit.prevent="submit" class="flex flex-col">
                             <div class="mb-6">
-                                <label class="text-lg font-semibold">Admin name</label>
+                                <label class="text-lg font-semibold">{{ __('Admin name') }}</label>
                                 <input type="text" v-model="form.name" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
                             </div>
                             <div class="mb-6">
-                                <label class="text-lg font-semibold">Email</label>
+                                <label class="text-lg font-semibold">{{ __('Email') }}</label>
                                 <input type="text" v-model="form.email" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.email" class="text-red-500">{{ errors.email }}</div>
                             </div>
-                            <button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">Save</button>
+                            <button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">{{ __('Save') }}</button>
                         </form>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm, usePage } from '@inertiajs/inertia-vue3'
 
 export default {
     components: {
@@ -54,7 +54,7 @@ export default {
         })
 
         function submit() {
-            Inertia.post(route('admin.profile.edit', props.admin), form, {
+            Inertia.post(route(usePage().props.value.locale + '.admin.profile.edit', props.admin), form, {
                 preserveScroll: (page) => Object.keys(page.props.errors).length,
             })
         }

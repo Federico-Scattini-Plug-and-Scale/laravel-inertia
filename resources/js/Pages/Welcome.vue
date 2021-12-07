@@ -8,15 +8,17 @@
             </Link>
 
             <template v-else>
-                <Link :href="route('login')" class="text-sm text-gray-700 underline">
+                <Link :href="route($page.props.locale + '.login')" class="text-sm text-gray-700 underline">
                     Log in
                 </Link>
 
-                <Link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-gray-700 underline">
+                <Link v-if="canRegister" :href="route($page.props.locale + '.register')" class="ml-4 text-sm text-gray-700 underline">
                     Register
                 </Link>
             </template>
         </div>
+
+        {{ __('Home') }}
 
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
