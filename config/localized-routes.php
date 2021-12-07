@@ -16,7 +16,7 @@ return [
      *
      * 'omit_url_prefix_for_locale' => 'en',
      */
-    'omit_url_prefix_for_locale' => 'it',
+    'omit_url_prefix_for_locale' => null,
 
     /**
      * Set this option to true if you want to redirect
