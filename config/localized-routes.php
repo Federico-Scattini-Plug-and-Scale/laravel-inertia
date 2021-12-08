@@ -6,8 +6,8 @@ return [
      * The locales you wish to support.
      */
     'supported-locales' => [
-        'it' => env('domain'),
-        'en' => 'en.' . env('domain'),
+        'it' => env('DOMAIN'),
+        'en' => 'en.' . env('DOMAIN'),
     ],
 
     /**
