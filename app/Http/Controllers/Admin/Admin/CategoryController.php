@@ -52,7 +52,7 @@ class CategoryController extends Controller
             );
         }
 
-        return redirect()->route('admin.categories');
+        return redirect()->route('admin.categories')->with('success', __('The categories have been saved successfully.'));
     }
 
     public function edit(Category $category)
@@ -66,14 +66,14 @@ class CategoryController extends Controller
     {
         $category->update($request->all());
 
-        return redirect()->back();    
+        return redirect()->back()->with('success', __('The category has been updated successfully.'));    
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', __('The category has been deleted successfully.'));
     }
 
     private function rules()

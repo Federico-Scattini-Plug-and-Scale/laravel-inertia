@@ -26,7 +26,7 @@ Route::localized(function () {
         Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.modify'), [AdminController::class, 'edit'])
             ->name('profile.edit');
     
-        //tags
+        //Tags
         Route::prefix('/tags')->group(function () {
             Route::get('/', [TagController::class, 'index'])
                 ->name('tags');

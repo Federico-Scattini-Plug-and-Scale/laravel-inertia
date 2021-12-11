@@ -12,6 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+                        <Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
                         <button class="bg-black text-white px-4 py-2 mb-3 sm:rounded-lg" @click="add">{{ __('Add') }}</button>
                         <draggable 
                             :list="tags" 
@@ -54,6 +55,7 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
+import Alert from '@/Components/Alert.vue'
 import { Head, Link, usePage  } from '@inertiajs/inertia-vue3';
 import Draggable from "vuedraggable";
 import { toRef } from 'vue'
@@ -64,7 +66,8 @@ export default {
         BreezeAuthenticatedLayout,
         Head,
         Draggable,
-        Link
+        Link,
+        Alert
     },
     props: {
         tags: Object,
