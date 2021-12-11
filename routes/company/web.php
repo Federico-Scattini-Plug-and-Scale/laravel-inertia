@@ -16,25 +16,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('company')->middleware(['auth.company', 'role:company'])->name('company.')->group(function () {
-    Route::get('/dashboard', [CompanyController::class, 'index'])
-        ->name('dashboard');
+Route::localized(function () {
+    Route::prefix(trans('company'))->middleware(['auth.company', 'role:company'])->name('company.')->group(function () {
+        Route::get('/dashboard', [CompanyController::class, 'index'])
+            ->name('dashboard');
+        
+        //Profile
+        Route::get('/' . trans('routes.profile') . '/{user}', [CompanyController::class, 'show'])
+            ->name('profile');
+        Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'edit'])
+            ->name('profile.edit');
     
-    Route::get('/profile/{user}', [CompanyController::class, 'show'])
-        ->name('profile');
-    Route::post('/profile/{user}/edit', [CompanyController::class, 'edit'])
-        ->name('profile.edit');
-
-    Route::get('/pricing', [CompanyController::class, 'pricing'])
-        ->name('pricing');
-    Route::get('/payment', [PaymentController::class, 'payment'])
-        ->name('payment');
-    Route::get('/success', [PaymentController::class, 'success'])
-        ->name('success');
-    Route::get('/cancel', function(){
-        return 'cancel';
-    })
-        ->name('cancel');
+        Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
+            ->name('pricing');
+        Route::get('/payment', [PaymentController::class, 'payment'])
+            ->name('payment');
+        Route::get('/success', [PaymentController::class, 'success'])
+            ->name('success');
+        Route::get('/cancel', function(){
+            return 'cancel';
+        })->name('cancel');
+    });
 });
 
 require __DIR__ . '/auth.php';

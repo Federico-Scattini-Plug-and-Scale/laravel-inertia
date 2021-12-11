@@ -42,7 +42,7 @@ import BreezeGuestLayout from '@/Layouts/Guest.vue'
 import BreezeInput from '@/Components/Input.vue'
 import BreezeLabel from '@/Components/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
@@ -70,7 +70,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route($page.props.locale + '.admin.register.store'), {
+            this.form.post(this.route(usePage().props.value.locale + '.admin.register.store'), {
                 onFinish: () => this.form.reset('password', 'password_confirmation'),
             })
         }

@@ -15,10 +15,10 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current('company.dashboard')">
+                                <BreezeNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current($page.props.locale + '.company.dashboard')">
                                     Dashboard
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current('company.pricing')">
+                                <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
                                     Pricing
                                 </BreezeNavLink>
                             </div>
@@ -67,10 +67,10 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current('company.dashboard')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current($page.props.locale + '.company.dashboard')">
                             Dashboard
                         </BreezeResponsiveNavLink>
-                        <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current('company.pricing')">
+                        <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
                             Pricing
                         </BreezeNavLink>
                     </div>

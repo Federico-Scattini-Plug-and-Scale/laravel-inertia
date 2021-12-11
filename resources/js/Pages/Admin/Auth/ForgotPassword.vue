@@ -31,7 +31,7 @@ import BreezeGuestLayout from '@/Layouts/Guest.vue'
 import BreezeInput from '@/Components/Input.vue'
 import BreezeLabel from '@/Components/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
@@ -58,7 +58,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route($page.props.locale + '.password.email'))
+            this.form.post(this.route(usePage().props.value.locale + '.password.email'))
         }
     }
 }

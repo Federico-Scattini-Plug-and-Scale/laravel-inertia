@@ -23,7 +23,7 @@
 <script>
 import BreezeButton from '@/Components/Button.vue'
 import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
@@ -46,7 +46,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route($page.props.locale + '.verification.send'))
+            this.form.post(this.route(usePage().props.value.locale + '.verification.send'))
         },
     },
 

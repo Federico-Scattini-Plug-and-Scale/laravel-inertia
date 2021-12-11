@@ -86,9 +86,8 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, usePage, useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
-import { useForm } from '@inertiajs/inertia-vue3'
 import { onBeforeMount, ref, watch } from 'vue'
 
 export default {
@@ -144,7 +143,7 @@ export default {
         })
 
         function submit() {
-            Inertia.post(route($page.props.locale + '.company.profile.edit', props.company), form, {
+            Inertia.post(route(usePage().props.value.locale + '.company.profile.edit', props.company), form, {
                 preserveScroll: (page) => Object.keys(page.props.errors).length,
             })
         }

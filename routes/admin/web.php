@@ -23,7 +23,7 @@ Route::localized(function () {
             ->name('dashboard');
         Route::get('/' . trans('routes.profile') . '/{user}', [AdminController::class, 'show'])
             ->name('profile');
-        Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.modify'), [AdminController::class, 'edit'])
+        Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.edit'), [AdminController::class, 'edit'])
             ->name('profile.edit');
     
         //Tags
@@ -32,7 +32,7 @@ Route::localized(function () {
                 ->name('tags');
             Route::post('/', [TagController::class, 'save'])
                 ->name('tags.save');
-            Route::get('/{taggroup}/' . trans('routes.modify'), [TagController::class, 'edit'])
+            Route::get('/{taggroup}/' . trans('routes.edit'), [TagController::class, 'edit'])
                 ->name('tags.edit');
             Route::post('/{taggroup}/' . trans('routes.save'), [TagController::class, 'update'])
                 ->name('tags.update');
@@ -50,9 +50,9 @@ Route::localized(function () {
                 ->name('joboffertypes.create');
             Route::post('/', [JobOfferTypesController::class, 'store'])
                 ->name('joboffertypes.store');
-            Route::get('/{joboffertype}/' . trans('routes.modify'), [JobOfferTypesController::class, 'edit'])
+            Route::get('/{joboffertype}/' . trans('routes.edit'), [JobOfferTypesController::class, 'edit'])
                 ->name('joboffertypes.edit');
-            Route::post('/{joboffertype}/' . trans('routes.modify'), [JobOfferTypesController::class, 'update'])
+            Route::post('/{joboffertype}/' . trans('routes.edit'), [JobOfferTypesController::class, 'update'])
                 ->name('joboffertypes.update');
             Route::post('/{joboffertype}/' . trans('routes.delete'), [JobOfferTypesController::class, 'destroy'])
                 ->name('joboffertypes.destroy');
@@ -64,9 +64,9 @@ Route::localized(function () {
                 ->name('categories');
             Route::post('/', [CategoryController::class, 'save'])
                 ->name('categories.save');
-            Route::get('/{category}/' . trans('routes.modify'), [CategoryController::class, 'edit'])
+            Route::get('/{category}/' . trans('routes.edit'), [CategoryController::class, 'edit'])
                 ->name('categories.edit');
-            Route::post('/{category}/' . trans('routes.modify'), [CategoryController::class, 'update'])
+            Route::post('/{category}/' . trans('routes.edit'), [CategoryController::class, 'update'])
                 ->name('categories.update');
             Route::post('/{category}/' . trans('routes.delete'), [CategoryController::class, 'destroy'])
                 ->name('categories.destroy');
