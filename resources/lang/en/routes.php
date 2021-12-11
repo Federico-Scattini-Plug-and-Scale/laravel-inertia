@@ -8,5 +8,8 @@ return [
   'save' => 'save',
   'profile' => 'profile',
   'categories' => 'categories',
-  'pricing' => 'pricing'
+  'pricing' => 'pricing',
+  'register' => 'register',
+  'company' => 'company',
+  'verify-email' => 'verify-email'
 ];

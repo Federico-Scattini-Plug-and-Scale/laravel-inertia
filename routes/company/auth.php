@@ -11,7 +11,7 @@ use App\Http\Controllers\Company\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::localized(function () {
-    Route::prefix(trans('company'))->name('company.')->group(function () {
+    Route::prefix(trans('routes.company'))->name('company.')->group(function () {
         Route::get('/' . trans('routes.register'), [RegisteredUserController::class, 'create'])
             ->middleware('guest')
             ->name('register');

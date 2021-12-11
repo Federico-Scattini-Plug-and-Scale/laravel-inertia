@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::localized(function () {
-    Route::prefix(trans('company'))->middleware(['auth.company', 'role:company'])->name('company.')->group(function () {
+    Route::prefix(trans('routes.company'))->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
         Route::get('/dashboard', [CompanyController::class, 'index'])
             ->name('dashboard');
         

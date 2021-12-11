@@ -36,7 +36,6 @@ class CompanyController extends Controller
         $request->validate($this->validationRules($request->hasFile('logo')));
 
         $user->update([
-            'name' => $request->name,
             'email' => $request->email
         ]);
 
@@ -56,6 +55,7 @@ class CompanyController extends Controller
         $detail = CompanyDetail::updateOrCreate([
             'user_id' => $user->id
         ],[
+            'name' => $request->name,
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -66,7 +66,7 @@ class CompanyController extends Controller
         if (!$user->getHasCompanyDetails())
             $detail->user()->save($user);
 
-        return redirect()->route('company.profile', $user);
+        return redirect()->route('company.profile', $user)->with('success', __('Your data has been successfully saved.'));
     }
 
     public function pricing()

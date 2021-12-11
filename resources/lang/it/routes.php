@@ -7,5 +7,8 @@ return [
   'edit' => 'modifica',
   'save' => 'salva',
   'profile' => 'profilo',
-  'categories' => 'categorie'
+  'categories' => 'categorie',
+  'register' => 'registrati',
+  'company' => 'azienda',
+  'verify-email' => 'verifica-email'
 ];
