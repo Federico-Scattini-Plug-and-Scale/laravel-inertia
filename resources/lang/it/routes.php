@@ -10,5 +10,7 @@ return [
   'categories' => 'categorie',
   'register' => 'registrati',
   'company' => 'azienda',
-  'verify-email' => 'verifica-email'
+  'verify-email' => 'verifica-email',
+  'forgot-password' => 'password-dimenticata',
+  'reset-password' => 'reset-password'
 ];

@@ -1,5 +1,5 @@
 <template>
-    <Head title="Reset Password" />
+    <Head :title="__('Reset Password')" />
 
     <BreezeValidationErrors class="mb-4" />
 
@@ -21,7 +21,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <BreezeButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Reset Password
+                {{ __('Reset Password') }}
             </BreezeButton>
         </div>
     </form>
@@ -64,7 +64,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route(usePage().props.value.locale + '.password.update'), {
+            this.form.post(this.route(usePage().props.value.locale + '.company.password.update'), {
                 onFinish: () => this.form.reset('password', 'password_confirmation'),
             })
         }

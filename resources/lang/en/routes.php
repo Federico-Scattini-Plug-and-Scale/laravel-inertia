@@ -11,5 +11,7 @@ return [
   'pricing' => 'pricing',
   'register' => 'register',
   'company' => 'company',
-  'verify-email' => 'verify-email'
+  'verify-email' => 'verify-email',
+  'forgot-password' => 'forgot-password',
+  'reset-password' => 'reset-password'
 ];
