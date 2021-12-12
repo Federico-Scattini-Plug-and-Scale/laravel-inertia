@@ -13,5 +13,6 @@ return [
   'company' => 'company',
   'verify-email' => 'verify-email',
   'forgot-password' => 'forgot-password',
-  'reset-password' => 'reset-password'
+  'reset-password' => 'reset-password',
+  'auth-data' => 'auth-data'
 ];

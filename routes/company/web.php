@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Company\Admin\CompanyController;
+use App\Http\Controllers\Company\Auth\AuthDataController;
 use App\Http\Controllers\Company\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,14 @@ Route::localized(function () {
             ->name('profile');
         Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'edit'])
             ->name('profile.edit');
+        
+        //Auth data
+        Route::get('/' . trans('routes.auth-data') . '/{user}', [AuthDataController::class, 'index'])
+            ->name('authdata');
+        Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
+            ->name('authdata.password.edit');
+        Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
+            ->name('authdata.email.edit');
     
         Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
             ->name('pricing');

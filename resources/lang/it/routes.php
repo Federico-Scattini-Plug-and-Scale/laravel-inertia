@@ -12,5 +12,6 @@ return [
   'company' => 'azienda',
   'verify-email' => 'verifica-email',
   'forgot-password' => 'password-dimenticata',
-  'reset-password' => 'reset-password'
+  'reset-password' => 'reset-password',
+  'auth-data' => 'dati-di-accesso'
 ];

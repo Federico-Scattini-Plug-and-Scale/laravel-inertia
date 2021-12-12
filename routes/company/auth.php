@@ -43,26 +43,26 @@ Route::localized(function () {
             ->name('password.update');
 
         Route::get('/' . trans('routes.verify-email'), [EmailVerificationPromptController::class, '__invoke'])
-            ->middleware('auth')
+            ->middleware('auth.company')
             ->name('verification.notice');
 
         Route::get('/' . trans('routes.verify-email') . '/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-            ->middleware(['auth', 'signed', 'throttle:6,1'])
+            ->middleware(['auth.company', 'signed', 'throttle:6,1'])
             ->name('verification.verify');
 
         Route::post('/' . trans('routes.email') .'/' . trans('routes.verification-notification'), [EmailVerificationNotificationController::class, 'store'])
-            ->middleware(['auth', 'throttle:6,1'])
+            ->middleware(['auth.company', 'throttle:6,1'])
             ->name('verification.send');
 
         Route::get('/' . trans('routes.confirm-password'), [ConfirmablePasswordController::class, 'show'])
-            ->middleware('auth')
+            ->middleware('auth.company')
             ->name('password.confirm');
 
         Route::post('/' . trans('routes.confirm-password'), [ConfirmablePasswordController::class, 'store'])
-            ->middleware('auth');
+            ->middleware('auth.company');
 
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-            ->middleware('auth')
+            ->middleware('auth.company')
             ->name('logout');
         });
 });

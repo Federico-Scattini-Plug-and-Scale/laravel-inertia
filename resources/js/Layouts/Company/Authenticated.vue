@@ -41,6 +41,9 @@
                                     </template>
 
                                     <template #content>
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.authdata', $page.props.auth.user)">
+                                            {{ __('Auth data') }}
+                                        </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route($page.props.locale + '.company.profile', $page.props.auth.user)">
                                             {{ __('Profile') }}
                                         </BreezeDropdownLink>
@@ -82,6 +85,9 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.authdata', $page.props.auth.user)">
+                                {{ __('Auth data') }}
+                            </BreezeResponsiveNavLink>
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.profile', $page.props.auth.user)">
                                 {{ __('Profile') }}
                             </BreezeResponsiveNavLink>
