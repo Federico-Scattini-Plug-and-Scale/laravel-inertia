@@ -28060,6 +28060,9 @@ __webpack_require__.r(__webpack_exports__);
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__.Inertia.post(route((0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.value.locale + '.company.authdata.password.edit', props.company), formPass, {
         preserveScroll: function preserveScroll(page) {
           return Object.keys(page.props.errors).length;
+        },
+        onSuccess: function onSuccess() {
+          formPass.reset();
         }
       });
     }

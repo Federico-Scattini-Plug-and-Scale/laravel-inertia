@@ -25,8 +25,8 @@ class AuthDataController extends Controller
 			'old_password' => ['required'],
             'new_password' => ['required', 'confirmed', 'different:old_password', Password::defaults()],
         ]);
-
-		if (Hash::check($request->new_password, $user->password))
+		
+		if (Hash::check($request->old_password, $user->password))
 		{
 			$user->update([
 				'password' => Hash::make($request->new_password),

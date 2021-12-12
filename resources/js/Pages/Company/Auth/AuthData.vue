@@ -79,6 +79,9 @@ export default {
         function submitPass() {
             Inertia.post(route(usePage().props.value.locale + '.company.authdata.password.edit', props.company), formPass, {
                 preserveScroll: (page) => Object.keys(page.props.errors).length,
+				onSuccess: () => {
+					formPass.reset()
+				},
             })
         }
 
