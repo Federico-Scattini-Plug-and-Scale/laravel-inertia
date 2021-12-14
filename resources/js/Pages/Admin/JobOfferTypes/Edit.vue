@@ -12,7 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-						<Alert v-if="successMessage.length > 0" :message="successMessage" :type="'success'" />
+                        <Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
 						<form @submit.prevent="update()" class="flex flex-col">
 							<label for="name">{{ __('Name') }}</label>
 							<input id="name" type="text" v-model="form.name" class="form-control w-full sm:rounded-lg">
@@ -73,18 +73,13 @@ export default {
 			is_free: jobOfferType.value.is_free
 		})
 
-		let successMessage = ref('');
-
 		function update() {
 			form.post(route(usePage().props.value.locale + '.admin.joboffertypes.update', jobOfferType.value), {
 				preserveScroll: true,
-				onSuccess: () => {
-					successMessage.value = 'The job offer type has been modified succesfully.'
-				},
 			})
 		}
 
-		return { form, update, successMessage, jobOfferType }
+		return { form, update, jobOfferType }
   	},
 }
 </script>

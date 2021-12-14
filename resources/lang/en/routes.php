@@ -4,8 +4,15 @@ return [
   'job-offer-types' => 'job-offer-types',
   'create' => 'create',
   'delete' => 'delete',
-  'modify' => 'modify',
+  'edit' => 'edit',
   'save' => 'save',
   'profile' => 'profile',
-  'categories' => 'categories'
+  'categories' => 'categories',
+  'pricing' => 'pricing',
+  'register' => 'register',
+  'company' => 'company',
+  'verify-email' => 'verify-email',
+  'forgot-password' => 'forgot-password',
+  'reset-password' => 'reset-password',
+  'auth-data' => 'auth-data'
 ];

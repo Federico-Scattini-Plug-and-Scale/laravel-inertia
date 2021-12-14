@@ -12,7 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-						<Alert v-if="successMessage.length > 0" :message="successMessage" :type="'success'" />
+                        <Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
 						<form @submit.prevent="store()" class="flex flex-col">
 							<label for="name">{{ __('Name') }}</label>
 							<input id="name" type="text" v-model="form.name" class="form-control w-full sm:rounded-lg">
@@ -35,7 +35,7 @@
 							<label for="is_active">{{ __('Active') }}</label>
 							<input id="is_active" type="checkbox" v-model="form.is_active">
 							<div v-if="form.errors.is_active" class="text-red-500">{{ form.errors.is_active }}</div>
-							<button type="submit" class="bg-black text-white px-4 py-2 sm:rounded-lg mt-4 w-fit-content" :disabled="form.processing">{{ __('Save') }}</button>
+							<button type="submit" class="bg-black text-white px-4 py-2 sm:rounded-lg mt-4 w-fit-content" :disabled="form.processing">{{ __('Create') }}</button>
 						</form>
                     </div>
                 </div>
@@ -48,7 +48,6 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue';
 import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3';
 import Alert from '@/Components/Alert.vue'
-import { ref } from 'vue';
 
 export default {
     components: {
@@ -68,19 +67,16 @@ export default {
 			is_free: false
 		})
 
-		let successMessage = ref('');
-
 		function store() {
 			form.post(route(usePage().props.value.locale + '.admin.joboffertypes.store'), {
 				preserveScroll: true,
 				onSuccess: () => {
-					form.reset(),
-					successMessage.value = __('The offer type has been created successfully.')
+					form.reset()
 				},
 			})
 		}
 
-		return { form, store, successMessage }
+		return { form, store }
   	},
 }
 </script>

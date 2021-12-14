@@ -12,6 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+						<Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
 						<Link 
                             :href="route($page.props.locale + '.admin.joboffertypes.create')" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg"
@@ -121,6 +122,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
+import Alert from '@/Components/Alert.vue'
 import { Head, Link  } from '@inertiajs/inertia-vue3'
 
 export default {
@@ -130,7 +132,8 @@ export default {
 		BreezeDropdownLink,
         Head,
         Link,
-		Pagination
+		Pagination,
+		Alert
     },
 	props: {
 		jobOfferTypes: Object,

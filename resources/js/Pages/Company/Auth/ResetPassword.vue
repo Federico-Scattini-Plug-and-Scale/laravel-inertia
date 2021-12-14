@@ -1,5 +1,5 @@
 <template>
-    <Head title="Reset Password" />
+    <Head :title="__('Reset Password')" />
 
     <BreezeValidationErrors class="mb-4" />
 
@@ -21,7 +21,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <BreezeButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Reset Password
+                {{ __('Reset Password') }}
             </BreezeButton>
         </div>
     </form>
@@ -33,7 +33,7 @@ import BreezeGuestLayout from '@/Layouts/Guest.vue'
 import BreezeInput from '@/Components/Input.vue'
 import BreezeLabel from '@/Components/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
@@ -64,7 +64,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route($page.props.locale + '.password.update'), {
+            this.form.post(this.route(usePage().props.value.locale + '.company.password.update'), {
                 onFinish: () => this.form.reset('password', 'password_confirmation'),
             })
         }

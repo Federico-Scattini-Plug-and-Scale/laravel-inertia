@@ -4,8 +4,14 @@ return [
   'job-offer-types' => 'tipi-di-offerte',
   'create' => 'crea',
   'delete' => 'elimina',
-  'modify' => 'modifica',
+  'edit' => 'modifica',
   'save' => 'salva',
   'profile' => 'profilo',
-  'categories' => 'categorie'
+  'categories' => 'categorie',
+  'register' => 'registrati',
+  'company' => 'azienda',
+  'verify-email' => 'verifica-email',
+  'forgot-password' => 'password-dimenticata',
+  'reset-password' => 'reset-password',
+  'auth-data' => 'dati-di-accesso'
 ];
