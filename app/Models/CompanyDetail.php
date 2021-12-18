@@ -11,8 +11,12 @@ class CompanyDetail extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+    	'is_agency' => 'boolean'
+    ];
+
     public function user() 
     { 
-      return $this->morphOne('App\Models\User', 'detail');
+      	return $this->morphOne('App\Models\User', 'detail');
     }
 }

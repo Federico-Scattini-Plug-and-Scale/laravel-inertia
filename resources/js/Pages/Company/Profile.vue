@@ -21,9 +21,49 @@
                                 <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
                             </div>
                             <div class="mb-6">
+                                <label class="text-lg font-semibold mr-3">{{ __('Are you an agency?') }}</label>
+                                <input type="checkbox" v-model="form.is_agency" class="sm:rounded-lg mt-1">
+                                <div v-if="errors.is_agency" class="text-red-500">{{ errors.is_agency }}</div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="text-lg font-semibold">{{ __('Contact name') }}</label>
+                                <input type="text" v-model="form.contact_name" class="sm:rounded-lg w-full mt-1">
+                                <div v-if="errors.contact_name" class="text-red-500">{{ errors.contact_name }}</div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="text-lg font-semibold">{{ __('Phone number') }}</label>
+                                <input type="text" v-model="form.phone" class="sm:rounded-lg w-full mt-1">
+                                <div v-if="errors.phone" class="text-red-500">{{ errors.phone }}</div>
+                            </div>
+                            <div class="mb-6">
                                 <label class="text-lg font-semibold">{{ __('Email') }}</label>
-                                <input type="text" v-model="form.email" class="sm:rounded-lg w-full mt-1">
+                                <input type="text" v-model="form.email" class="sm:rounded-lg w-full mt-1" readonly>
                                 <div v-if="errors.email" class="text-red-500">{{ errors.email }}</div>
+                            </div>
+                            <div class="mb-6 flex">
+                                <label class="text-lg font-semibold mr-6">{{ __('Logo') }}</label>
+                                <div v-if="canChangeLogo || errors.logo">
+                                    <input type="file" @input="form.logo = $event.target.files[0]" />
+                                    <div v-if="errors.logo" class="text-red-500">{{ errors.logo }}</div>
+                                </div>
+                                <button v-else type="button" :disabled="form.processing" @click="setChangeLogo(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">
+                                    <span v-if="company.detail.logo">{{ __('Change logo') }}</span>
+                                    <span v-else>{{ __('Upload logo') }}</span>
+                                </button>
+                            </div>
+                            <div v-if="company.detail && company.detail.logo" class="mb-6 flex items-center">
+                                <img :src="'/img/' + company.detail.logo" class="rounded-full w-32 h-32 mr-6"/>
+                                <span>{{ company.detail.logo }}</span>
+                            </div>
+                            <div class="mb-6">
+                                <label class="text-lg font-semibold">{{ __('Website') }}</label>
+                                <input type="text" v-model="form.website_link" class="sm:rounded-lg w-full mt-1">
+                                <div v-if="errors.website_link" class="text-red-500">{{ errors.website_link }}</div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="text-lg font-semibold">{{ __('Description') }}</label>
+                                <textarea v-model="form.description" class="sm:rounded-lg w-full mt-1"></textarea>
+                                <div v-if="errors.description" class="text-red-500">{{ errors.description }}</div>
                             </div>
                             <div v-if="!canChangeAddress" class="mb-6">
                                 <button type="button" :disabled="form.processing" @click="setChangeAddress(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">{{ __('Change location') }}</button>
@@ -54,26 +94,7 @@
                             </GMapMap>
                             <input type="hidden" v-model="form.latitude" class="sm:rounded-lg w-full">
                             <input type="hidden" v-model="form.longitude" class="sm:rounded-lg w-full">
-                            <div class="mb-6">
-                                <label class="text-lg font-semibold">{{ __('Website') }}</label>
-                                <input type="text" v-model="form.website_link" class="sm:rounded-lg w-full mt-1">
-                                <div v-if="errors.website_link" class="text-red-500">{{ errors.website_link }}</div>
-                            </div>
-                            <div class="mb-6 flex">
-                                <label class="text-lg font-semibold mr-6">{{ __('Logo') }}</label>
-                                <div v-if="canChangeLogo || errors.logo">
-                                    <input type="file" @input="form.logo = $event.target.files[0]" />
-                                    <div v-if="errors.logo" class="text-red-500">{{ errors.logo }}</div>
-                                </div>
-                                <button v-else type="button" :disabled="form.processing" @click="setChangeLogo(true)" class="bg-black text-white px-4 py-2 sm:rounded-lg">
-                                    <span v-if="company.detail.logo">{{ __('Change logo') }}</span>
-                                    <span v-else>{{ __('Upload logo') }}</span>
-                                </button>
-                            </div>
-                            <div v-if="company.detail && company.detail.logo" class="mb-6 flex items-center">
-                                <img :src="'/img/' + company.detail.logo" class="rounded-full w-32 h-32 mr-6"/>
-                                <span>{{ company.detail.logo }}</span>
-                            </div>
+                            
                             <button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">{{ __('Save') }}</button>
                         </form>
                     </div>
@@ -109,6 +130,9 @@ export default {
             longitude: '',
             logo: '',
             website_link: '',
+            description: '',
+            is_agency: false,
+            phone: '',
         })
 
         const markers = ref([])
@@ -128,6 +152,10 @@ export default {
                 form.longitude = props.company.detail.longitude
                 form.logo = props.company.detail.logo
                 form.website_link = props.company.detail.website_link
+                form.phone = props.company.detail.phone
+                form.description = props.company.detail.description
+                form.is_agency = props.company.detail.is_agency
+                form.contact_name = props.company.detail.contact_name
 
                 setMarker(
                     {

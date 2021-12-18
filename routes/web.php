@@ -17,9 +17,6 @@ use Inertia\Inertia;
 |
 */
 
-//set locale based on subdomain
-app()->setLocale(request()->subdomain());
-
 Route::get('/', function () {
     return view('home');
 })->name('home');

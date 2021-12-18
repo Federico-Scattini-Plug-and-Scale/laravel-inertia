@@ -61,6 +61,10 @@ class CompanyController extends Controller
             'longitude' => $request->longitude,
             'logo' => !empty($imageName) ? $imageName : (!empty($oldLogo) ? $oldLogo : null),
             'website_link' => $request->website_link,
+            'phone' => $request->phone,
+            'description' => $request->description,
+            'is_agency' => $request->is_agency,
+            'contact_name' => $request->contact_name
         ]);
 
         if (!$user->getHasCompanyDetails())
@@ -83,11 +87,15 @@ class CompanyController extends Controller
     private function validationRules($hasLogo)
     {
         $validationRules = [
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'email|required',
             'address' => 'string|required',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
+            'phone' => 'required|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
+            'is_agency' => 'required',
+            'description' => 'max:500',
+            'contact_name' => 'required|max:255'
         ];
 
         if ($hasLogo)

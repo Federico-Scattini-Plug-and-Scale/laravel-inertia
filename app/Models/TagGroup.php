@@ -15,6 +15,8 @@ class TagGroup extends Model
         'is_active' => 'boolean'
     ];
 
+    const GROUP_TYPE_SECTOR = 'group_sector';
+
     public function tags()
     {
         return $this->hasMany(Tag::class)->orderBy('position');

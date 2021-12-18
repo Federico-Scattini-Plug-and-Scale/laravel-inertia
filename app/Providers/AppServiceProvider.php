@@ -15,14 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // helper for getting the current subdomain
-        Request::macro('subdomain', function () {
-            $domain = request()->server->get('HTTP_HOST');
-            $split = explode('.', $domain, 3);
-            
-            // get the subdomain or return null
-            return Arr::get($split, '0', '');
-        });
+        //
     }
 
     /**
