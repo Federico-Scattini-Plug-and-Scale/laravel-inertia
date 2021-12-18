@@ -5,10 +5,7 @@ return [
     /**
      * The locales you wish to support.
      */
-    'supported-locales' => [
-        'it' => env('DOMAIN'),
-        'en' => 'en.' . env('DOMAIN'),
-    ],
+    'supported-locales' => ['it', 'en'],
 
     /**
      * If you have a main locale and don't want
@@ -16,7 +13,7 @@ return [
      *
      * 'omit_url_prefix_for_locale' => 'en',
      */
-    'omit_url_prefix_for_locale' => null,
+    'omit_url_prefix_for_locale' => 'it',
 
     /**
      * Set this option to true if you want to redirect
@@ -44,7 +41,7 @@ return [
      * If you want to automatically set the locale
      * for localized routes set this to true.
      */
-    'use_locale_middleware' => false,
+    'use_locale_middleware' => true,
 
     /**
      * If true, this package will use 'codezero/laravel-localizer'

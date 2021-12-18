@@ -21,7 +21,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\MultisiteMiddleware::class,
     ];
 
     /**
@@ -70,5 +69,11 @@ class Kernel extends HttpKernel
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\Role::class,
         'currentUser' => \App\Http\Middleware\CurrentUser::class
+    ];
+
+    protected $middlewarePriority = [
+        \Illuminate\Session\Middleware\StartSession::class,
+        \CodeZero\LocalizedRoutes\Middleware\SetLocale::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
     ];
 }
