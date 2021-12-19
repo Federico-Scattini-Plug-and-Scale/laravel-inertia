@@ -8,6 +8,7 @@ use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class TagController extends Controller
@@ -31,14 +32,14 @@ class TagController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules());
+        $tagGroups = $request->get('tags');
+
+        $validator = Validator::make($request->all(), $this->rules($tagGroups));
 
         if ($validator->fails())
         {
             return redirect()->back()->withInput()->withErrors($validator, 'tagGroup');
         }
-
-        $tagGroups = $request->get('tags');
 
         foreach ($tagGroups as $index => $group)
         {
@@ -116,12 +117,20 @@ class TagController extends Controller
         return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tag has been deleted successfully.'));
     }
 
-    private function rules()
+    private function rules($tagGroups)
     {
-        return [
-            'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required',
-            'tags.*.type' => 'required'
-        ];
+        $rules = [];
+        
+        foreach ($tagGroups as $index => $group)
+        {
+            $rules['tags.'.$index.'.name'] = 'required';
+            $rules['tags.'.$index.'.is_active'] = 'required';
+            $rules['tags.'.$index.'.type'] = [
+                'required',
+                Rule::unique('tag_groups', 'type')->ignore($group['id'], 'id')
+            ];
+        }
+
+        return $rules;
     }
 }
