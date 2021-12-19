@@ -84,14 +84,14 @@ class TagController extends Controller
 
     public function update(TagGroup $taggroup, Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules());
+        $tags = $request->get('tags');
+
+        $validator = Validator::make($request->all(), $this->rules($tags));
 
         if ($validator->fails())
         {
             return redirect()->back()->withInput()->withErrors($validator, 'tags');
         }
-
-        $tags = $request->get('tags');
 
         foreach ($tags as $index => $tag)
         {
@@ -117,18 +117,22 @@ class TagController extends Controller
         return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tag has been deleted successfully.'));
     }
 
-    private function rules($tagGroups)
+    private function rules($elements)
     {
         $rules = [];
         
-        foreach ($tagGroups as $index => $group)
+        foreach ($elements as $index => $element)
         {
             $rules['tags.'.$index.'.name'] = 'required';
             $rules['tags.'.$index.'.is_active'] = 'required';
-            $rules['tags.'.$index.'.type'] = [
-                'required',
-                Rule::unique('tag_groups', 'type')->ignore($group['id'], 'id')
-            ];
+            
+            if (isset($element['type']))
+            {
+                $rules['tags.'.$index.'.type'] = [
+                    'required',
+                    Rule::unique('tag_groups', 'type')->ignore($element['id'], 'id')
+                ];
+            }
         }
 
         return $rules;

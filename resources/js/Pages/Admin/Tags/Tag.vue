@@ -24,7 +24,15 @@
                               <div class="list-group-item flex items-center py-3 gap-4">
                                 <i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
                                 <span>{{ index }}</span>  
-                                <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
+                                <div class="flex flex-col w-full">
+                                    <input type="text" class="form-control w-full sm:rounded-lg" v-model="element.name" />
+                                    <span 
+                                        v-if="Object.keys($page.props.errors).length && $page.props.errors.tags['tags.'+index+'.name']"
+                                        class="text-red-500"
+                                    >
+                                        {{ $page.props.errors.tags['tags.'+index+'.name'] }}
+                                    </span>
+                                </div>
                                 <div class="flex flex-col justify-center items-center">
                                     <label>{{ __('Active') }}</label>
                                     <input type="checkbox" class="form-control" v-model="element.is_active" />

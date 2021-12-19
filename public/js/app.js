@@ -32279,20 +32279,27 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_8 = ["onUpdate:modelValue"];
-var _hoisted_9 = {
+var _hoisted_8 = {
+  "class": "flex flex-col w-full"
+};
+var _hoisted_9 = ["onUpdate:modelValue"];
+var _hoisted_10 = {
+  key: 0,
+  "class": "text-red-500"
+};
+var _hoisted_11 = {
   "class": "flex flex-col justify-center items-center"
 };
-var _hoisted_10 = ["onUpdate:modelValue"];
-var _hoisted_11 = ["onClick"];
+var _hoisted_12 = ["onUpdate:modelValue"];
+var _hoisted_13 = ["onClick"];
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "fas fa-trash-alt cursor-pointer text-red-500"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_13 = [_hoisted_12];
+var _hoisted_15 = [_hoisted_14];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
 
@@ -32340,15 +32347,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               index = _ref.index;
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index), 1
           /* TEXT */
-          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
             type: "text",
-            "class": "form-control w-full lg:w-9/12 sm:rounded-lg",
+            "class": "form-control w-full sm:rounded-lg",
             "onUpdate:modelValue": function onUpdateModelValue($event) {
               return element.name = $event;
             }
           }, null, 8
           /* PROPS */
-          , _hoisted_8), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, element.name]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Active')), 1
+          , _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, element.name]]), Object.keys(_ctx.$page.props.errors).length && _ctx.$page.props.errors.tags['tags.' + index + '.name'] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.errors.tags['tags.' + index + '.name']), 1
+          /* TEXT */
+          )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Active')), 1
           /* TEXT */
           ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
             type: "checkbox",
@@ -32358,13 +32367,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }
           }, null, 8
           /* PROPS */
-          , _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, element.is_active]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          , _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, element.is_active]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             onClick: function onClick($event) {
               return $setup.remove(index, element);
             }
-          }, _hoisted_13, 8
+          }, _hoisted_15, 8
           /* PROPS */
-          , _hoisted_11)])];
+          , _hoisted_13)])];
         }),
         _: 1
         /* STABLE */
