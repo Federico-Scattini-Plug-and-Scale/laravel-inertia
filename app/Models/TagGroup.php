@@ -22,6 +22,11 @@ class TagGroup extends Model
         return $this->hasMany(Tag::class)->orderBy('position');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public static function getAll($locale = 'it')
     {
         return self::

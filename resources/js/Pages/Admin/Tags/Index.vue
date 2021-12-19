@@ -7,14 +7,13 @@
                 {{ __('Tags Management') }}
             </h2>
         </template>
-
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
                         <button class="bg-black text-white px-4 py-2 mb-3 sm:rounded-lg" @click="add">{{ __('Add') }}</button>
-                        <draggable 
+                        <Draggable 
                             :list="tags" 
                             item-key="position" 
                             handle=".handle"
@@ -24,12 +23,30 @@
                               <div class="list-group-item flex items-center py-3 gap-4">
                                 <i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
                                 <span>{{ index }}</span>  
-                                <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
-                                <span 
-                                    v-if="Object.keys($page.props.errors).length && $page.props.errors.tagGroup['tags.'+index+'.name']"
-                                >
-                                    {{ $page.props.errors.tagGroup['tags.'+index+'.name'] }}
-                                </span>
+                                <div class="flex flex-col w-full">
+                                    <input type="text" class="form-control w-full sm:rounded-lg" v-model="element.name" />
+                                    <span 
+                                        v-if="Object.keys($page.props.errors).length && $page.props.errors.tagGroup['tags.'+index+'.name']"
+                                        class="text-red-500"
+                                    >
+                                        {{ $page.props.errors.tagGroup['tags.'+index+'.name'] }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col w-full">
+                                    <Multiselect 
+                                        v-model="element.type" 
+                                        :options="tagTypes"
+                                        label="label"
+                                        trackBy="value"
+                                        :placeholder="__('Select the type')"
+                                    />
+                                    <span 
+                                        v-if="Object.keys($page.props.errors).length && $page.props.errors.tagGroup['tags.'+index+'.type']"
+                                        class="text-red-500"
+                                    >
+                                        {{ $page.props.errors.tagGroup['tags.'+index+'.type'] }}
+                                    </span>
+                                </div>
                                 <div class="flex flex-col justify-center items-center">
                                     <label>{{ __('Active') }}</label>
                                     <input type="checkbox" class="form-control" v-model="element.is_active" />
@@ -42,7 +59,7 @@
                                 </button>
                               </div>
                             </template>
-                        </draggable>
+                        </Draggable>
                         <Link 
                             :href="route($page.props.locale + '.admin.tags.save')" 
                             as="button" 
@@ -68,6 +85,7 @@ import { Head, Link, usePage  } from '@inertiajs/inertia-vue3';
 import Draggable from "vuedraggable";
 import { toRef } from 'vue'
 import { Inertia } from '@inertiajs/inertia';
+import Multiselect from '@vueform/multiselect'
 
 export default {
     components: {
@@ -75,13 +93,16 @@ export default {
         Head,
         Draggable,
         Link,
-        Alert
+        Alert,
+        Multiselect
     },
     props: {
         tags: Object,
+        tagTypes: Object
     },
     setup (props) {
         const tags = toRef(props, 'tags')
+        const tagTypes = toRef(props, 'tagTypes')
     
         function remove(idx, element) {
             if (element.id == null) tags.value.splice(idx, 1)
@@ -91,7 +112,8 @@ export default {
         function add() {
             tags.value.push({
                 id: null, 
-                name: '', 
+                name: '',
+                type: '', 
                 is_active: false, 
                 position: tags.value.length
             });
@@ -103,7 +125,8 @@ export default {
             });
         }
 
-        return { remove, add, changePosition, tags }
+        return { remove, add, changePosition, tags, tagTypes }
     },
 }
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>

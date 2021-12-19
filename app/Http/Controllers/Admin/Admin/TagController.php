@@ -24,7 +24,8 @@ class TagController extends Controller
         }
 
         return Inertia::render('Admin/Tags/Index', [
-            'tags' => $tags
+            'tags' => $tags,
+            'tagTypes' => config('group-tags')
         ]);
     }
 
@@ -45,6 +46,7 @@ class TagController extends Controller
                 ['id' => Arr::get($group, 'id')],
                 [
                     'name' => Arr::get($group, 'name'), 
+                    'type' => Arr::get($group, 'type'), 
                     'is_active' => Arr::get($group, 'is_active'),
                     'position' => $index,
                     'locale' => app()->getLocale()
@@ -118,7 +120,8 @@ class TagController extends Controller
     {
         return [
             'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required'
+            'tags.*.is_active' => 'required',
+            'tags.*.type' => 'required'
         ];
     }
 }
