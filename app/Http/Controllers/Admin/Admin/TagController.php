@@ -66,7 +66,7 @@ class TagController extends Controller
         }
         else
         {
-            $tags = $taggroup->tags;
+            $tags = Tag::getByGroup($taggroup->id);
         }
 
         return Inertia::render('Admin/Tags/Tag', [
@@ -102,7 +102,8 @@ class TagController extends Controller
                     'is_active' => Arr::get($tag, 'is_active'),
                     'position' => $index,
                     'tag_group_id' => $taggroup->id,
-                    'locale' => app()->getLocale()
+                    'locale' => app()->getLocale(),
+                    'is_approved' => Arr::get($tag, 'is_approved')
                 ]
             );
         }

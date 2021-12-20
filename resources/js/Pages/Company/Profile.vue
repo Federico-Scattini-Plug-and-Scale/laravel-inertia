@@ -56,6 +56,21 @@
                                 <span>{{ company.detail.logo }}</span>
                             </div>
                             <div class="mb-6">
+                                <label class="text-lg font-semibold">{{ __('Sectors') }}</label>
+                                <Multiselect 
+                                    v-model="form.sectors" 
+                                    :options="sectors"
+                                    label="label"
+                                    trackBy="value"
+                                    :placeholder="__('Select the sector')"
+                                    mode="tags"
+                                    :createTag="true"
+                                    :searchable="true"
+                                    :appendNewTag="true"
+                                />
+                                <div v-if="errors.sectors" class="text-red-500">{{ errors.sectors }}</div>
+                            </div>
+                            <div class="mb-6">
                                 <label class="text-lg font-semibold">{{ __('Website') }}</label>
                                 <input type="text" v-model="form.website_link" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.website_link" class="text-red-500">{{ errors.website_link }}</div>
@@ -109,17 +124,21 @@ import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
 import Alert from '@/Components/Alert.vue'
 import { Head, usePage, useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
-import { onBeforeMount, ref, watch } from 'vue'
+import { onBeforeMount, ref, watch, toRef } from 'vue'
+import Multiselect from '@vueform/multiselect'
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
-        Alert
+        Alert,
+        Multiselect
     },
     props: {
       company: Object,
-      errors: Object
+      errors: Object,
+      sectors: Object,
+      companySectors: Object
     },
     setup (props) {
         const form = useForm({
@@ -133,6 +152,7 @@ export default {
             description: '',
             is_agency: false,
             phone: '',
+            sectors: []
         })
 
         const markers = ref([])
@@ -140,6 +160,7 @@ export default {
         const myMapRef = ref()
         const canChangeAddress = ref(true)
         const canChangeLogo = ref(true)
+        const sectors = toRef(props, 'sectors')
 
         onBeforeMount(() => {
             if (props.company.detail != null) {
@@ -165,6 +186,11 @@ export default {
                         }
                     }
                 )
+            }
+
+            if (props.companySectors != null)
+            {
+                form.sectors = props.companySectors
             }
         })
 
@@ -212,7 +238,8 @@ export default {
             canChangeLogo.value = value
         }
 
-        return { form, submit, setPlace, setMarker, setMapCenter, markers, mapCenter, myMapRef, canChangeAddress, setChangeAddress, canChangeLogo, setChangeLogo }
+        return { form, submit, setPlace, setMarker, setMapCenter, markers, mapCenter, myMapRef, canChangeAddress, setChangeAddress, canChangeLogo, setChangeLogo, sectors }
     },
 }
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>

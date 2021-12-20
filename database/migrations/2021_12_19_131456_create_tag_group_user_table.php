@@ -13,8 +13,8 @@ class CreateTagGroupUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_group_user', function (Blueprint $table) {
-            $table->foreignId('tag_group_id')->constrained();
+        Schema::create('tag_user', function (Blueprint $table) {
+            $table->foreignId('tag_id')->constrained();
             $table->foreignId('user_id')->constrained();
         });
     }
@@ -26,6 +26,6 @@ class CreateTagGroupUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tag_group_user');
+        Schema::dropIfExists('tag_user');
     }
 }

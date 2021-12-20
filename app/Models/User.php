@@ -61,8 +61,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class);
     }
 
-    public function tagGroups()
+    public function tags()
     {
-        return $this->belongsToMany(TagGroup::class);
+        return $this->belongsToMany(Tag::class);
     }
 }
