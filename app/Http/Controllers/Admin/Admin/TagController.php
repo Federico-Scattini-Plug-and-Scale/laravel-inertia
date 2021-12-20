@@ -8,6 +8,7 @@ use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class TagController extends Controller
@@ -24,20 +25,21 @@ class TagController extends Controller
         }
 
         return Inertia::render('Admin/Tags/Index', [
-            'tags' => $tags
+            'tags' => $tags,
+            'tagTypes' => config('group-tags')
         ]);
     }
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules());
+        $tagGroups = $request->get('tags');
+
+        $validator = Validator::make($request->all(), $this->rules($tagGroups));
 
         if ($validator->fails())
         {
             return redirect()->back()->withInput()->withErrors($validator, 'tagGroup');
         }
-
-        $tagGroups = $request->get('tags');
 
         foreach ($tagGroups as $index => $group)
         {
@@ -45,6 +47,7 @@ class TagController extends Controller
                 ['id' => Arr::get($group, 'id')],
                 [
                     'name' => Arr::get($group, 'name'), 
+                    'type' => Arr::get($group, 'type'), 
                     'is_active' => Arr::get($group, 'is_active'),
                     'position' => $index,
                     'locale' => app()->getLocale()
@@ -63,7 +66,7 @@ class TagController extends Controller
         }
         else
         {
-            $tags = $taggroup->tags;
+            $tags = Tag::getByGroup($taggroup->id);
         }
 
         return Inertia::render('Admin/Tags/Tag', [
@@ -81,14 +84,14 @@ class TagController extends Controller
 
     public function update(TagGroup $taggroup, Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules());
+        $tags = $request->get('tags');
+
+        $validator = Validator::make($request->all(), $this->rules($tags));
 
         if ($validator->fails())
         {
             return redirect()->back()->withInput()->withErrors($validator, 'tags');
         }
-
-        $tags = $request->get('tags');
 
         foreach ($tags as $index => $tag)
         {
@@ -99,7 +102,8 @@ class TagController extends Controller
                     'is_active' => Arr::get($tag, 'is_active'),
                     'position' => $index,
                     'tag_group_id' => $taggroup->id,
-                    'locale' => app()->getLocale()
+                    'locale' => app()->getLocale(),
+                    'is_approved' => Arr::get($tag, 'is_approved')
                 ]
             );
         }
@@ -114,11 +118,24 @@ class TagController extends Controller
         return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tag has been deleted successfully.'));
     }
 
-    private function rules()
+    private function rules($elements)
     {
-        return [
-            'tags.*.name' => 'required',
-            'tags.*.is_active' => 'required'
-        ];
+        $rules = [];
+        
+        foreach ($elements as $index => $element)
+        {
+            $rules['tags.'.$index.'.name'] = 'required';
+            $rules['tags.'.$index.'.is_active'] = 'required';
+            
+            if (isset($element['type']))
+            {
+                $rules['tags.'.$index.'.type'] = [
+                    'required',
+                    Rule::unique('tag_groups', 'type')->ignore($element['id'], 'id')
+                ];
+            }
+        }
+
+        return $rules;
     }
 }

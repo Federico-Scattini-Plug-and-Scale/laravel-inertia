@@ -29,4 +29,12 @@ class TagGroup extends Model
             ->orderBy('position')
             ->get();
     }
+
+    public static function getByType($type, $locale)
+    {
+        return self::
+            where('locale', $locale)
+            ->where('type', $type)
+            ->firstOrFail();
+    }
 }

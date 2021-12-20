@@ -73,9 +73,9 @@
                         <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current($page.props.locale + '.company.dashboard')">
                             {{ __('Dashboard') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
                             {{ __('Pricing') }}
-                        </BreezeNavLink>
+                        </BreezeResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

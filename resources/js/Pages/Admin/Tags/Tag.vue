@@ -21,18 +21,35 @@
                             @end="changePosition"
                         >
                             <template #item="{ element, index }">
-                              <div class="list-group-item flex items-center py-3 gap-4">
-                                <i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
-                                <span>{{ index }}</span>  
-                                <input type="text" class="form-control w-full lg:w-9/12 sm:rounded-lg" v-model="element.name" />
-                                <div class="flex flex-col justify-center items-center">
-                                    <label>{{ __('Active') }}</label>
-                                    <input type="checkbox" class="form-control" v-model="element.is_active" />
-                                </div>
-                                <button @click="remove(index, element)">
-                                    <i class="fas fa-trash-alt cursor-pointer text-red-500"></i>
-                                </button>
-                              </div>
+                                <div class="flex flex-col p-3" :class="{'bg-yellow-400 sm:rounded-lg my-2' : !element.is_approved && element.suggested_by != null && !element.is_active}">
+									<span v-if="!element.is_approved && element.suggested_by != null && !element.is_active && element.suggestor.detail != null">
+										{{ __('This tag was suggested by') + ' ' + element.suggestor.detail.name + __('. If you want to use it, please approve and activate it.') }}
+									</span>
+									<div class="list-group-item flex items-center py-3 gap-4">
+										<i class="fas fa-align-justify handle" style="cursor: grab;"></i>  
+										<span>{{ index }}</span>  
+										<div class="flex flex-col w-full">
+											<input type="text" class="form-control w-full sm:rounded-lg" v-model="element.name" />
+											<span 
+												v-if="Object.keys($page.props.errors).length && $page.props.errors.tags['tags.'+index+'.name']"
+												class="text-red-500"
+											>
+												{{ $page.props.errors.tags['tags.'+index+'.name'] }}
+											</span>
+										</div>
+										<div class="flex flex-col justify-center items-center">
+											<label>{{ __('Active') }}</label>
+											<input type="checkbox" class="form-control" v-model="element.is_active" />
+										</div>
+										<div class="flex flex-col justify-center items-center">
+											<label>{{ __('Approved') }}</label>
+											<input type="checkbox" class="form-control" v-model="element.is_approved" />
+										</div>
+										<button @click="remove(index, element)">
+											<i class="fas fa-trash-alt cursor-pointer text-red-500"></i>
+										</button>
+									</div>
+								</div>
                             </template>
                         </draggable>
                         <Link 
