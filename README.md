@@ -10,4 +10,4 @@ After run the following commands:
 </ul>
 <h1>Requirements</h1>
 PHP ^7.3|^8.0
-
+Composer https://getcomposer.org/
