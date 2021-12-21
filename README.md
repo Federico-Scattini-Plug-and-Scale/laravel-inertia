@@ -9,5 +9,5 @@ After run the following commands:
     <li>Php artisan serve</li>
 </ul>
 <h1>Requirements</h1>
-PHP ^7.3|^8.0
+PHP ^7.3|^8.0 <br>
 Composer https://getcomposer.org/
