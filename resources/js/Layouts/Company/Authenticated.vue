@@ -47,6 +47,9 @@
                                         <BreezeDropdownLink :href="route($page.props.locale + '.company.profile', $page.props.auth.user)">
                                             {{ __('Profile') }}
                                         </BreezeDropdownLink>
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.invoicedata', $page.props.auth.user)">
+                                            {{ __('Invoice data') }}
+                                        </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route($page.props.locale + '.company.logout')" method="post" as="button">
                                            {{ __('Log Out') }}
                                         </BreezeDropdownLink>
@@ -90,6 +93,9 @@
                             </BreezeResponsiveNavLink>
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.profile', $page.props.auth.user)">
                                 {{ __('Profile') }}
+                            </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.invoicedata', $page.props.auth.user)">
+                                {{ __('Invoice data') }}
                             </BreezeResponsiveNavLink>
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.logout')" method="post" as="button">
                                 {{ __('Log Out') }}

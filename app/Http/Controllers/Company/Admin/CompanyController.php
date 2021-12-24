@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Company\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\InvoiceDataRequest;
 use App\Models\CompanyDetail;
+use App\Models\InvoiceDetail;
 use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
@@ -16,7 +18,7 @@ class CompanyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('currentUser', ['only' => ['edit', 'show']]);
+        $this->middleware('currentUser');
     }
 
     public function index()
@@ -110,6 +112,22 @@ class CompanyController extends Controller
             $detail->user()->save($user);
 
         return redirect()->route('company.profile', $user)->with('success', __('Your data has been successfully saved.'));
+    }
+
+    public function invoiceData(User $user)
+    {
+        return Inertia::render('Company/InvoiceData', [
+            'company' => $user->load('invoiceDetails')
+        ]);
+    }
+
+    public function editInvoiceData(User $user, InvoiceDataRequest $request)
+    {
+        InvoiceDetail::updateOrCreate([
+            'user_id' => $user->id
+        ], array_merge($request->validated(), ['is_completed' => true]));
+
+        return redirect()->back()->with('success', __('Your data has been successfully saved.'));
     }
 
     public function pricing()

@@ -35,7 +35,13 @@ Route::localized(function () {
             ->name('authdata.password.edit');
         Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
             ->name('authdata.email.edit');
-    
+
+        //Invoice data
+        Route::get('/' . trans('routes.invoice-data') . '/{user}', [CompanyController::class, 'invoiceData'])
+            ->name('invoicedata');
+        Route::post('/' . trans('routes.invoice-data') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
+            ->name('invoicedata.edit');
+        
         Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
             ->name('pricing');
         Route::get('/payment', [PaymentController::class, 'payment'])
