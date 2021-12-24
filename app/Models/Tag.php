@@ -31,7 +31,12 @@ class Tag extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public static function getOptionsBasedOnType($type, $locale = 'it', $userId)
+    public function jobOffers()
+    {
+        return $this->belongsToMany(jobOffer::class);
+    }
+
+    public static function getOptionsBasedOnType($type, $userId, $locale = 'it')
     {
         return self::
             whereHas('tag_group', function($query) use ($type, $locale) {

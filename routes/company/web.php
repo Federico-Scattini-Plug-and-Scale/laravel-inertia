@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Company\Admin\CompanyController;
+use App\Http\Controllers\Company\Admin\JobOfferController;
 use App\Http\Controllers\Company\Auth\AuthDataController;
 use App\Http\Controllers\Company\PaymentController;
 use Illuminate\Http\Request;
@@ -41,6 +42,12 @@ Route::localized(function () {
             ->name('invoicedata');
         Route::post('/' . trans('routes.invoice-data') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
             ->name('invoicedata.edit');
+
+        //Job offers managament
+        Route::get('/'. trans('routes.job-offers') . '/{user}/' . trans('routes.create'), [JobOfferController::class, 'create'])
+            ->name('joboffers.create');
+        Route::post('/'. trans('routes.job-offers') . '/{user}/' . trans('routes.store'), [JobOfferController::class, 'store'])
+            ->name('joboffers.store');
         
         Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
             ->name('pricing');

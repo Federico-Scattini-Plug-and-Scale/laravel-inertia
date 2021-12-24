@@ -33,7 +33,7 @@ class CompanyController extends Controller
         return Inertia::render('Company/Profile', [
             'company' => $user,
             'companySectors' => $user->tags->pluck('id'),
-            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, app()->getLocale(), $user->id)
+            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale())
         ]);
     }
 
