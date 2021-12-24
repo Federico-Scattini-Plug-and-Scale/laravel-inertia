@@ -50,7 +50,7 @@ class TagController extends Controller
                     'type' => Arr::get($group, 'type'), 
                     'is_active' => Arr::get($group, 'is_active'),
                     'position' => $index,
-                    'locale' => app()->getLocale()
+                    'locale' => app()->getLocale(),
                 ]
             );
         }
@@ -77,6 +77,11 @@ class TagController extends Controller
 
     public function destroy(TagGroup $taggroup)
     {
+        foreach ($taggroup->tags as $tag)
+        {
+            $tag->users()->detach();
+        }
+
         $taggroup->delete();
 
         return redirect()->route('admin.tags')->with('success', __('The tag group has been deleted successfully.'));
@@ -113,6 +118,8 @@ class TagController extends Controller
 
     public function destroyTag(TagGroup $taggroup, Tag $tag)
     {
+        $tag->users()->detach();
+
         $tag->delete();
 
         return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tag has been deleted successfully.'));

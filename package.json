@@ -24,7 +24,8 @@
         "postcss-import": "^14.0.1",
         "tailwindcss": "^2.1.2",
         "vue": "^3.0.5",
-        "vue-loader": "^16.1.2"
+        "vue-loader": "^16.1.2",
+        "webpack-cli": "^4.9.1"
     },
     "dependencies": {
         "@fawmi/vue-google-maps": "^0.9.4",
