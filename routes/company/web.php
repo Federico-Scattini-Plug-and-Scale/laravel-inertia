@@ -51,10 +51,10 @@ Route::localized(function () {
         
         Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
             ->name('pricing');
-        Route::get('/payment', [PaymentController::class, 'payment'])
+        Route::get('/{user}/{jobOffer}/payment', [PaymentController::class, 'payment'])
             ->name('payment');
-        Route::get('/success', [PaymentController::class, 'success'])
-            ->name('success');
+        Route::get('/{user}/{jobOffer}/success', [PaymentController::class, 'success'])
+            ->name('payment.success');
         Route::get('/cancel', function(){
             return 'cancel';
         })->name('cancel');

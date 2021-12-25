@@ -45,7 +45,7 @@ class JobOfferCreateRequest extends FormRequest
             'processes' => Rule::requiredIf(function() use($request) {
                 return Arr::has($request, 'processes') && Arr::get($request, 'processes') != 'no validation';
             }),
-            'machineTypes '=> Rule::requiredIf(function() use($request) {
+            'machineTypes' => Rule::requiredIf(function() use($request) {
                 return Arr::has($request, 'machineTypes') && Arr::get($request, 'machineTypes') != 'no validation';
             }),
             'machines' => Rule::requiredIf(function() use($request) {
@@ -59,6 +59,9 @@ class JobOfferCreateRequest extends FormRequest
             }),
             'contracts' => Rule::requiredIf(function() use($request) {
                 return Arr::has($request, 'contracts') && Arr::get($request, 'contracts') != 'no validation';
+            }),
+            'package' => Rule::requiredIf(function() use($request) {
+                return Arr::has($request, 'package') && Arr::get($request, 'package') != 'no validation';
             }),
             'specialization' =>  'required',
             'min_salary' => [

@@ -15,4 +15,14 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function jobOffer()
+    {
+        return $this->hasOne(JobOffer::class);
+    }
+
+    public static function getByStripeId($stripeId)
+    {
+        return self::where('stripe_id', $stripeId)->first();
+    }
 }

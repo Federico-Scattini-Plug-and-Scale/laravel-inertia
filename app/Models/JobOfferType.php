@@ -28,4 +28,14 @@ class JobOfferType extends Model
             ->orderBy('updated_at', 'desc')
             ->paginate($pager);
     }
+
+    public static function getOptions($locale = 'it')
+    {
+        return self::
+            where('locale', $locale)
+            ->where('is_active', true)
+            ->orderBy('price', 'desc')
+            ->select('id as value', 'name as label')
+            ->get();
+    }
 }

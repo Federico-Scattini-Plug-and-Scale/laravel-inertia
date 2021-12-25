@@ -11,13 +11,23 @@ class JobOffer extends Model
 
     protected $guarded = [];
 
-    public function job_offer_type()
+    const STATUS_ACTIVE = 'active';
+    const STATUS_UNPAID = 'unpaid';
+    const STATUS_INACTIVE = 'inactive';
+    const STATUS_CART = 'cart';
+
+    public function jobOfferType()
     {
-        return $this->hasOne(JobOfferType::class);
+        return $this->hasOne(JobOfferType::class, 'id', 'job_offer_type_id');
     }
 
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
     }
 }

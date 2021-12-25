@@ -208,6 +208,18 @@
                                 <input type="text" v-model="form.currency" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.currency" class="text-red-500">{{ errors.currency }}</div>
                             </div>
+                            <div class="mb-6" v-if="packages.length != 0">
+                                <label class="text-lg font-semibold">{{ __('Choose the package') }}</label>
+                                <Multiselect 
+                                    v-model="form.package" 
+                                    :options="packages"
+                                    label="label"
+                                    trackBy="label"
+                                    :placeholder="__('Select the package')"
+                                    :searchable="true"
+                                />
+                                <div v-if="errors.packages" class="text-red-500">{{ errors.packages }}</div>
+                            </div>
                             <button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">{{ __('Save') }}</button>
                         </form>
 					</div>
@@ -244,6 +256,7 @@ export default {
 		techSkills: Object,
 		exp: Object,
 		contracts: Object,
+        packages: Object
     },
     setup (props) {
         const form = useForm({
@@ -264,7 +277,8 @@ export default {
 			specialization: '',
 			min_salary: 0,
 			max_salary: 0,
-			currency: ''
+			currency: '',
+            packages: props.packages.length != 0 ? [] : 'no validation',
 		})
 
 		const markers = ref([])
@@ -280,6 +294,7 @@ export default {
 		const techSkills = toRef(props, 'techSkills')
 		const exp = toRef(props, 'exp')
 		const contracts = toRef(props, 'contracts')
+		const packages = toRef(props, 'packages')
 
 
         watch([myMapRef, markers], ([googleMap]) => {
@@ -341,7 +356,8 @@ export default {
 			machines,
 			techSkills,
 			exp,
-			contracts
+			contracts,
+            packages
 		}
     },
 }
