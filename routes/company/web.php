@@ -20,33 +20,33 @@ use Illuminate\Support\Facades\Route;
 
 Route::localized(function () {
     Route::prefix(trans('routes.company'))->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
-        Route::get('/dashboard', [CompanyController::class, 'index'])
+        Route::get('{user}/dashboard', [CompanyController::class, 'index'])
             ->name('dashboard');
         
         //Profile
-        Route::get('/' . trans('routes.profile') . '/{user}', [CompanyController::class, 'show'])
+        Route::get('/{user}/' . trans('routes.profile'), [CompanyController::class, 'show'])
             ->name('profile');
-        Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'edit'])
+        Route::post('/{user}/' . trans('routes.profile') . '/' . trans('routes.edit'), [CompanyController::class, 'edit'])
             ->name('profile.edit');
         
         //Auth data
-        Route::get('/' . trans('routes.auth-data') . '/{user}', [AuthDataController::class, 'index'])
+        Route::get('/{user}/' . trans('routes.auth-data'), [AuthDataController::class, 'index'])
             ->name('authdata');
-        Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
+        Route::post('/{user}/' . trans('routes.auth-data') . '/' . trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
             ->name('authdata.password.edit');
-        Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
+        Route::post('/{user}' . trans('routes.auth-data') . '/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
             ->name('authdata.email.edit');
 
         //Invoice data
-        Route::get('/' . trans('routes.invoice-data') . '/{user}', [CompanyController::class, 'invoiceData'])
+        Route::get('/{user}/' . trans('routes.invoice-data'), [CompanyController::class, 'invoiceData'])
             ->name('invoicedata');
-        Route::post('/' . trans('routes.invoice-data') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
+        Route::post('/{user}/' . trans('routes.invoice-data') . '/' . trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
             ->name('invoicedata.edit');
 
         //Job offers managament
-        Route::get('/'. trans('routes.job-offers') . '/{user}/' . trans('routes.create'), [JobOfferController::class, 'create'])
+        Route::get('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.create'), [JobOfferController::class, 'create'])
             ->name('joboffers.create');
-        Route::post('/'. trans('routes.job-offers') . '/{user}/' . trans('routes.store'), [JobOfferController::class, 'store'])
+        Route::post('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.store'), [JobOfferController::class, 'store'])
             ->name('joboffers.store');
         
         Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])

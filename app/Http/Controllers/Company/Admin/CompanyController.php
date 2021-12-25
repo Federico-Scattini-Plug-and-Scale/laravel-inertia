@@ -21,10 +21,10 @@ class CompanyController extends Controller
         $this->middleware('currentUser');
     }
 
-    public function index()
+    public function index(User $user)
     {
         return Inertia::render('Company/Dashboard', [
-            'company' => Auth::user()
+            'company' => $user
         ]);
     }
 

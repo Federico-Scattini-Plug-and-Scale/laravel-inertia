@@ -18,13 +18,13 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null) {
         if (Auth::guard($guard)->check()) {
             $role = Auth::user()->role; 
-      
+            
             switch ($role) {
                 case 'admin':
                     return redirect()->route('admin.dashboard');
                     break;
                 case 'company':
-                    return redirect()->route('company.dashboard');
+                    return redirect()->route('company.dashboard', Auth::user());
                     break; 
                 case 'applicant':
                     return redirect()->route('applicant.dashboard');
@@ -35,6 +35,7 @@ class RedirectIfAuthenticated
                     break;
             }
         }
+
         return $next($request);
-      }
+    }
 }

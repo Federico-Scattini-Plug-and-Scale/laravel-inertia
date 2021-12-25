@@ -8,14 +8,14 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <Link :href="route($page.props.locale + '.company.dashboard')">
+                                <Link :href="route($page.props.locale + '.company.dashboard', $page.props.auth.user)">
                                     <BreezeApplicationLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current($page.props.locale + '.company.dashboard')">
+                                <BreezeNavLink :href="route($page.props.locale + '.company.dashboard', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.dashboard')">
                                     {{ __('Dashboard') }}
                                 </BreezeNavLink>
                                 <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
@@ -73,7 +73,7 @@
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.dashboard')" :active="route().current($page.props.locale + '.company.dashboard')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.dashboard', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.dashboard')">
                             {{ __('Dashboard') }}
                         </BreezeResponsiveNavLink>
                         <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
