@@ -118,8 +118,6 @@ class TagController extends Controller
 
     public function destroyTag(TagGroup $taggroup, Tag $tag)
     {
-        $tag->users()->detach();
-
         $tag->delete();
 
         return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tag has been deleted successfully.'));

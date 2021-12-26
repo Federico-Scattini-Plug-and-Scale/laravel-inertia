@@ -30,6 +30,20 @@ class TagGroup extends Model
         return $this->hasMany(Tag::class)->orderBy('position');
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function(TagGroup $group)
+        {
+            $group->tags->each(function($tag)
+            {
+                $tag->users()->detach();
+                $tag->jobOffers()->detach();
+            });
+        });
+    }
+
     public static function getAll($locale = 'it')
     {
         return self::

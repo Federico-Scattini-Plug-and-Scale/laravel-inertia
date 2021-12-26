@@ -36,6 +36,17 @@ class Tag extends Model
         return $this->belongsToMany(jobOffer::class);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function(Tag $tag)
+        {
+            $tag->users()->detach();
+            $tag->jobOffers()->detach();
+        });
+    }
+
     public static function getOptionsBasedOnType($type, $userId, $locale = 'it')
     {
         return self::
