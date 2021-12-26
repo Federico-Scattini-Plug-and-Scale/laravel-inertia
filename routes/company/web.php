@@ -48,9 +48,10 @@ Route::localized(function () {
             ->name('joboffers.create');
         Route::post('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.store'), [JobOfferController::class, 'store'])
             ->name('joboffers.store');
-        
-        Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
-            ->name('pricing');
+        Route::get('/{user}/' . trans('routes.job-offers'), [JobOfferController::class, 'index'])
+            ->name('joboffers.index');
+        Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
+            ->name('joboffers.destroy');
         Route::get('/{user}/{jobOffer}/payment', [PaymentController::class, 'payment'])
             ->name('payment');
         Route::get('/{user}/{jobOffer}/success', [PaymentController::class, 'success'])

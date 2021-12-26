@@ -14,7 +14,7 @@ class AddColumnJobOfferIdToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('job_offer_id')->constrained()->after('user_id');
+            $table->foreignId('job_offer_id')->constrained('job_offers');
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnJobOfferIdToOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign('job_offer_id');
+            $table->dropForeign(['job_offer_id']);
             $table->dropColumn('job_offer_id');
         });
     }

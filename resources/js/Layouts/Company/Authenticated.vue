@@ -18,8 +18,8 @@
                                 <BreezeNavLink :href="route($page.props.locale + '.company.dashboard', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.dashboard')">
                                     {{ __('Dashboard') }}
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
-                                    {{ __('Pricing') }}
+                                <BreezeNavLink :href="route($page.props.locale + '.company.joboffers.index', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.joboffers.index')">
+                                    {{ __('Job offers') }}
                                 </BreezeNavLink>
                             </div>
                         </div>
@@ -76,8 +76,8 @@
                         <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.dashboard', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.dashboard')">
                             {{ __('Dashboard') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.pricing')" :active="route().current($page.props.locale + '.company.pricing')">
-                            {{ __('Pricing') }}
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.joboffers.index', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.joboffers.index')">
+                            {{ __('Job Offers') }}
                         </BreezeResponsiveNavLink>
                     </div>
 

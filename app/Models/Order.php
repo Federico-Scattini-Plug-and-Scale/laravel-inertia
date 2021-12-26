@@ -18,7 +18,7 @@ class Order extends Model
 
     public function jobOffer()
     {
-        return $this->hasOne(JobOffer::class);
+        return $this->belongsTo(JobOffer::class);
     }
 
     public static function getByStripeId($stripeId)

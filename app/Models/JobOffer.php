@@ -18,7 +18,7 @@ class JobOffer extends Model
 
     public function jobOfferType()
     {
-        return $this->hasOne(JobOfferType::class, 'id', 'job_offer_type_id');
+        return $this->belongsTo(JobOfferType::class);
     }
 
     public function tags()
@@ -28,6 +28,34 @@ class JobOffer extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class);
+        return $this->hasMany(Order::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function(JobOffer $jobOffer)
+        {
+            $jobOffer->tags()->detach();
+        });
+    }
+
+    public static function getByUser($userId, $locale = 'it', $pager = 10)
+    {
+        return self::
+            with(['orders' => function($query)
+            {
+                $query
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+            }, 'jobOfferType' => function($query)
+            {
+                $query->select('id', 'name', 'is_free');
+            }])
+            ->where('company_id', $userId)
+            ->where('locale', $locale)
+            ->orderBy('created_at', 'desc')
+            ->paginate($pager);
     }
 }

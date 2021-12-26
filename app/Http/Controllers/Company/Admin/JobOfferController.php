@@ -20,9 +20,16 @@ class JobOfferController extends Controller
         $this->middleware('currentUser');
     }
 
+    public function index(User $user)
+    {
+        return Inertia::render('Company/JobOffers/Index', [
+            'jobOffers' => JobOffer::getByUser($user->id, app()->getLocale())
+        ]);
+    }
+
     public function create(User $user)
     {
-        return Inertia::render('Company/JobOffersCreate', [
+        return Inertia::render('Company/JobOffers/Create', [
             'company' => $user,
             'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale()),
             'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, app()->getLocale()),
@@ -62,6 +69,13 @@ class JobOfferController extends Controller
         $jobOffer->tags()->sync($tags);
 
         return redirect()->route('company.payment', [$user, $jobOffer]);
+    }
+
+    public function destroy(User $user, JobOffer $jobOffer)
+    {
+        $jobOffer->delete();
+
+        return redirect()->route('company.joboffers.index', $user)->with('success', __('The job offer was deleted successfully'));
     }
 
     private function prepareTagsJobOffer($data, $user)
