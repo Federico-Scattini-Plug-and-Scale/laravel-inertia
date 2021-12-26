@@ -52,13 +52,12 @@ Route::localized(function () {
             ->name('joboffers.index');
         Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
             ->name('joboffers.destroy');
-        Route::get('/{user}/{jobOffer}/payment', [PaymentController::class, 'payment'])
+        Route::get('/{user}/{jobOffer}/' . trans('routes.payment'), [PaymentController::class, 'payment'])
             ->name('payment');
-        Route::get('/{user}/{jobOffer}/success', [PaymentController::class, 'success'])
+        Route::get('/{user}/{jobOffer}/' . trans('routes.success'), [PaymentController::class, 'success'])
             ->name('payment.success');
-        Route::get('/cancel', function(){
-            return 'cancel';
-        })->name('cancel');
+        Route::get('/{user}/{jobOffer}/'. trans('routes.payment') .'/' . trans('routes.cancel'), [PaymentController::class, 'cancel'])
+            ->name('cancel');
     });
 });
 

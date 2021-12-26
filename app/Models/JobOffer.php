@@ -46,9 +46,7 @@ class JobOffer extends Model
         return self::
             with(['orders' => function($query)
             {
-                $query
-                    ->orderBy('created_at', 'desc')
-                    ->first();
+                $query->orderBy('created_at', 'desc');
             }, 'jobOfferType' => function($query)
             {
                 $query->select('id', 'name', 'is_free');

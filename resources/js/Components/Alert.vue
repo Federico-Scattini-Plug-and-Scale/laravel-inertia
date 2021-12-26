@@ -1,7 +1,7 @@
 <template>
     <div>
         <div 
-			:class="{ 'bg-red-500' : isError, 'bg-green-500' : isSuccess }" class="text-white d-block p-2 sm:rounded-lg text-center">
+			:class="{ 'bg-red-500' : isError, 'bg-green-500' : isSuccess, 'bg-yellow-500' : isInfo }" class="text-white d-block p-2 sm:rounded-lg text-center">
 			{{ message }}
 		</div>
     </div>
@@ -20,8 +20,9 @@ export default {
 
 		let isError = type.value == 'error'
 		let isSuccess = type.value == 'success'
+		let isInfo = type.value == 'info'
 		
-		return { message, type, isError, isSuccess }
+		return { message, type, isError, isSuccess, isInfo }
 	}
 }
 </script>

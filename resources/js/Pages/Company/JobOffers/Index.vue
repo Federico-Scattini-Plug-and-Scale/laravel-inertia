@@ -13,6 +13,8 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 						<Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
+						<Alert v-if="$page.props.session.info" :message="$page.props.session.info" :type="'info'" class="mb-4"/>
+						<Alert v-if="$page.props.session.error" :message="$page.props.session.error" :type="'error'" class="mb-4"/>
 						<Link 
                             :href="route($page.props.locale + '.company.joboffers.create', $page.props.auth.user)" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg"
@@ -50,7 +52,7 @@
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<p class="text-gray-900 whitespace-no-wrap">{{ item.status }}</p>
 											</td>
-											<td v-if="item.status == 'cart' && item.job_offer_type.is_free == false" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+											<td v-if="item.status != 'active' && item.job_offer_type.is_free == false" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<Link :href="route($page.props.locale + '.company.payment', [$page.props.auth.user, item])" class="text-gray-900 whitespace-no-wrap">{{ __('Pay now') }}</Link>
 											</td>
 											<td v-else-if="item.job_offer_type.is_free == true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
