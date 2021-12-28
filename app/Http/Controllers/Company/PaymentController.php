@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobOffer;
+use App\Models\JobOfferApiError;
 use App\Models\Order;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,8 +24,28 @@ class PaymentController extends Controller
         {
             setStripeKey();
 
-            $price = retrieveStripePrice($jobOffer->jobOfferType->stripe_price_id);
-
+            try {
+                $price = retrieveStripePrice($jobOffer->jobOfferType->stripe_price_id);
+            } catch (\Stripe\Exception\RateLimitException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\AuthenticationException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\ApiConnectionException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (Exception $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            }
+            
             $paymentData = [
                 'line_items' => [[
                     'price' => $price->id,
@@ -39,7 +61,28 @@ class PaymentController extends Controller
 
             if ($user->stripe_customer_id)
             {
-                $stripeCustomer = \Stripe\Customer::retrieve($user->stripe_customer_id);
+                try {
+                    $stripeCustomer = \Stripe\Customer::retrieve($user->stripe_customer_id);
+                } catch (\Stripe\Exception\RateLimitException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\InvalidRequestException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\AuthenticationException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiConnectionException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiErrorException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (Exception $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                }
+
                 $paymentData['customer'] = $stripeCustomer->id;
             }
             else
@@ -47,7 +90,27 @@ class PaymentController extends Controller
                 $paymentData['customer_email'] = $user->email;
             }
 
-            $checkoutSession = \Stripe\Checkout\Session::create($paymentData);
+            try {
+                $checkoutSession = \Stripe\Checkout\Session::create($paymentData);
+            } catch (\Stripe\Exception\RateLimitException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\AuthenticationException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\ApiConnectionException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            } catch (Exception $e) {
+                $this->createApiError($e, $jobOffer->id);
+                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+            }
 
             return Inertia::location($checkoutSession->url);
         }
@@ -64,7 +127,27 @@ class PaymentController extends Controller
             if (empty($order))
             {
                 setStripeKey();
-                $data = \Stripe\Checkout\Session::retrieve($request->get('session_id'));
+                try {
+                    $data = \Stripe\Checkout\Session::retrieve($request->get('session_id'));
+                } catch (\Stripe\Exception\RateLimitException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\InvalidRequestException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\AuthenticationException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiConnectionException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiErrorException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (Exception $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                }
         
                 Order::create([
                     'stripe_id' => $data->id,
@@ -105,5 +188,19 @@ class PaymentController extends Controller
         }
 
         return redirect()->route('company.joboffers.index', $user);
+    }
+
+    private function createApiError($e, $jobOfferId)
+    {
+        JobOfferApiError::create([
+            'error' => json_encode([
+                'Status' => $e->getHttpStatus(),
+                'Type' => $e->getError()->type,
+                'Code' => $e->getError()->code,
+                'Param' => $e->getError()->param,
+                'Message' => $e->getError()->message,
+            ]),
+            'job_offer_id' => $jobOfferId
+        ]);
     }
 }
