@@ -9,7 +9,6 @@ use App\Models\JobOfferType;
 use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
 

@@ -56,4 +56,12 @@ class JobOffer extends Model
             ->orderBy('created_at', 'desc')
             ->paginate($pager);
     }
+
+    public static function getActive()
+    {
+        return self::
+            where('status', JobOffer::STATUS_ACTIVE)
+            ->select('id', 'status', 'published_at')
+            ->get();
+    }
 }
