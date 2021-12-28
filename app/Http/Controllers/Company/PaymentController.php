@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class PaymentController extends Controller
@@ -160,6 +161,7 @@ class PaymentController extends Controller
                 ]);
         
                 $jobOffer->status = JobOffer::STATUS_ACTIVE;
+                $jobOffer->published_at = Carbon::now('Europe/Rome');
                 $jobOffer->save();
         
                 $user->stripe_customer_id = $data->customer;

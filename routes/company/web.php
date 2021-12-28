@@ -50,6 +50,10 @@ Route::localized(function () {
             ->name('joboffers.store');
         Route::get('/{user}/' . trans('routes.job-offers'), [JobOfferController::class, 'index'])
             ->name('joboffers.index');
+        Route::get('/{user}/' . trans('routes.job-offers') . '/' . trans('routes.edit'), [JobOfferController::class, 'edit'])
+            ->name('joboffers.edit');
+        Route::post('/{user}/' . trans('routes.job-offers') . '/' . trans('routes.update'), [JobOfferController::class, 'update'])
+            ->name('joboffers.update');
         Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
             ->name('joboffers.destroy');
         Route::get('/{user}/{jobOffer}/' . trans('routes.payment'), [PaymentController::class, 'payment'])

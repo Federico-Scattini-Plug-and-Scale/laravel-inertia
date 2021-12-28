@@ -71,6 +71,18 @@ class JobOfferController extends Controller
         return redirect()->route('company.payment', [$user, $jobOffer]);
     }
 
+    public function edit(User $user, JobOffer $jobOffer)
+    {
+        return Inertia::render('Company/JobOffers/Edit', [
+            'jobOffers' => $jobOffer
+        ]);
+    }
+
+    public function update(User $user, JobOffer $jobOffer)
+    {
+        dd('test');
+    }
+
     public function destroy(User $user, JobOffer $jobOffer)
     {
         $jobOffer->delete();

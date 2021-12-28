@@ -76,9 +76,9 @@
 														</span>
 													</template>
 													<template #content>
-														<!-- <BreezeDropdownLink :href="route($page.props.locale + '.admin.joboffertypes.edit', item)" as="button">
+														<BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.edit', [$page.props.auth.user, item])" as="button">
 															{{ __('Modify') }}
-														</BreezeDropdownLink> -->
+														</BreezeDropdownLink>
 														<BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.destroy', [$page.props.auth.user, item])" method="post" as="button">
 															{{ __('Delete') }}
 														</BreezeDropdownLink>
