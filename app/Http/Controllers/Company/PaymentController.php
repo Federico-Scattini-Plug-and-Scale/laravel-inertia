@@ -42,7 +42,6 @@ class PaymentController extends Controller
                 $this->createApiError($e, $jobOffer->id);
                 return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
             } catch (Exception $e) {
-                $this->createApiError($e, $jobOffer->id);
                 return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
             }
             
@@ -79,7 +78,6 @@ class PaymentController extends Controller
                     $this->createApiError($e, $jobOffer->id);
                     return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
                 } catch (Exception $e) {
-                    $this->createApiError($e, $jobOffer->id);
                     return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
                 }
 
@@ -108,7 +106,6 @@ class PaymentController extends Controller
                 $this->createApiError($e, $jobOffer->id);
                 return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
             } catch (Exception $e) {
-                $this->createApiError($e, $jobOffer->id);
                 return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
             }
 
