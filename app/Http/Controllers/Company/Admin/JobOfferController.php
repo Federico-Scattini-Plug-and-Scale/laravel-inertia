@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class JobOfferController extends Controller
@@ -21,8 +22,24 @@ class JobOfferController extends Controller
 
     public function index(User $user)
     {
+        $jobOffers = JobOffer::getByUser($user->id, app()->getLocale());
+
+        if (!empty($jobOffers))
+        {
+            $jobOffers->each(function($item) {
+                if (!empty($item->published_at))
+                {
+                    $item->expiring_at = now('Europe/Rome')->subDays(30)->endOfDay()->diffInDays(Carbon::parse($item->published_at, 'Europe/Rome'), false);
+                }
+                else
+                {
+                    $item->expiring_at = __('Expired');
+                }
+            });
+        }
+
         return Inertia::render('Company/JobOffers/Index', [
-            'jobOffers' => JobOffer::getByUser($user->id, app()->getLocale())
+            'jobOffers' => $jobOffers
         ]);
     }
 

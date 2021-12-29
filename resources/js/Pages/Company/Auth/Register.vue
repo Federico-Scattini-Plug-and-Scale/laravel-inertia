@@ -1,5 +1,5 @@
 <template>
-    <Head title="Register" />
+    <Head :title="__('Register')" />
 
     <BreezeValidationErrors class="mb-4" />
 
@@ -21,11 +21,11 @@
 
         <div class="flex items-center justify-end mt-4">
             <Link :href="route($page.props.locale + '.company.login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Already registered?
+                {{ __('Already registered?') }}
             </Link>
 
             <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
+                {{ __('Register') }}
             </BreezeButton>
         </div>
     </form>
