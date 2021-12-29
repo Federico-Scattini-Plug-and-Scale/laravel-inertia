@@ -56,6 +56,10 @@ Route::localized(function () {
             ->name('joboffers.update');
         Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
             ->name('joboffers.destroy');
+        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.preview'), [PaymentController::class, 'preview'])
+            ->name('payment.preview');
+        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.invoice-data'), [PaymentController::class, 'invoiceData'])
+            ->name('payment.invoicedata');
         Route::get('/{user}/{jobOffer}/' . trans('routes.payment'), [PaymentController::class, 'payment'])
             ->name('payment');
         Route::get('/{user}/{jobOffer}/' . trans('routes.success'), [PaymentController::class, 'success'])

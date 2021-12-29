@@ -62,7 +62,7 @@
 												</span>
 											</td>
 											<td v-if="item.job_offer_type.is_free != true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<Link :href="route($page.props.locale + '.company.payment', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
+												<Link :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
 													{{ item.status != 'active' ? __('Pay now') : __('Extend validity') }}
 												</Link>
 											</td>

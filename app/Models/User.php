@@ -73,6 +73,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getHasInvoiceDetails()
     {
-        return $this->invoiceDetails->is_completed;
+        return $this->invoiceDetails()->exists();
     }
 }

@@ -84,7 +84,7 @@ class JobOfferController extends Controller
         $jobOffer = JobOffer::create($data);
         $jobOffer->tags()->sync($tags);
 
-        return redirect()->route('company.payment', [$user, $jobOffer]);
+        return redirect()->route('company.payment.preview', [$user, $jobOffer]);
     }
 
     public function edit(User $user, JobOffer $jobOffer)

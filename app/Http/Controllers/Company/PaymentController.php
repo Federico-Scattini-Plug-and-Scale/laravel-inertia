@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\InvoiceDataRequest;
+use App\Models\InvoiceDetail;
 use App\Models\JobOffer;
 use App\Models\JobOfferApiError;
 use App\Models\Order;
@@ -17,6 +19,27 @@ class PaymentController extends Controller
     public function __construct()
     {
         $this->middleware('currentUser');
+    }
+
+    public function preview(User $user, JobOffer $jobOffer)
+    {
+        $jobOffer->load('jobOfferType');
+        $user->load('invoiceDetails');
+
+        return Inertia::render('Company/PaymentPreview', [
+            'jobOffer' => $jobOffer,
+            'company' => $user,
+            'hasInvoiceDetails' => $user->getHasInvoiceDetails()
+        ]);
+    }
+
+    public function invoiceData(User $user, JobOffer $jobOffer, InvoiceDataRequest $request)
+    {
+        InvoiceDetail::updateOrCreate([
+            'user_id' => $user->id
+        ], array_merge($request->validated(), ['is_completed' => true]));
+
+        return redirect()->route('company.payment', [$user, $jobOffer]);
     }
 
     public function payment(User $user, JobOffer $jobOffer)
