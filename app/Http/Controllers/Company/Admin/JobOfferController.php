@@ -29,7 +29,7 @@ class JobOfferController extends Controller
             $jobOffers->each(function($item) {
                 if (!empty($item->published_at))
                 {
-                    $item->expiring_at = now('Europe/Rome')->subDays(30)->endOfDay()->diffInDays(Carbon::parse($item->published_at, 'Europe/Rome'), false);
+                    $item->expiring_at = now('Europe/Rome')->subDays($item->validity_days)->endOfDay()->diffInDays(Carbon::parse($item->published_at, 'Europe/Rome'), false);
                 }
                 else
                 {

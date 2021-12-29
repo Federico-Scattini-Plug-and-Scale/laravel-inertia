@@ -34,9 +34,10 @@ class ManageJobOffersValidity implements ShouldQueue
         $activeJobOffers = JobOffer::getActive();
 
         $activeJobOffers->each(function($item) {
-            if ($item->published_at < now('Europe/Rome')->subDays(30)->endOfDay())
+            if ($item->published_at < now('Europe/Rome')->subDays($item->validity_days)->endOfDay())
             {
                 $item->published_at = null;
+                $item->validity_days = 0;
                 $item->status = JobOffer::STATUS_INACTIVE;
                 $item->save();
             }

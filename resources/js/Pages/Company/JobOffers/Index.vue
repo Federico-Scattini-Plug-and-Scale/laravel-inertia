@@ -61,19 +61,15 @@
 												<span class="relative">{{ item.status }}</span>
 												</span>
 											</td>
-											<td v-if="item.status != 'active' && item.job_offer_type.is_free == false" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<Link :href="route($page.props.locale + '.company.payment', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">{{ __('Pay now') }}</Link>
+											<td v-if="item.job_offer_type.is_free != true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+												<Link :href="route($page.props.locale + '.company.payment', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
+													{{ item.status != 'active' ? __('Pay now') : __('Extend validity') }}
+												</Link>
 											</td>
-											<td v-else-if="item.job_offer_type.is_free == true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+											<td v-else class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-green-200"></span>
 												<span class="relative">{{ __('Free') }}</span>
-												</span>
-											</td>
-											<td v-else-if="item.orders.length > 0 && item.orders[0].payment_status == 'paid'" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-green-200"></span>
-												<span class="relative">{{ item.orders[0].payment_status }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">

@@ -15,6 +15,7 @@ class JobOffer extends Model
     const STATUS_UNPAID = 'unpaid';
     const STATUS_INACTIVE = 'inactive';
     const STATUS_CART = 'cart';
+    const VALIDITY = 30;
 
     public function jobOfferType()
     {
@@ -61,7 +62,7 @@ class JobOffer extends Model
     {
         return self::
             where('status', JobOffer::STATUS_ACTIVE)
-            ->select('id', 'status', 'published_at')
+            ->select('id', 'status', 'published_at', 'validity_days')
             ->get();
     }
 }
