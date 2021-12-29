@@ -197,7 +197,7 @@ class PaymentController extends Controller
             $jobOffer->status = JobOffer::STATUS_UNPAID;
             $jobOffer->save();
             
-            return redirect()->route('company.joboffers.index', $user)->with('error', __('The payment was not completed.'));
+            return redirect()->route('company.payment.preview', [$user, $jobOffer])->with('error', __('The payment was not completed.'));
         }
 
         return redirect()->route('company.joboffers.index', $user);
