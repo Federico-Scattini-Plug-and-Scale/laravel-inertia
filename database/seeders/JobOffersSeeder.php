@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Models\JobOffer;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class JobOffersSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call(JobOffersSeeder::class);
+        JobOffer::factory()->count(1000)->create();
     }
 }
