@@ -11,6 +11,8 @@ class Order extends Model
 
     protected $guarded = [];
 
+    const INVOICE_PREFIX = 'A7';
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -24,5 +26,10 @@ class Order extends Model
     public static function getByStripeId($stripeId)
     {
         return self::where('stripe_id', $stripeId)->first();
+    }
+
+    public static function getLastInvoiceNumber()
+    {
+        return self::orderBy('created_at')->where('invoice_number', '!=', null)->first();
     }
 }

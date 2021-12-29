@@ -14,6 +14,17 @@ class OrderObserver
      */
     public function created(Order $order)
     {
+        $lastInvoiceNumber = Order::getLastInvoiceNumber();
+
+        if (!empty($lastInvoiceNumber))
+        {
+            $order->invoice_number = Order::INVOICE_PREFIX . '/' . str_pad($lastInvoiceNumber->id + 1, 4, '0', STR_PAD_LEFT) . '/' . now('Europe/Rome')->year;
+        }
+        else
+        {
+            $order->invoice_number = Order::INVOICE_PREFIX . '/' . str_pad($order->id, 4, '0', STR_PAD_LEFT) . '/' . now('Europe/Rome')->year;
+        }
+
         $order->locale = app()->getLocale();
         $order->saveQuietly();
     }
