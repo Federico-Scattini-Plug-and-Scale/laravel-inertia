@@ -9,6 +9,8 @@ use App\Models\JobOffer;
 use App\Models\JobOfferApiError;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\JobOffers\JobOfferUnderApproval;
+use App\Notifications\JobOffers\OrderPaid;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -183,6 +185,8 @@ class PaymentController extends Controller
                     'locale' => $jobOffer->locale
                 ]);
 
+                $user->notify(new OrderPaid());
+
                 if ($jobOffer->status != JobOffer::STATUS_CART)
                 {
                     $jobOffer->status = JobOffer::STATUS_ACTIVE;
@@ -192,6 +196,7 @@ class PaymentController extends Controller
                 else
                 {
                     $jobOffer->status = JobOffer::STATUS_UNDER_APPROVAL;
+                    $user->notify(new JobOfferUnderApproval());
                 }
 
                 $jobOffer->save();
