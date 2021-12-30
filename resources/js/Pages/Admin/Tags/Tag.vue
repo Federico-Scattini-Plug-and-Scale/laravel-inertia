@@ -104,7 +104,8 @@ export default {
                 id: null, 
                 name: '', 
                 is_active: false, 
-                position: tags.value.length
+                position: tags.value.length,
+                is_approved: true
             });
         }
 

@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\JobOfferType;
+use App\Models\Order;
 use App\Observers\JobOfferTypeObserver;
+use App\Observers\OrderObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,5 +32,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         JobOfferType::observe(JobOfferTypeObserver::class);
+        Order::observe(OrderObserver::class);
     }
 }

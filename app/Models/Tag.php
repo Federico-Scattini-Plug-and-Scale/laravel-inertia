@@ -16,7 +16,7 @@ class Tag extends Model
         'is_approved' => 'boolean',
     ];
 
-    public function tag_group()
+    public function tagGroup()
     {
         return $this->belongsTo(TagGroup::class);
     }
@@ -31,10 +31,26 @@ class Tag extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public static function getOptionsBasedOnType($type, $locale = 'it', $userId)
+    public function jobOffers()
+    {
+        return $this->belongsToMany(jobOffer::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function(Tag $tag)
+        {
+            $tag->users()->detach();
+            $tag->jobOffers()->detach();
+        });
+    }
+
+    public static function getOptionsBasedOnType($type, $userId, $locale = 'it')
     {
         return self::
-            whereHas('tag_group', function($query) use ($type, $locale) {
+            whereHas('tagGroup', function($query) use ($type, $locale) {
                 return $query
                     ->where('type', $type)
                     ->where('is_active', true)

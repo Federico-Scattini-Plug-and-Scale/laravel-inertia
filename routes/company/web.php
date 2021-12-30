@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Company\Admin\CompanyController;
+use App\Http\Controllers\Company\Admin\JobOfferController;
 use App\Http\Controllers\Company\Auth\AuthDataController;
 use App\Http\Controllers\Company\PaymentController;
 use Illuminate\Http\Request;
@@ -19,32 +20,52 @@ use Illuminate\Support\Facades\Route;
 
 Route::localized(function () {
     Route::prefix(trans('routes.company'))->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
-        Route::get('/dashboard', [CompanyController::class, 'index'])
+        Route::get('{user}/dashboard', [CompanyController::class, 'index'])
             ->name('dashboard');
         
         //Profile
-        Route::get('/' . trans('routes.profile') . '/{user}', [CompanyController::class, 'show'])
+        Route::get('/{user}/' . trans('routes.profile'), [CompanyController::class, 'show'])
             ->name('profile');
-        Route::post('/' . trans('routes.profile') . '/{user}/' . trans('routes.edit'), [CompanyController::class, 'edit'])
+        Route::post('/{user}/' . trans('routes.profile') . '/' . trans('routes.edit'), [CompanyController::class, 'edit'])
             ->name('profile.edit');
         
         //Auth data
-        Route::get('/' . trans('routes.auth-data') . '/{user}', [AuthDataController::class, 'index'])
+        Route::get('/{user}/' . trans('routes.auth-data'), [AuthDataController::class, 'index'])
             ->name('authdata');
-        Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
+        Route::post('/{user}/' . trans('routes.auth-data') . '/' . trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
             ->name('authdata.password.edit');
-        Route::post('/' . trans('routes.auth-data') . '/{user}/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
+        Route::post('/{user}' . trans('routes.auth-data') . '/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
             ->name('authdata.email.edit');
-    
-        Route::get('/' . trans('routes.pricing'), [CompanyController::class, 'pricing'])
-            ->name('pricing');
-        Route::get('/payment', [PaymentController::class, 'payment'])
+
+        //Invoice data
+        Route::get('/{user}/' . trans('routes.invoice-data'), [CompanyController::class, 'invoiceData'])
+            ->name('invoicedata');
+        Route::post('/{user}/' . trans('routes.invoice-data') . '/' . trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
+            ->name('invoicedata.edit');
+
+        //Job offers managament
+        Route::get('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.create'), [JobOfferController::class, 'create'])
+            ->name('joboffers.create');
+        Route::post('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.store'), [JobOfferController::class, 'store'])
+            ->name('joboffers.store');
+        Route::get('/{user}/' . trans('routes.job-offers'), [JobOfferController::class, 'index'])
+            ->name('joboffers.index');
+        Route::get('/{user}/' . trans('routes.job-offers') . '/' . trans('routes.edit'), [JobOfferController::class, 'edit'])
+            ->name('joboffers.edit');
+        Route::post('/{user}/' . trans('routes.job-offers') . '/' . trans('routes.update'), [JobOfferController::class, 'update'])
+            ->name('joboffers.update');
+        Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
+            ->name('joboffers.destroy');
+        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.preview'), [PaymentController::class, 'preview'])
+            ->name('payment.preview');
+        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.invoice-data'), [PaymentController::class, 'invoiceData'])
+            ->name('payment.invoicedata');
+        Route::get('/{user}/{jobOffer}/' . trans('routes.payment'), [PaymentController::class, 'payment'])
             ->name('payment');
-        Route::get('/success', [PaymentController::class, 'success'])
-            ->name('success');
-        Route::get('/cancel', function(){
-            return 'cancel';
-        })->name('cancel');
+        Route::get('/{user}/{jobOffer}/' . trans('routes.success'), [PaymentController::class, 'success'])
+            ->name('payment.success');
+        Route::get('/{user}/{jobOffer}/'. trans('routes.payment') .'/' . trans('routes.cancel'), [PaymentController::class, 'cancel'])
+            ->name('cancel');
     });
 });
 
