@@ -12,6 +12,7 @@ class JobOffer extends Model
     protected $guarded = [];
 
     const STATUS_ACTIVE = 'active';
+    const STATUS_UNDER_APPROVAL = 'under approval';
     const STATUS_UNPAID = 'unpaid';
     const STATUS_INACTIVE = 'inactive';
     const STATUS_CART = 'cart';
