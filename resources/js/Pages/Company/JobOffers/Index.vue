@@ -18,13 +18,12 @@
 						<div>
 							<form @submit.prevent="submit" class="mb-6 flex space-x-6 items-center">
 								<input class="sm:rounded-lg w-full" type="text" v-model="form.filters.title" :placeholder="__('Search by title')">
-								{{ form.filters.status }}
 								<Multiselect 
                                     v-model="form.filters.status" 
                                     :options="statusOptions"
                                     label="label"
                                     trackBy="label"
-                                    :placeholder="__('Select the status')"
+                                    :placeholder="__('Search the status')"
                                     :searchable="false"
 									class="sm:rounded-lg"
                                 />
