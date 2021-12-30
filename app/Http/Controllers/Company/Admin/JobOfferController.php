@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\JobOfferCreateRequest;
+use App\Models\Category;
 use App\Models\JobOffer;
 use App\Models\JobOfferType;
 use App\Models\Tag;
@@ -47,6 +48,7 @@ class JobOfferController extends Controller
     {
         return Inertia::render('Company/JobOffers/Create', [
             'company' => $user,
+            'categories' => Category::getOptions(app()->getLocale()),
             'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale()),
             'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, app()->getLocale()),
             'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, app()->getLocale()),
@@ -79,6 +81,7 @@ class JobOfferController extends Controller
             'status' => JobOffer::STATUS_CART,
             'locale' => app()->getLocale(),
             'job_offer_type_id' => Arr::get($payload, 'package') == 'no validation' ? null : Arr::get($payload, 'package'),
+            'category_id' => Arr::get($payload, 'category'),
         ];
         
         $jobOffer = JobOffer::create($data);

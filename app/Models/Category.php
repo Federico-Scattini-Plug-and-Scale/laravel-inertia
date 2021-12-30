@@ -15,11 +15,26 @@ class Category extends Model
         'is_active' => 'boolean'
     ];
 
+    public function jobOffers()
+    {
+        return $this->hasMany(JobOffer::class);
+    }
+
     public static function getAll($locale = 'it')
     {
         return self::
             where('locale', $locale)
             ->orderBy('position')
+            ->get();
+    }
+
+    public static function getOptions($locale = 'it')
+    {
+        return self::
+            where('locale', $locale)
+            ->where('is_active', true)
+            ->orderBy('position')
+            ->select('id as value', 'name as label')
             ->get();
     }
 }

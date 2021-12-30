@@ -53,6 +53,18 @@
                             </GMapMap>
                             <input type="hidden" v-model="form.latitude" class="sm:rounded-lg w-full">
                             <input type="hidden" v-model="form.longitude" class="sm:rounded-lg w-full">
+                            <div class="mb-6">
+                                <label class="text-lg font-semibold">{{ __('Choose the category') }}</label>
+                                <Multiselect 
+                                    v-model="form.category" 
+                                    :options="categories"
+                                    label="label"
+                                    trackBy="label"
+                                    :placeholder="__('Select the category')"
+                                    :searchable="true"
+                                />
+                                <div v-if="errors.category" class="text-red-500">{{ errors.category }}</div>
+                            </div>
 							<div class="mb-6" v-if="sectors.length != 0">
                                 <label class="text-lg font-semibold">{{ __('Sectors') }}</label>
                                 <Multiselect 
@@ -256,7 +268,8 @@ export default {
 		techSkills: Object,
 		exp: Object,
 		contracts: Object,
-        packages: Object
+        packages: Object,
+        categories: Object,
     },
     setup (props) {
         const form = useForm({
@@ -279,6 +292,7 @@ export default {
 			max_salary: 0,
 			currency: '',
             packages: props.packages.length != 0 ? [] : 'no validation',
+            category: []
 		})
 
 		const markers = ref([])
@@ -295,6 +309,7 @@ export default {
 		const exp = toRef(props, 'exp')
 		const contracts = toRef(props, 'contracts')
 		const packages = toRef(props, 'packages')
+		const categories = toRef(props, 'categories')
 
 
         watch([myMapRef, markers], ([googleMap]) => {
@@ -357,7 +372,8 @@ export default {
 			techSkills,
 			exp,
 			contracts,
-            packages
+            packages,
+            categories
 		}
     },
 }

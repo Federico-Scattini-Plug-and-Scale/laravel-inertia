@@ -64,6 +64,7 @@ class JobOfferCreateRequest extends FormRequest
                 return Arr::has($request, 'package') && Arr::get($request, 'package') != 'no validation';
             }),
             'specialization' =>  'required',
+            'category' => 'required',
             'min_salary' => [
                 'min:0',
                 Rule::requiredIf(function() use($request) {
