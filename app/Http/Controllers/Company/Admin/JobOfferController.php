@@ -23,7 +23,8 @@ class JobOfferController extends Controller
 
     public function index(User $user)
     {
-        $jobOffers = JobOffer::getByUser($user->id, app()->getLocale());
+        $filters = request()->has('filters') ? request()->get('filters') : [];
+        $jobOffers = JobOffer::getByUser($user->id, app()->getLocale(), 10, $filters);
 
         if (!empty($jobOffers))
         {
@@ -40,7 +41,10 @@ class JobOfferController extends Controller
         }
 
         return Inertia::render('Company/JobOffers/Index', [
-            'jobOffers' => $jobOffers
+            'jobOffers' => $jobOffers,
+            'statusOptions' => JobOffer::getStatusOptions(),
+            'company' => $user,
+            'filters' => $filters
         ]);
     }
 

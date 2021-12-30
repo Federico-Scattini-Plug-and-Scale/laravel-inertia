@@ -15,6 +15,24 @@
 						<Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
 						<Alert v-if="$page.props.session.info" :message="$page.props.session.info" :type="'info'" class="mb-4"/>
 						<Alert v-if="$page.props.session.error" :message="$page.props.session.error" :type="'error'" class="mb-4"/>
+						<div>
+							<form @submit.prevent="submit" class="mb-6 flex space-x-6 items-center">
+								<input class="sm:rounded-lg w-full" type="text" v-model="form.filters.title" :placeholder="__('Search by title')">
+								{{ form.filters.status }}
+								<Multiselect 
+                                    v-model="form.filters.status" 
+                                    :options="statusOptions"
+                                    label="label"
+                                    trackBy="label"
+                                    :placeholder="__('Select the status')"
+                                    :searchable="false"
+									class="sm:rounded-lg"
+                                />
+								<button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">
+									<i class="fas fa-filter"></i>
+								</button>
+							</form>
+						</div>
 						<Link 
                             :href="route($page.props.locale + '.company.joboffers.create', $page.props.auth.user)" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg"
@@ -130,7 +148,10 @@ import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
 import Alert from '@/Components/Alert.vue'
-import { Head, Link  } from '@inertiajs/inertia-vue3'
+import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
+import Multiselect from '@vueform/multiselect'
+import { Inertia } from '@inertiajs/inertia'
+import { toRef, onBeforeMount } from 'vue'
 
 export default {
     components: {
@@ -140,10 +161,42 @@ export default {
         Head,
         Link,
 		Pagination,
-		Alert
+		Alert,
+		Multiselect,
     },
 	props: {
 		jobOffers: Object,
+		statusOptions: Object,
+		company: Object,
+		filters: Object
 	},
+	setup (props) {
+		const filters = toRef(props, 'filters')
+
+        const form = useForm({
+            filters : {
+				title: '',
+				status: '',
+			}
+		})
+
+		onBeforeMount(() => {
+			form.filters.title = filters.value.title
+			form.filters.status = filters.value.status
+		})
+
+        function submit() {
+            Inertia.get(route(usePage().props.value.locale + '.company.joboffers.index', props.company), form, {
+                preserveScroll: (page) => Object.keys(page.props.errors).length,
+            })
+        }
+
+        return { 
+			form, 
+			submit, 
+			filters
+		}
+    },
 }
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>
