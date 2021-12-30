@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class JobOffer extends Model
 {
@@ -12,6 +13,7 @@ class JobOffer extends Model
     protected $guarded = [];
 
     const STATUS_ACTIVE = 'active';
+    const STATUS_UNDER_APPROVAL = 'under approval';
     const STATUS_UNPAID = 'unpaid';
     const STATUS_INACTIVE = 'inactive';
     const STATUS_CART = 'cart';
@@ -20,6 +22,11 @@ class JobOffer extends Model
     public function jobOfferType()
     {
         return $this->belongsTo(JobOfferType::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function tags()
@@ -42,9 +49,9 @@ class JobOffer extends Model
         });
     }
 
-    public static function getByUser($userId, $locale = 'it', $pager = 10)
+    public static function getByUser($userId, $locale = 'it', $pager = 10, $filters = [])
     {
-        return self::
+        $query = self::
             with(['orders' => function($query)
             {
                 $query->orderBy('created_at', 'desc');
@@ -53,7 +60,14 @@ class JobOffer extends Model
                 $query->select('id', 'name', 'is_free');
             }])
             ->where('company_id', $userId)
-            ->where('locale', $locale)
+            ->where('locale', $locale);
+
+        if (!empty($filters))
+        {
+            $query = self::filters($query, $filters);
+        }
+
+        return $query
             ->orderBy('created_at', 'desc')
             ->paginate($pager);
     }
@@ -64,5 +78,46 @@ class JobOffer extends Model
             where('status', JobOffer::STATUS_ACTIVE)
             ->select('id', 'status', 'published_at', 'validity_days')
             ->get();
+    }
+
+    public static function getStatusOptions()
+    {
+        return [
+            [
+                'value' => JobOffer::STATUS_ACTIVE,
+                'label' => __(JobOffer::STATUS_ACTIVE)
+            ],
+            [
+                'value' => JobOffer::STATUS_INACTIVE,
+                'label' => __(JobOffer::STATUS_INACTIVE)
+            ],
+            [
+                'value' => JobOffer::STATUS_UNDER_APPROVAL,
+                'label' => __(JobOffer::STATUS_UNDER_APPROVAL)
+            ],
+            [
+                'value' => JobOffer::STATUS_CART,
+                'label' => __(JobOffer::STATUS_CART)
+            ],
+            [
+                'value' => JobOffer::STATUS_UNDER_APPROVAL,
+                'label' => __(JobOffer::STATUS_UNDER_APPROVAL)
+            ],
+        ];
+    }
+
+    private static function filters($query, $filters)
+    {
+        if (Arr::has($filters, 'title') && !empty(Arr::get($filters, 'title')))
+        {
+            $query->where('title', 'like', '%' . Arr::get($filters, 'title') . '%');
+        }
+
+        if (Arr::has($filters, 'status') && !empty(Arr::get($filters, 'status')))
+        {
+            $query->where('status', Arr::get($filters, 'status'));
+        }
+
+        return $query;
     }
 }

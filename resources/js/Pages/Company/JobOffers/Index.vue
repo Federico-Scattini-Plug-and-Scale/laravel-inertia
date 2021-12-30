@@ -15,6 +15,23 @@
 						<Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
 						<Alert v-if="$page.props.session.info" :message="$page.props.session.info" :type="'info'" class="mb-4"/>
 						<Alert v-if="$page.props.session.error" :message="$page.props.session.error" :type="'error'" class="mb-4"/>
+						<div>
+							<form @submit.prevent="submit" class="mb-6 flex space-x-6 items-center">
+								<input class="sm:rounded-lg w-full" type="text" v-model="form.filters.title" :placeholder="__('Search by title')">
+								<Multiselect 
+                                    v-model="form.filters.status" 
+                                    :options="statusOptions"
+                                    label="label"
+                                    trackBy="label"
+                                    :placeholder="__('Search the status')"
+                                    :searchable="false"
+									class="sm:rounded-lg"
+                                />
+								<button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">
+									<i class="fas fa-filter"></i>
+								</button>
+							</form>
+						</div>
 						<Link 
                             :href="route($page.props.locale + '.company.joboffers.create', $page.props.auth.user)" 
                             class="bg-black text-white px-4 py-2 sm:rounded-lg"
@@ -56,15 +73,19 @@
 												<p class="text-gray-900 whitespace-no-wrap">{{ item.job_offer_type.name }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{ 'text-green-900' : item.status == 'active', 'text-red-900' : item.status != 'active' }">
-												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{ 'bg-green-200' : item.status == 'active', 'bg-red-200' : item.status != 'active' }"></span>
+												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{ 'text-green-900' : item.status == 'active', 'text-red-900' : item.status != 'active' && item.status != 'under approval', 'text-yellow-900' : item.status == 'under approval' }">
+												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{ 'bg-green-200' : item.status == 'active', 'bg-red-200' : item.status != 'active' && item.status != 'under approval', 'bg-yellow-200' : item.status == 'under approval' }"></span>
 												<span class="relative">{{ item.status }}</span>
 												</span>
 											</td>
 											<td v-if="item.job_offer_type.is_free != true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<Link :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
+												<Link v-if="item.status != 'under approval'" :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
 													{{ item.status != 'active' ? __('Pay now') : __('Extend validity') }}
 												</Link>
+												<span v-else class="relative inline-block px-3 py-1 font-semibold leading-tight text-yellow-900">
+												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-yellow-200"></span>
+												<span class="relative">{{ item.status }}</span>
+												</span>
 											</td>
 											<td v-else class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
@@ -126,7 +147,10 @@ import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
 import Alert from '@/Components/Alert.vue'
-import { Head, Link  } from '@inertiajs/inertia-vue3'
+import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
+import Multiselect from '@vueform/multiselect'
+import { Inertia } from '@inertiajs/inertia'
+import { toRef, onBeforeMount } from 'vue'
 
 export default {
     components: {
@@ -136,10 +160,42 @@ export default {
         Head,
         Link,
 		Pagination,
-		Alert
+		Alert,
+		Multiselect,
     },
 	props: {
 		jobOffers: Object,
+		statusOptions: Object,
+		company: Object,
+		filters: Object
 	},
+	setup (props) {
+		const filters = toRef(props, 'filters')
+
+        const form = useForm({
+            filters : {
+				title: '',
+				status: '',
+			}
+		})
+
+		onBeforeMount(() => {
+			form.filters.title = filters.value.title
+			form.filters.status = filters.value.status
+		})
+
+        function submit() {
+            Inertia.get(route(usePage().props.value.locale + '.company.joboffers.index', props.company), form, {
+                preserveScroll: (page) => Object.keys(page.props.errors).length,
+            })
+        }
+
+        return { 
+			form, 
+			submit, 
+			filters
+		}
+    },
 }
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>
