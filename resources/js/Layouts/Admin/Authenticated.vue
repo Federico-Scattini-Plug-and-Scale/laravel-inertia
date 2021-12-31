@@ -18,14 +18,17 @@
                                 <BreezeNavLink :href="route($page.props.locale + '.admin.dashboard')" :active="route().current($page.props.locale + '.admin.dashboard')">
                                     {{ __('Dashboard') }}
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route($page.props.locale + '.admin.tags')" :active="route().current($page.props.locale + '.admin.tags') || route().current($page.props.locale + '.admin.tags.edit')">
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.tags.index')" :active="route().current($page.props.locale + '.admin.tags.index') || route().current($page.props.locale + '.admin.tags.edit')">
                                     {{ __('Tags') }}
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route($page.props.locale + '.admin.joboffertypes')" :active="route().current($page.props.locale + '.admin.joboffertypes') || route().current($page.props.locale + '.admin.joboffertypes.create') || route().current($page.props.locale + '.admin.joboffertypes.edit')">
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.joboffertypes.index')" :active="route().current($page.props.locale + '.admin.joboffertypes.index') || route().current($page.props.locale + '.admin.joboffertypes.create') || route().current($page.props.locale + '.admin.joboffertypes.edit')">
                                     {{ __('Job offer types') }}
                                 </BreezeNavLink>
-                                <BreezeNavLink :href="route($page.props.locale + '.admin.categories')" :active="route().current($page.props.locale + '.admin.categories') || route().current($page.props.locale + '.admin.categories.create') || route().current($page.props.locale + '.admin.categories.edit')">
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.categories.index')" :active="route().current($page.props.locale + '.admin.categories.index') || route().current($page.props.locale + '.admin.categories.create') || route().current($page.props.locale + '.admin.categories.edit')">
                                     {{ __('Categories') }}
+                                </BreezeNavLink>
+                                <BreezeNavLink :href="route($page.props.locale + '.admin.joboffers.index')" :active="route().current($page.props.locale + '.admin.joboffers.index')">
+                                    {{ __('Job offers') }}
                                 </BreezeNavLink>
                             </div>
                         </div>
@@ -77,15 +80,18 @@
                         <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.dashboard')" :active="route().current($page.props.locale + '.admin.dashboard')">
                             {{ __('Dashboard') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.tags')" :active="route().current($page.props.locale + '.admin.tags') || route().current($page.props.locale + '.admin.tags.edit')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.tags.index')" :active="route().current($page.props.locale + '.admin.tags.index') || route().current($page.props.locale + '.admin.tags.edit')">
                             {{ __('Tags') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.joboffertypes')" :active="route().current($page.props.locale + '.admin.joboffertypes') || route().current($page.props.locale + '.admin.joboffertypes.create') || route().current($page.props.locale + '.admin.joboffertypes.edit')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.joboffertypes.index')" :active="route().current($page.props.locale + '.admin.joboffertypes.index') || route().current($page.props.locale + '.admin.joboffertypes.create') || route().current($page.props.locale + '.admin.joboffertypes.edit')">
                             {{ __('Job offer types') }}
                         </BreezeResponsiveNavLink>
-                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.categories')" :active="route().current($page.props.locale + '.admin.categories') || route().current($page.props.locale + '.admin.categories.create') || route().current($page.props.locale + '.admin.categories.edit')">
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.categories.index')" :active="route().current($page.props.locale + '.admin.categories.index') || route().current($page.props.locale + '.admin.categories.create') || route().current($page.props.locale + '.admin.categories.edit')">
                             {{ __('Categories') }}
                         </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.admin.joboffers.index')" :active="route().current($page.props.locale + '.admin.joboffers.index')">
+                            {{ __('Job offers') }}
+                         </BreezeResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

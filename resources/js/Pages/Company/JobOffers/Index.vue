@@ -16,7 +16,7 @@
 						<Alert v-if="$page.props.session.info" :message="$page.props.session.info" :type="'info'" class="mb-4"/>
 						<Alert v-if="$page.props.session.error" :message="$page.props.session.error" :type="'error'" class="mb-4"/>
 						<div>
-							<form @submit.prevent="submit" class="mb-6 flex space-x-6 items-center">
+							<form @submit.prevent="submit" class="mb-6 flex flex-col sm:flex-row sm:space-x-6 sm:items-center space-y-4 sm:space-y-0">
 								<input class="sm:rounded-lg w-full" type="text" v-model="form.filters.title" :placeholder="__('Search by title')">
 								<Multiselect 
                                     v-model="form.filters.status" 
@@ -27,7 +27,7 @@
                                     :searchable="false"
 									class="sm:rounded-lg"
                                 />
-								<button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg">
+								<button type="submit" :disabled="form.processing" class="bg-black text-white px-4 py-2 sm:rounded-lg max-w-max">
 									<i class="fas fa-filter"></i>
 								</button>
 							</form>
@@ -67,10 +67,10 @@
 									<tbody>
 										<tr v-for="(item, index) in jobOffers.data" :key="index">
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.title }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.title }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.job_offer_type.name }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.job_offer_type.name }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{ 'text-green-900' : item.status == 'active', 'text-red-900' : item.status != 'active' && item.status != 'under approval', 'text-yellow-900' : item.status == 'under approval' }">
@@ -79,7 +79,7 @@
 												</span>
 											</td>
 											<td v-if="item.job_offer_type.is_free != true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<Link v-if="item.status != 'under approval'" :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
+												<Link v-if="item.status != 'under approval'" :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" class="whitespace-nowrap bg-black text-white px-4 py-2 sm:rounded-lg">
 													{{ item.status != 'active' ? __('Pay now') : __('Extend validity') }}
 												</Link>
 												<span v-else class="relative inline-block px-3 py-1 font-semibold leading-tight text-yellow-900">
@@ -94,14 +94,14 @@
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p v-if="item.published_at != null" class="text-gray-900 whitespace-no-wrap">{{ item.published_at }}</p>
+												<p v-if="item.published_at != null" class="text-gray-900 whitespace-nowrap">{{ item.published_at }}</p>
 												<span v-else class="relative inline-block px-3 py-1 font-semibold leading-tight text-red-900">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-red-200"></span>
 												<span class="relative">{{ __('Expired') }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p v-if="item.expiring_at != 'Expired'" class="text-gray-900 whitespace-no-wrap">{{ item.expiring_at + __(' days') }}</p>
+												<p v-if="item.expiring_at != 'Expired'" class="text-gray-900 whitespace-nowrap">{{ item.expiring_at + __(' days') }}</p>
 												<span v-else class="relative inline-block px-3 py-1 font-semibold leading-tight text-red-900">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-red-200"></span>
 												<span class="relative">{{ item.expiring_at }}</span>

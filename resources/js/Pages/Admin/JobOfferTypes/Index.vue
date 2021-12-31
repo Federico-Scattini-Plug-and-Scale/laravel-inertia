@@ -54,22 +54,22 @@
 									<tbody>
 										<tr v-for="(item, index) in jobOfferTypes.data" :key="index">
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.name }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.name }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_product_name }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.stripe_product_name }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.is_free ? 'Gratis' : item.price + ' ' + item.currency }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.is_free ? 'Gratis' : item.price + ' ' + item.currency }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.ranking }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.ranking }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_product_id }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.stripe_product_id }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-no-wrap">{{ item.stripe_price_id }}</p>
+												<p class="text-gray-900 whitespace-nowrap">{{ item.stripe_price_id }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{'text-green-900' : item.is_active, 'text-red-900' : !item.is_active}">

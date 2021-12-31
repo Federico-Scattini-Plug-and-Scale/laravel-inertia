@@ -55,7 +55,7 @@ class TagController extends Controller
             );
         }
 
-        return redirect()->route('admin.tags')->with('success', __('The tag groups have been saved successfully.'));
+        return redirect()->route('admin.tags.index')->with('success', __('The tag groups have been saved successfully.'));
     }
 
     public function edit(TagGroup $taggroup)
@@ -84,7 +84,7 @@ class TagController extends Controller
 
         $taggroup->delete();
 
-        return redirect()->route('admin.tags')->with('success', __('The tag group has been deleted successfully.'));
+        return redirect()->route('admin.tags.index')->with('success', __('The tag group has been deleted successfully.'));
     }
 
     public function update(TagGroup $taggroup, Request $request)

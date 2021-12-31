@@ -9,6 +9,8 @@ use App\Models\JobOffer;
 use App\Models\JobOfferApiError;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\JobOffers\JobOfferExtended;
+use App\Notifications\JobOffers\JobOfferPublished;
 use App\Notifications\JobOffers\JobOfferUnderApproval;
 use App\Notifications\JobOffers\OrderPaid;
 use Exception;
@@ -187,15 +189,24 @@ class PaymentController extends Controller
 
                 $user->notify(new OrderPaid());
 
-                if ($jobOffer->status != JobOffer::STATUS_CART)
+                if ($jobOffer->status != JobOffer::STATUS_CART && $jobOffer->status != JobOffer::STATUS_ACTIVE)
                 {
                     $jobOffer->status = JobOffer::STATUS_ACTIVE;
                     $jobOffer->published_at = Carbon::now('Europe/Rome');
                     $jobOffer->validity_days += JobOffer::VALIDITY;
+
+                    $user->notify(new JobOfferPublished());
+                }
+                elseif ($jobOffer->status == JobOffer::STATUS_ACTIVE)
+                {
+                    $jobOffer->validity_days += JobOffer::VALIDITY;
+
+                    $user->notify(new JobOfferExtended());
                 }
                 else
                 {
                     $jobOffer->status = JobOffer::STATUS_UNDER_APPROVAL;
+
                     $user->notify(new JobOfferUnderApproval());
                 }
 
