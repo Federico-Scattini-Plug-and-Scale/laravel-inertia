@@ -44,6 +44,13 @@ class JobOffersController extends Controller
         $jobOffer->validity_days = JobOffer::VALIDITY;
         $jobOffer->save();
 
+        foreach ($jobOffer->tags as $tag)
+        {
+            $tag->is_approved = true;
+            $tag->is_active = true;
+            $tag->save();
+        }
+
         $jobOffer->company->notify(new JobOfferPublished());
 
         return redirect()->route('admin.joboffers.index')->with('success', __('The job offer was approved.'));
