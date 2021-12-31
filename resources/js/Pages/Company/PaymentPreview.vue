@@ -110,7 +110,7 @@
 									<span>{{ company.invoice_details.invoice_vat_number }}</span>
 								</div>
 							</div>
-							<Link :href="route($page.props.locale + '.company.payment', [company, jobOffer])" class="whitespace-no-wrap bg-black text-white px-4 py-2 sm:rounded-lg">
+							<Link :href="route($page.props.locale + '.company.payment', [company, jobOffer])" class="whitespace-nowrap bg-black text-white px-4 py-2 sm:rounded-lg">
 								{{ __('Pay') }}
 							</Link>
 						</div>
