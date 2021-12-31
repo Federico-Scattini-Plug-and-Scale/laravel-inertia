@@ -18,6 +18,7 @@ class JobOffer extends Model
     const STATUS_UNPAID = 'unpaid';
     const STATUS_INACTIVE = 'inactive';
     const STATUS_CART = 'cart';
+    const STATUS_ARCHIVED = 'archived';
     const VALIDITY = 30;
 
     public function jobOfferType()
@@ -40,6 +41,11 @@ class JobOffer extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function company()
+    {
+        return $this->belongsTo(User::class, 'company_id', 'id');
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -49,6 +55,11 @@ class JobOffer extends Model
             if ($jobOffer->isForceDeleting())
             {
                 $jobOffer->tags()->detach();
+            }
+            else
+            {
+                $jobOffer->status = self::STATUS_ARCHIVED;
+                $jobOffer->save();
             }
         });
     }
@@ -64,6 +75,29 @@ class JobOffer extends Model
                 $query->select('id', 'name', 'is_free');
             }])
             ->where('company_id', $userId)
+            ->where('locale', $locale);
+
+        if (!empty($filters))
+        {
+            $query = self::filters($query, $filters);
+        }
+
+        return $query
+            ->orderBy('created_at', 'desc')
+            ->paginate($pager);
+    }
+
+    public static function getForAdmin($locale = 'it', $pager = 10, $filters = [])
+    {
+        $query = self::
+            withTrashed()
+            ->with(['orders' => function($query)
+            {
+                $query->orderBy('created_at', 'desc');
+            }, 'jobOfferType' => function($query)
+            {
+                $query->select('id', 'name', 'is_free');
+            }])
             ->where('locale', $locale);
 
         if (!empty($filters))
@@ -107,6 +141,10 @@ class JobOffer extends Model
                 'value' => JobOffer::STATUS_UNDER_APPROVAL,
                 'label' => __(JobOffer::STATUS_UNDER_APPROVAL)
             ],
+            [
+                'value' => JobOffer::STATUS_ARCHIVED,
+                'label' => __(JobOffer::STATUS_ARCHIVED)
+            ]
         ];
     }
 

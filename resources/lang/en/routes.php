@@ -14,5 +14,7 @@ return [
   'verify-email' => 'verify-email',
   'forgot-password' => 'forgot-password',
   'reset-password' => 'reset-password',
-  'auth-data' => 'auth-data'
+  'auth-data' => 'auth-data',
+  'approve' => 'approve',
+  'job-offers' => 'job-offers'
 ];

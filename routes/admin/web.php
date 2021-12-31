@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Admin\AdminController;
 use App\Http\Controllers\Admin\Admin\CategoryController;
+use App\Http\Controllers\Admin\Admin\JobOffersController;
 use App\Http\Controllers\Admin\Admin\JobOfferTypesController;
 use App\Http\Controllers\Admin\Admin\TagController;
 use Illuminate\Support\Facades\Route;
@@ -27,49 +28,57 @@ Route::localized(function () {
             ->name('profile.edit');
     
         //Tags
-        Route::prefix('/tags')->group(function () {
+        Route::prefix('/tags')->name('tags.')->group(function () {
             Route::get('/', [TagController::class, 'index'])
-                ->name('tags');
+                ->name('index');
             Route::post('/', [TagController::class, 'save'])
-                ->name('tags.save');
+                ->name('save');
             Route::get('/{taggroup}/' . trans('routes.edit'), [TagController::class, 'edit'])
-                ->name('tags.edit');
+                ->name('edit');
             Route::post('/{taggroup}/' . trans('routes.save'), [TagController::class, 'update'])
-                ->name('tags.update');
+                ->name('update');
             Route::post('/{taggroup}/' . trans('routes.delete'), [TagController::class, 'destroy'])
-                ->name('tags.destroy');
+                ->name('destroy');
             Route::post('/{taggroup}/'. trans('routes.delete') .'/{tag}', [TagController::class, 'destroyTag'])
-                ->name('tags.destroy.tag');
+                ->name('destroy.tag');
         });
         
         //Job offer types
-        Route::prefix('/' . trans('routes.job-offer-types'))->group(function () {
+        Route::prefix('/' . trans('routes.job-offer-types'))->name('joboffertypes.')->group(function () {
             Route::get('/', [JobOfferTypesController::class, 'index'])
-                ->name('joboffertypes');
+                ->name('index');
             Route::get('/' . trans('routes.create'), [JobOfferTypesController::class, 'create'])
-                ->name('joboffertypes.create');
+                ->name('create');
             Route::post('/', [JobOfferTypesController::class, 'store'])
-                ->name('joboffertypes.store');
+                ->name('store');
             Route::get('/{joboffertype}/' . trans('routes.edit'), [JobOfferTypesController::class, 'edit'])
-                ->name('joboffertypes.edit');
+                ->name('edit');
             Route::post('/{joboffertype}/' . trans('routes.edit'), [JobOfferTypesController::class, 'update'])
-                ->name('joboffertypes.update');
+                ->name('update');
             Route::post('/{joboffertype}/' . trans('routes.delete'), [JobOfferTypesController::class, 'destroy'])
-                ->name('joboffertypes.destroy');
+                ->name('destroy');
         });
 
         //Categories
-        Route::prefix('/' . trans('routes.categories'))->group(function () {
+        Route::prefix('/' . trans('routes.categories'))->name('categories.')->group(function () {
             Route::get('/', [CategoryController::class, 'index'])
-                ->name('categories');
+                ->name('index');
             Route::post('/', [CategoryController::class, 'save'])
-                ->name('categories.save');
+                ->name('save');
             Route::get('/{category}/' . trans('routes.edit'), [CategoryController::class, 'edit'])
-                ->name('categories.edit');
+                ->name('edit');
             Route::post('/{category}/' . trans('routes.edit'), [CategoryController::class, 'update'])
-                ->name('categories.update');
+                ->name('update');
             Route::post('/{category}/' . trans('routes.delete'), [CategoryController::class, 'destroy'])
-                ->name('categories.destroy');
+                ->name('destroy');
+        });
+
+        //Job offers
+        Route::prefix('/' . trans('routes.job-offers'))->name('joboffers.')->group(function () {
+            Route::get('/', [JobOffersController::class, 'index'])
+                ->name('index');
+            Route::post('/{jobOffer}/' . trans('routes.approve'), [JobOffersController::class, 'approve'])
+                ->name('approve');
         });
     });
 });

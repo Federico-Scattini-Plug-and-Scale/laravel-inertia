@@ -52,7 +52,7 @@ class CategoryController extends Controller
             );
         }
 
-        return redirect()->route('admin.categories')->with('success', __('The categories have been saved successfully.'));
+        return redirect()->route('admin.categories.index')->with('success', __('The categories have been saved successfully.'));
     }
 
     public function edit(Category $category)

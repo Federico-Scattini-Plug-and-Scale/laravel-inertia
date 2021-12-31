@@ -13,5 +13,7 @@ return [
   'verify-email' => 'verifica-email',
   'forgot-password' => 'password-dimenticata',
   'reset-password' => 'reset-password',
-  'auth-data' => 'dati-di-accesso'
+  'auth-data' => 'dati-di-accesso',
+  'approve' => 'approva',
+  'job-offers' => 'offerte-di-lavoro'
 ];
