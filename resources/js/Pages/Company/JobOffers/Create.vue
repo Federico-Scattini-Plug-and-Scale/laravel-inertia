@@ -21,7 +21,9 @@
                             </div>
 							<div class="mb-6">
                                 <label class="text-lg font-semibold">{{ __('Description') }}</label>
-                                <textarea type="text" v-model="form.description" class="sm:rounded-lg w-full mt-1"></textarea>
+                                <div>
+                                    <Editor v-model="form.description" />
+                                </div>
                                 <div v-if="errors.description" class="text-red-500">{{ errors.description }}</div>
                             </div>
 							<div v-if="!canChangeAddress" class="mb-6">
@@ -244,17 +246,20 @@
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
 import Alert from '@/Components/Alert.vue'
+import Editor from '@/Components/Editor.vue'
 import { Head, usePage, useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
 import { ref, watch, toRef } from 'vue'
 import Multiselect from '@vueform/multiselect'
+
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
         Alert,
-		Multiselect
+		Multiselect,
+        Editor
     },
     props: {
 		company: Object,
@@ -310,7 +315,6 @@ export default {
 		const contracts = toRef(props, 'contracts')
 		const packages = toRef(props, 'packages')
 		const categories = toRef(props, 'categories')
-
 
         watch([myMapRef, markers], ([googleMap]) => {
             if (googleMap) googleMap.$mapPromise.then(map => map.setCenter(mapCenter.value))

@@ -1,3 +1,17 @@
 .w-fit-content {
-  width: fit-content;
+  	width: fit-content;
+}
+
+.ProseMirror {
+	min-height: 100px;
+}
+
+.custom-editor ol {
+	list-style: auto;
+	padding: 25px;
+}
+
+.custom-editor ul {
+	list-style: circle;
+	padding: 25px;
 }
