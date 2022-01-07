@@ -56,6 +56,14 @@ Route::localized(function () {
             ->name('joboffers.update');
         Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
             ->name('joboffers.destroy');
+        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.packages'), [PaymentController::class, 'packages'])
+            ->name('payment.packages');
+        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.packages'), [PaymentController::class, 'storePackage'])
+            ->name('payment.packages.store');
+        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.upgrade'), [PaymentController::class, 'upgrade'])
+            ->name('payment.upgrade');
+        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.upgrade'), [PaymentController::class, 'storeUpgrade'])
+            ->name('payment.upgrade.store');
         Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.preview'), [PaymentController::class, 'preview'])
             ->name('payment.preview');
         Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.invoice-data'), [PaymentController::class, 'invoiceData'])

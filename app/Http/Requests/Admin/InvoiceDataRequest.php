@@ -23,6 +23,7 @@ class InvoiceDataRequest extends FormRequest
      */
     public function rules()
     {
+        dd(request()->all());
         return [
             'invoice_name' => 'required',
             'invoice_street' => 'required',
