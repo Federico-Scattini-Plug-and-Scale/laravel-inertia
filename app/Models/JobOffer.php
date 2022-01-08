@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Extensions\Traits\DraftableModel;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +11,7 @@ use Illuminate\Support\Arr;
 
 class JobOffer extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, DraftableModel;
 
     protected $guarded = [];
 
@@ -39,6 +41,11 @@ class JobOffer extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function history()
+    {
+        return $this->hasMany(JobOfferHistory::class);
     }
 
     public function company()
@@ -72,7 +79,7 @@ class JobOffer extends Model
                 $query->orderBy('created_at', 'desc');
             }, 'jobOfferType' => function($query)
             {
-                $query->select('id', 'name', 'is_free');
+                $query->select('id', 'name', 'is_free', 'price');
             }])
             ->where('company_id', $userId)
             ->where('locale', $locale);
@@ -161,5 +168,10 @@ class JobOffer extends Model
         }
 
         return $query;
+    }
+
+    public function getValidityDays()
+    {
+        return now('Europe/Rome')->subDays($this->validity_days)->endOfDay()->diffInDays(Carbon::parse($this->published_at, 'Europe/Rome'), false);
     }
 }

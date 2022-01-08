@@ -7,14 +7,17 @@ use App\Http\Requests\Admin\InvoiceDataRequest;
 use App\Models\InvoiceDetail;
 use App\Models\JobOffer;
 use App\Models\JobOfferApiError;
+use App\Models\JobOfferType;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\JobOffers\JobOfferExtended;
 use App\Notifications\JobOffers\JobOfferPublished;
 use App\Notifications\JobOffers\JobOfferUnderApproval;
 use App\Notifications\JobOffers\OrderPaid;
+use App\Notifications\JobOffers\JobOfferUpgrade;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
@@ -25,6 +28,97 @@ class PaymentController extends Controller
         $this->middleware('currentUser');
     }
 
+    public function packages(User $user, JobOffer $jobOffer)
+    {
+        if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
+        {
+            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+        }
+
+        if ($jobOffer->status == JobOffer::STATUS_ACTIVE)
+        {
+            return redirect()->back()->with('info', 'The selected action is not available on active job offers.');
+        }
+
+        return Inertia::render('Company/PackageCart', [
+            'jobOffer' => $jobOffer,
+            'company' => $user,
+            'jobOfferTypes' => JobOfferType::getOptions(app()->getLocale())
+        ]);
+    }
+
+    public function storePackage(User $user, JobOffer $jobOffer)
+    {
+        if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
+        {
+            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+        }
+
+        if ($jobOffer->status == JobOffer::STATUS_ACTIVE)
+        {
+            return redirect()->back()->with('info', 'The selected action is not available on active job offers.');
+        }
+
+        $this->validate(request(), [
+            'job_offer_type_id' => 'required'
+        ]);
+
+        $jobOffer->job_offer_type_id = request()->get('job_offer_type_id');
+        $jobOffer->save();
+
+        return redirect()->route('company.payment.preview', [$user, $jobOffer]);
+    }
+
+    public function upgrade(User $user, JobOffer $jobOffer)
+    {
+        if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
+        {
+            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+        }
+
+        if ($jobOffer->status != JobOffer::STATUS_ACTIVE)
+        {
+            return redirect()->back()->with('info', 'The selected action is available only for active job offers.');
+        }
+
+        $jobOfferTypes = JobOfferType::getMoreExpensivePackages($jobOffer->jobOfferType->price, app()->getLocale());
+        
+        $jobOfferTypes = $jobOfferTypes->map(function($item) use ($jobOffer)
+        {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'price' => $item->calculateUpgradePrice($jobOffer),
+                'currency' => $item->currency
+            ];
+        });
+       
+        return Inertia::render('Company/PackageUpgrade', [
+            'jobOffer' => $jobOffer,
+            'company' => $user,
+            'jobOfferTypes' => $jobOfferTypes
+        ]);
+    }
+
+    public function storeUpgrade(User $user, JobOffer $jobOffer)
+    {
+        if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
+        {
+            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+        }
+
+        if ($jobOffer->status != JobOffer::STATUS_ACTIVE)
+        {
+            return redirect()->back()->with('info', 'The selected action is available only for active job offers.');
+        }
+
+        $jobOffer::setUser($user);
+        $jobOffer->saveAsDraft();
+        $jobOffer->draft->setData('data', request()->get('job_offer_type'));
+
+        return redirect()->route('company.payment.preview', [$user, $jobOffer, 'upgrade' => 'true']);
+    }
+
     public function preview(User $user, JobOffer $jobOffer)
     {
         if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
@@ -32,13 +126,29 @@ class PaymentController extends Controller
             return redirect()->back()->with('info', 'The selected job offer is under approval.');
         }
 
-        $jobOffer->load('jobOfferType');
         $user->load('invoiceDetails');
+        $jobOffer->load('jobOfferType');
+
+        $jobOfferType = $jobOffer->jobOfferType;
+
+        $isUpgrade = false;
+
+        if (request()->has('upgrade') && request()->get('upgrade') == 'true')
+        {
+            $isUpgrade = true;
+            $jobOfferType->price = Arr::get($jobOffer->drafts->last()->data, 'data.price');
+
+            if (empty($jobOfferType->price))
+            {
+                return redirect()->back()->with('error', 'Something went wrong. Please contact the support or try again.');
+            }
+        }
 
         return Inertia::render('Company/PaymentPreview', [
             'jobOffer' => $jobOffer,
             'company' => $user,
-            'hasInvoiceDetails' => $user->getHasInvoiceDetails()
+            'hasInvoiceDetails' => $user->getHasInvoiceDetails(),
+            'isUpgrade' => $isUpgrade
         ]);
     }
 
@@ -48,7 +158,7 @@ class PaymentController extends Controller
             'user_id' => $user->id
         ], array_merge($request->validated(), ['is_completed' => true]));
 
-        return redirect()->route('company.payment', [$user, $jobOffer]);
+        return redirect()->route('company.payment.index', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false']);
     }
 
     public function payment(User $user, JobOffer $jobOffer)
@@ -56,27 +166,69 @@ class PaymentController extends Controller
         if ($jobOffer->status != JobOffer::STATUS_UNDER_APPROVAL)
         {
             setStripeKey();
-            try {
-                $price = retrieveStripePrice($jobOffer->jobOfferType->stripe_price_id);
-            } catch (\Stripe\Exception\RateLimitException $e) {
-                $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
-            } catch (\Stripe\Exception\InvalidRequestException $e) {
-                $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
-            } catch (\Stripe\Exception\AuthenticationException $e) {
-                $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
-            } catch (\Stripe\Exception\ApiConnectionException $e) {
-                $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
-            } catch (\Stripe\Exception\ApiErrorException $e) {
-                $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
-            } catch (Exception $e) {
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+
+            $isUpgrade = request()->has('upgrade') && request()->get('upgrade') == 'true';
+
+            if ($isUpgrade)
+            {
+                $jobOfferType = JobOfferType::getById(Arr::get($jobOffer->drafts->last()->data, 'data.id'));
+
+                if (empty($jobOfferType))
+                {
+                    return redirect()
+                        ->route('company.payment.preview', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false'])
+                        ->with('error', __('There was an error with the service. Please, contact the support.'));
+                }
+
+                try {
+                    $price = createStripePrice(
+                        $jobOfferType->stripe_product_id, 
+                        number_format((Arr::get($jobOffer->drafts->last()->data, 'data.price')*100), 0, '', ''), 
+                        Arr::get($jobOffer->drafts->last()->data, 'data.currency')
+                    );
+                } catch (\Stripe\Exception\RateLimitException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the support.'));
+                } catch (\Stripe\Exception\InvalidRequestException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\AuthenticationException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiConnectionException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiErrorException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (Exception $e) {
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                }
             }
-            
+            else
+            {
+                try {
+                    $price = retrieveStripePrice($jobOffer->jobOfferType->stripe_price_id);
+                } catch (\Stripe\Exception\RateLimitException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\InvalidRequestException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\AuthenticationException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiConnectionException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (\Stripe\Exception\ApiErrorException $e) {
+                    $this->createApiError($e, $jobOffer->id);
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                } catch (Exception $e) {
+                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                }
+            }
+
             $paymentData = [
                 'line_items' => [[
                     'price' => $price->id,
@@ -86,9 +238,12 @@ class PaymentController extends Controller
                     'card',
                 ],
                 'mode' => 'payment',
-                'success_url' => route('company.payment.success', [$user, $jobOffer]) . "?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => route('company.cancel', [$user, $jobOffer]),
+                'success_url' => $isUpgrade ? 
+                    route('company.payment.success', [$user, $jobOffer]) . "?session_id={CHECKOUT_SESSION_ID}&upgrade=true" 
+                    : route('company.payment.success', [$user, $jobOffer]) . "?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => route('company.payment.cancel', [$user, $jobOffer, 'upgrade' => $isUpgrade ? 'true' : 'false']),
             ];
+
             if ($user->stripe_customer_id)
             {
                 try {
@@ -117,6 +272,7 @@ class PaymentController extends Controller
             {
                 $paymentData['customer_email'] = $user->email;
             }
+
             try {
                 $checkoutSession = \Stripe\Checkout\Session::create($paymentData);
             } catch (\Stripe\Exception\RateLimitException $e) {
@@ -137,6 +293,7 @@ class PaymentController extends Controller
             } catch (Exception $e) {
                 return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
             }
+
             return Inertia::location($checkoutSession->url);
         }
 
@@ -189,6 +346,8 @@ class PaymentController extends Controller
 
                 $user->notify(new OrderPaid());
 
+                $isUpgrade = request()->has('upgrade') && request()->get('upgrade') == 'true';
+
                 if ($jobOffer->status != JobOffer::STATUS_CART && $jobOffer->status != JobOffer::STATUS_ACTIVE)
                 {
                     $jobOffer->status = JobOffer::STATUS_ACTIVE;
@@ -199,9 +358,18 @@ class PaymentController extends Controller
                 }
                 elseif ($jobOffer->status == JobOffer::STATUS_ACTIVE)
                 {
-                    $jobOffer->validity_days += JobOffer::VALIDITY;
+                    if ($isUpgrade)
+                    {
+                        $jobOffer->job_offer_type_id = Arr::get($jobOffer->drafts->last()->data, 'data.id');
 
-                    $user->notify(new JobOfferExtended());
+                        $user->notify(new JobOfferUpgrade());
+                    }
+                    else
+                    {
+                        $jobOffer->validity_days += JobOffer::VALIDITY;
+
+                        $user->notify(new JobOfferExtended());
+                    }
                 }
                 else
                 {
@@ -232,7 +400,9 @@ class PaymentController extends Controller
             $jobOffer->save();
         }
 
-        return redirect()->route('company.payment.preview', [$user, $jobOffer])->with('error', __('The payment was not completed.'));
+        return redirect()
+            ->route('company.payment.preview', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false'])
+            ->with('error', __('The payment was not completed.'));
     }
 
     private function createApiError($e, $jobOfferId)

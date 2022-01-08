@@ -17,6 +17,11 @@ class LangController extends Controller
 			return redirect(route('admin.dashboard', [], true, $locale));
 		}
 
+		if (Str::contains($route, 'company'))
+		{
+			return redirect(route('company.dashboard', auth()->user(), true, $locale));
+		}
+
 		return redirect(route('home', [], true, $locale));
     }
 }

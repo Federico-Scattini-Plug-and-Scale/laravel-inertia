@@ -110,7 +110,7 @@
 									<span>{{ company.invoice_details.invoice_vat_number }}</span>
 								</div>
 							</div>
-							<Link :href="route($page.props.locale + '.company.payment', [company, jobOffer])" class="whitespace-nowrap bg-black text-white px-4 py-2 sm:rounded-lg">
+							<Link :href="route($page.props.locale + '.company.payment.index', [company, jobOffer])" :data="{ upgrade : isUpgrade }" class="whitespace-nowrap bg-black text-white px-4 py-2 sm:rounded-lg">
 								{{ __('Pay') }}
 							</Link>
 						</div>
@@ -139,7 +139,8 @@ export default {
       company: Object,
       errors: Object,
 	  jobOffer: Object,
-	  hasInvoiceDetails: Boolean
+	  hasInvoiceDetails: Boolean,
+	  isUpgrade: Boolean
     },
     setup (props) {
         const form = useForm({
@@ -150,10 +151,13 @@ export default {
 			invoice_country: '',
 			invoice_phone: '',
 			invoice_email: '',
-			invoice_vat_number: ''
+			invoice_vat_number: '',
+			upgrade: props.isUpgrade
 		})
 
 		let editInvoiceData = ref(false)
+
+		const isUpgrade = props.isUpgrade
 
 		onBeforeMount(() => {
             if (props.company.invoice_details != null) {
@@ -179,7 +183,7 @@ export default {
 			editInvoiceData.value = !editInvoiceData.value
 		}
 
-        return { form, submit, editInvoiceData, setEditInvoiceData }
+        return { form, submit, editInvoiceData, setEditInvoiceData, isUpgrade }
     },
 }
 </script>

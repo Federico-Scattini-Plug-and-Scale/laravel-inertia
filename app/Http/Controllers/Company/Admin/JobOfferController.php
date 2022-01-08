@@ -31,12 +31,14 @@ class JobOfferController extends Controller
             $jobOffers->each(function($item) {
                 if (!empty($item->published_at))
                 {
-                    $item->expiring_at = now('Europe/Rome')->subDays($item->validity_days)->endOfDay()->diffInDays(Carbon::parse($item->published_at, 'Europe/Rome'), false);
+                    $item->expiring_at = $item->getValidityDays();
                 }
                 else
                 {
                     $item->expiring_at = __('Expired');
                 }
+                
+                $item->canUpgrade = empty(JobOfferType::getMoreExpensivePackages($item->jobOfferType->price, app()->getLocale()));
             });
         }
 
@@ -84,14 +86,13 @@ class JobOfferController extends Controller
             'company_id' => $user->id,
             'status' => JobOffer::STATUS_CART,
             'locale' => app()->getLocale(),
-            'job_offer_type_id' => Arr::get($payload, 'package') == 'no validation' ? null : Arr::get($payload, 'package'),
             'category_id' => Arr::get($payload, 'category'),
         ];
         
         $jobOffer = JobOffer::create($data);
         $jobOffer->tags()->sync($tags);
 
-        return redirect()->route('company.payment.preview', [$user, $jobOffer]);
+        return redirect()->route('company.payment.packages', [$user, $jobOffer]);
     }
 
     public function edit(User $user, JobOffer $jobOffer)

@@ -53,9 +53,6 @@
 												{{ __('Status') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-												{{ __('Payment') }}
-											</th>
-											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
 												{{ __('Published at') }}
 											</th>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -70,27 +67,15 @@
 												<p class="text-gray-900 whitespace-nowrap">{{ item.title }}</p>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p class="text-gray-900 whitespace-nowrap">{{ item.job_offer_type.name }}</p>
+												<p v-if="item.job_offer_type" class="text-gray-900 whitespace-nowrap">{{ item.job_offer_type.name }}</p>
+												<Link v-else :href="route($page.props.locale + '.company.payment.packages', [$page.props.auth.user, item])" class="whitespace-nowrap bg-black text-white px-4 py-2 sm:rounded-lg">
+													{{  __('Choose a package') }}
+												</Link>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 												<span class="relative inline-block px-3 py-1 font-semibold leading-tight" :class="{ 'text-green-900' : item.status == 'active', 'text-red-900' : item.status != 'active' && item.status != 'under approval', 'text-yellow-900' : item.status == 'under approval' }">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full" :class="{ 'bg-green-200' : item.status == 'active', 'bg-red-200' : item.status != 'active' && item.status != 'under approval', 'bg-yellow-200' : item.status == 'under approval' }"></span>
 												<span class="relative">{{ item.status }}</span>
-												</span>
-											</td>
-											<td v-if="item.job_offer_type.is_free != true" class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<Link v-if="item.status != 'under approval'" :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" class="whitespace-nowrap bg-black text-white px-4 py-2 sm:rounded-lg">
-													{{ item.status != 'active' ? __('Pay now') : __('Extend validity') }}
-												</Link>
-												<span v-else class="relative inline-block px-3 py-1 font-semibold leading-tight text-yellow-900">
-												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-yellow-200"></span>
-												<span class="relative">{{ item.status }}</span>
-												</span>
-											</td>
-											<td v-else class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<span class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-green-200"></span>
-												<span class="relative">{{ __('Free') }}</span>
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -119,6 +104,17 @@
 														</span>
 													</template>
 													<template #content>
+														<BreezeDropdownLink v-if="item.status != 'active' && item.status != 'under approval'" :href="route($page.props.locale + '.company.payment.packages', [$page.props.auth.user, item])" as="button">
+															{{  __('Pay') }}
+														</BreezeDropdownLink>
+														<template v-else-if="item.status == 'active'">
+															<BreezeDropdownLink :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" as="button">
+																{{ __('Extend validity') }}
+															</BreezeDropdownLink>
+															<BreezeDropdownLink v-if="item.canUpgrade" :href="route($page.props.locale + '.company.payment.upgrade', [$page.props.auth.user, item])" as="button">
+																{{ __('Upgrade package') }}
+															</BreezeDropdownLink>
+														</template>
 														<BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.edit', [$page.props.auth.user, item])" as="button">
 															{{ __('Modify') }}
 														</BreezeDropdownLink>

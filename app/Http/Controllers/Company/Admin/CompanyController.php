@@ -111,7 +111,7 @@ class CompanyController extends Controller
         if (!$user->getHasCompanyDetails())
             $detail->user()->save($user);
 
-        return redirect()->route('company.profile', $user)->with('success', __('Your data has been successfully saved.'));
+        return redirect()->route('company.profile.show', $user)->with('success', __('Your data has been successfully saved.'));
     }
 
     public function invoiceData(User $user)
