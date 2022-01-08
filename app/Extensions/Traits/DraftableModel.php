@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Extensions\Traits;
+namespace App\Extensions\Traits;
 
 use App\Models\Draftable;
 use Illuminate\Database\Eloquent\Collection;
