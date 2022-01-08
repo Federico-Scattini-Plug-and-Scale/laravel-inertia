@@ -98,12 +98,15 @@
 														</span>
 													</template>
 													<template #content>
-														<!-- <BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.edit', [$page.props.auth.user, item])" as="button">
-															{{ __('Modify') }}
+														<BreezeDropdownLink v-if="item.status == 'archived'" :href="route($page.props.locale + '.admin.joboffers.restore', item)" method="post" as="button">
+															{{ __('Restore') }}
 														</BreezeDropdownLink>
-														<BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.destroy', [$page.props.auth.user, item])" method="post" as="button">
+														<BreezeDropdownLink v-if="item.status != 'archived'" :href="route($page.props.locale + '.admin.joboffers.archive', item)" method="post" as="button">
+															{{ __('Archive') }}
+														</BreezeDropdownLink>
+														<BreezeDropdownLink :href="route($page.props.locale + '.admin.joboffers.destroy', item)" method="post" as="button">
 															{{ __('Delete') }}
-														</BreezeDropdownLink> -->
+														</BreezeDropdownLink>
 													</template>
 												</BreezeDropdown>
 											</td>

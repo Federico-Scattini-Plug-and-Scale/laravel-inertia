@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobOffer;
+use App\Models\JobOfferHistory;
 use App\Notifications\JobOffers\JobOfferPublished;
+use App\Notifications\JobOffers\JobOfferRestored;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -53,6 +55,34 @@ class JobOffersController extends Controller
 
         $jobOffer->company->notify(new JobOfferPublished());
 
-        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer was approved.'));
+        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been approved.'));
+    }
+
+    public function archive(JobOffer $jobOffer)
+    {
+        $jobOffer->delete();
+
+        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been archived.'));
+    }
+
+    public function restore($jobOfferId)
+    {
+        $jobOffer = JobOffer::withTrashed()->findOrFail($jobOfferId);
+        $jobOffer->restore();
+
+        $jobOffer->status = JobOfferHistory::getLastStatusById($jobOffer->id);
+        $jobOffer->save();
+
+        $jobOffer->company->notify(new JobOfferRestored());
+
+        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been deleted.'));
+    }
+
+    public function destroy($jobOfferId)
+    {
+        $jobOffer = JobOffer::withTrashed()->findOrFail($jobOfferId);
+        $jobOffer->forceDelete();
+
+        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been deleted.'));
     }
 }

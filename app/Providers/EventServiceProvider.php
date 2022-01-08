@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\JobOffer;
 use App\Models\JobOfferType;
 use App\Models\Order;
+use App\Observers\JobOfferObserver;
 use App\Observers\JobOfferTypeObserver;
 use App\Observers\OrderObserver;
 use Illuminate\Auth\Events\Registered;
@@ -33,5 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         JobOfferType::observe(JobOfferTypeObserver::class);
         Order::observe(OrderObserver::class);
+        JobOffer::observe(JobOfferObserver::class);
     }
 }

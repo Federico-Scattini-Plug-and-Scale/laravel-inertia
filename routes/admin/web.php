@@ -79,6 +79,12 @@ Route::localized(function () {
                 ->name('index');
             Route::post('{jobOffer}/' . trans('routes.approve'), [JobOffersController::class, 'approve'])
                 ->name('approve');
+            Route::post('{jobOffer}/' . trans('routes.restore'), [JobOffersController::class, 'restore'])
+                ->name('restore');
+            Route::post('{jobOffer}/' . trans('routes.archive'), [JobOffersController::class, 'archive'])
+                ->name('archive');
+            Route::post('{jobOffer}/' . trans('routes.destroy'), [JobOffersController::class, 'destroy'])
+                ->name('destroy');
         });
     });
 });

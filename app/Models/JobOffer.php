@@ -43,6 +43,11 @@ class JobOffer extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function history()
+    {
+        return $this->hasMany(JobOfferHistory::class);
+    }
+
     public function company()
     {
         return $this->belongsTo(User::class, 'company_id', 'id');
