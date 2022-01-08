@@ -75,7 +75,7 @@ class JobOffer extends Model
                 $query->orderBy('created_at', 'desc');
             }, 'jobOfferType' => function($query)
             {
-                $query->select('id', 'name', 'is_free');
+                $query->select('id', 'name', 'is_free', 'price');
             }])
             ->where('company_id', $userId)
             ->where('locale', $locale);

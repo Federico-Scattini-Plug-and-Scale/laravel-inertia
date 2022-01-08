@@ -14,6 +14,7 @@ use App\Notifications\JobOffers\JobOfferExtended;
 use App\Notifications\JobOffers\JobOfferPublished;
 use App\Notifications\JobOffers\JobOfferUnderApproval;
 use App\Notifications\JobOffers\OrderPaid;
+use App\Notifications\JobOffers\JobOfferUpgrade;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -157,7 +158,7 @@ class PaymentController extends Controller
             'user_id' => $user->id
         ], array_merge($request->validated(), ['is_completed' => true]));
 
-        return redirect()->route('company.payment', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false']);
+        return redirect()->route('company.payment.index', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false']);
     }
 
     public function payment(User $user, JobOffer $jobOffer)
@@ -240,7 +241,7 @@ class PaymentController extends Controller
                 'success_url' => $isUpgrade ? 
                     route('company.payment.success', [$user, $jobOffer]) . "?session_id={CHECKOUT_SESSION_ID}&upgrade=true" 
                     : route('company.payment.success', [$user, $jobOffer]) . "?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => route('company.cancel', [$user, $jobOffer, 'upgrade' => $isUpgrade ? 'true' : 'false']),
+                'cancel_url' => route('company.payment.cancel', [$user, $jobOffer, 'upgrade' => $isUpgrade ? 'true' : 'false']),
             ];
 
             if ($user->stripe_customer_id)
@@ -360,6 +361,8 @@ class PaymentController extends Controller
                     if ($isUpgrade)
                     {
                         $jobOffer->job_offer_type_id = Arr::get($jobOffer->drafts->last()->data, 'data.id');
+
+                        $user->notify(new JobOfferUpgrade());
                     }
                     else
                     {

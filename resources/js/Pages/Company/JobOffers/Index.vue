@@ -111,7 +111,7 @@
 															<BreezeDropdownLink :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" as="button">
 																{{ __('Extend validity') }}
 															</BreezeDropdownLink>
-															<BreezeDropdownLink :href="route($page.props.locale + '.company.payment.upgrade', [$page.props.auth.user, item])" as="button">
+															<BreezeDropdownLink v-if="item.canUpgrade" :href="route($page.props.locale + '.company.payment.upgrade', [$page.props.auth.user, item])" as="button">
 																{{ __('Upgrade package') }}
 															</BreezeDropdownLink>
 														</template>

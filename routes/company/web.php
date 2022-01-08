@@ -19,61 +19,78 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::localized(function () {
-    Route::prefix(trans('routes.company'))->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
-        Route::get('{user}/dashboard', [CompanyController::class, 'index'])
+    Route::prefix(trans('routes.company') . '/{user}')->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
+        Route::get('dashboard', [CompanyController::class, 'index'])
             ->name('dashboard');
         
         //Profile
-        Route::get('/{user}/' . trans('routes.profile'), [CompanyController::class, 'show'])
-            ->name('profile');
-        Route::post('/{user}/' . trans('routes.profile') . '/' . trans('routes.edit'), [CompanyController::class, 'edit'])
-            ->name('profile.edit');
+        Route::prefix(trans('routes.profile'))->name('profile.')->group(function ()
+        {
+            Route::get('/', [CompanyController::class, 'show'])
+                ->name('show');
+            Route::post(trans('routes.edit'), [CompanyController::class, 'edit'])
+                ->name('edit'); 
+        });
         
         //Auth data
-        Route::get('/{user}/' . trans('routes.auth-data'), [AuthDataController::class, 'index'])
-            ->name('authdata');
-        Route::post('/{user}/' . trans('routes.auth-data') . '/' . trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
-            ->name('authdata.password.edit');
-        Route::post('/{user}' . trans('routes.auth-data') . '/' . trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
-            ->name('authdata.email.edit');
+        Route::prefix(trans('routes.auth-data'))->name('authdata.')->group(function () 
+        {
+            Route::get('/', [AuthDataController::class, 'index'])
+                ->name('index');
+            Route::post(trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
+                ->name('password.edit');
+            Route::post(trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
+                ->name('email.edit');
+        });
 
         //Invoice data
-        Route::get('/{user}/' . trans('routes.invoice-data'), [CompanyController::class, 'invoiceData'])
-            ->name('invoicedata');
-        Route::post('/{user}/' . trans('routes.invoice-data') . '/' . trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
-            ->name('invoicedata.edit');
+        Route::prefix(trans('routes.invoice-data'))->name('invoicedata.')->group(function () 
+        {
+            Route::get('/', [CompanyController::class, 'invoiceData'])
+                ->name('index');
+            Route::post(trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
+                ->name('edit');
+        });
 
         //Job offers managament
-        Route::get('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.create'), [JobOfferController::class, 'create'])
-            ->name('joboffers.create');
-        Route::post('/{user}/'. trans('routes.job-offers') . '/' . trans('routes.store'), [JobOfferController::class, 'store'])
-            ->name('joboffers.store');
-        Route::get('/{user}/' . trans('routes.job-offers'), [JobOfferController::class, 'index'])
-            ->name('joboffers.index');
-        Route::get('/{user}/' . trans('routes.job-offers') . '/' . trans('routes.edit'), [JobOfferController::class, 'edit'])
-            ->name('joboffers.edit');
-        Route::post('/{user}/' . trans('routes.job-offers') . '/' . trans('routes.update'), [JobOfferController::class, 'update'])
-            ->name('joboffers.update');
-        Route::post('/{user}/{jobOffer}' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
-            ->name('joboffers.destroy');
-        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.packages'), [PaymentController::class, 'packages'])
-            ->name('payment.packages');
-        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.packages'), [PaymentController::class, 'storePackage'])
-            ->name('payment.packages.store');
-        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.upgrade'), [PaymentController::class, 'upgrade'])
-            ->name('payment.upgrade');
-        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.upgrade'), [PaymentController::class, 'storeUpgrade'])
-            ->name('payment.upgrade.store');
-        Route::get('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.preview'), [PaymentController::class, 'preview'])
-            ->name('payment.preview');
-        Route::post('/{user}/{jobOffer}/' . trans('routes.payment') . '/' . trans('routes.invoice-data'), [PaymentController::class, 'invoiceData'])
-            ->name('payment.invoicedata');
-        Route::get('/{user}/{jobOffer}/' . trans('routes.payment'), [PaymentController::class, 'payment'])
-            ->name('payment');
-        Route::get('/{user}/{jobOffer}/' . trans('routes.success'), [PaymentController::class, 'success'])
-            ->name('payment.success');
-        Route::get('/{user}/{jobOffer}/'. trans('routes.payment') .'/' . trans('routes.cancel'), [PaymentController::class, 'cancel'])
-            ->name('cancel');
+        Route::prefix(trans('routes.job-offers'))->name('joboffers.')->group(function () 
+        {
+            Route::get('/', [JobOfferController::class, 'index'])
+                ->name('index');
+            Route::get(trans('routes.create'), [JobOfferController::class, 'create'])
+                ->name('create');
+            Route::post(trans('routes.store'), [JobOfferController::class, 'store'])
+                ->name('store');
+            Route::get('/{jobOffer}/' . trans('routes.edit'), [JobOfferController::class, 'edit'])
+                ->name('edit');
+            Route::post('/{jobOffer}/' . trans('routes.update'), [JobOfferController::class, 'update'])
+                ->name('update');
+            Route::post('/{jobOffer}/' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
+                ->name('destroy');
+        });
+
+        //Payment
+        Route::prefix('/{jobOffer}/' . trans('routes.payment'))->name('payment.')->group(function () 
+        {
+            Route::get(trans('routes.packages'), [PaymentController::class, 'packages'])
+                ->name('packages');
+            Route::post(trans('routes.packages'), [PaymentController::class, 'storePackage'])
+                ->name('packages.store');
+            Route::get(trans('routes.upgrade'), [PaymentController::class, 'upgrade'])
+                ->name('upgrade');
+            Route::post(trans('routes.upgrade'), [PaymentController::class, 'storeUpgrade'])
+                ->name('upgrade.store');
+            Route::get(trans('routes.preview'), [PaymentController::class, 'preview'])
+                ->name('preview');
+            Route::post(trans('routes.invoice-data'), [PaymentController::class, 'invoiceData'])
+                ->name('invoicedata');
+            Route::get('/', [PaymentController::class, 'payment'])
+                ->name('index');
+            Route::get(trans('routes.success'), [PaymentController::class, 'success'])
+                ->name('success');
+            Route::get(trans('routes.cancel'), [PaymentController::class, 'cancel'])
+                ->name('cancel');
+        });
     });
 });
 

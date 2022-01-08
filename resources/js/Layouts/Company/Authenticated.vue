@@ -41,13 +41,13 @@
                                     </template>
 
                                     <template #content>
-                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.authdata', $page.props.auth.user)">
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.authdata.index', $page.props.auth.user)">
                                             {{ __('Auth data') }}
                                         </BreezeDropdownLink>
-                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.profile', $page.props.auth.user)">
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.profile.show', $page.props.auth.user)">
                                             {{ __('Profile') }}
                                         </BreezeDropdownLink>
-                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.invoicedata', $page.props.auth.user)">
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.company.invoicedata.index', $page.props.auth.user)">
                                             {{ __('Invoice data') }}
                                         </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route($page.props.locale + '.company.logout')" method="post" as="button">
@@ -88,13 +88,13 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.authdata', $page.props.auth.user)">
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.authdata.index', $page.props.auth.user)">
                                 {{ __('Auth data') }}
                             </BreezeResponsiveNavLink>
-                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.profile', $page.props.auth.user)">
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.profile.show', $page.props.auth.user)">
                                 {{ __('Profile') }}
                             </BreezeResponsiveNavLink>
-                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.invoicedata', $page.props.auth.user)">
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.invoicedata.index', $page.props.auth.user)">
                                 {{ __('Invoice data') }}
                             </BreezeResponsiveNavLink>
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.logout')" method="post" as="button">
