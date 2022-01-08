@@ -4,7 +4,6 @@ use App\Http\Controllers\Company\Admin\CompanyController;
 use App\Http\Controllers\Company\Admin\JobOfferController;
 use App\Http\Controllers\Company\Auth\AuthDataController;
 use App\Http\Controllers\Company\PaymentController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
