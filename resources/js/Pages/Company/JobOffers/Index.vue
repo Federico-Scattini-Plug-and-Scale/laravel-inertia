@@ -12,9 +12,6 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-						<Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
-						<Alert v-if="$page.props.session.info" :message="$page.props.session.info" :type="'info'" class="mb-4"/>
-						<Alert v-if="$page.props.session.error" :message="$page.props.session.error" :type="'error'" class="mb-4"/>
 						<div>
 							<form @submit.prevent="submit" class="mb-6 flex flex-col sm:flex-row sm:space-x-6 sm:items-center space-y-4 sm:space-y-0">
 								<input class="sm:rounded-lg w-full" type="text" v-model="form.filters.title" :placeholder="__('Search by title')">
@@ -40,7 +37,7 @@
                         </Link>
 						<div class="overflow-auto mt-6">
 							<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-								<table class="min-w-full leading-normal mb-16" v-if="jobOffers.data.length > 0">
+								<table class="min-w-full leading-normal mb-24" v-if="jobOffers.data.length > 0">
 									<thead>
 										<tr>
 											<th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -142,7 +139,6 @@ import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
-import Alert from '@/Components/Alert.vue'
 import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
 import Multiselect from '@vueform/multiselect'
 import { Inertia } from '@inertiajs/inertia'
@@ -156,9 +152,8 @@ export default {
         Head,
         Link,
 		Pagination,
-		Alert,
 		Multiselect,
-    },
+	},
 	props: {
 		jobOffers: Object,
 		statusOptions: Object,
@@ -178,7 +173,7 @@ export default {
 		onBeforeMount(() => {
 			form.filters.title = filters.value.title
 			form.filters.status = filters.value.status
-		})
+		})	
 
         function submit() {
             Inertia.get(route(usePage().props.value.locale + '.company.joboffers.index', props.company), form, {

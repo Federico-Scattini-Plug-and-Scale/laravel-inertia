@@ -6,6 +6,8 @@ import { InertiaProgress } from '@inertiajs/progress';
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -21,6 +23,7 @@ createInertiaApp({
                     libraries: "places"
                 },
             })
+            .use(VueSweetalert2)
             .mixin({ methods: { route } })
             .mixin(require('./base'))
             .mount(el);

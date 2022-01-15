@@ -32,12 +32,18 @@ class PaymentController extends Controller
     {
         if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
         {
-            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+            return redirect()->back()->with('message', [
+                'type' => 'info',
+                'content' => __('The selected job offer is under approval.')
+            ]);
         }
 
         if ($jobOffer->status == JobOffer::STATUS_ACTIVE)
         {
-            return redirect()->back()->with('info', 'The selected action is not available on active job offers.');
+            return redirect()->back()->with('message', [
+                'type' => 'error',
+                'content' => __('The selected action is not available on active job offers.')
+            ]);
         }
 
         return Inertia::render('Company/PackageCart', [
@@ -51,12 +57,18 @@ class PaymentController extends Controller
     {
         if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
         {
-            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+            return redirect()->back()->with('message', [
+                'type' => 'info',
+                'content' => __('The selected job offer is under approval.')
+            ]);
         }
 
         if ($jobOffer->status == JobOffer::STATUS_ACTIVE)
         {
-            return redirect()->back()->with('info', 'The selected action is not available on active job offers.');
+            return redirect()->back()->with('message', [
+                'type' => 'error',
+                'content' => __('The selected action is not available on active job offers.')
+            ]);
         }
 
         $this->validate(request(), [
@@ -73,12 +85,18 @@ class PaymentController extends Controller
     {
         if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
         {
-            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+            return redirect()->back()->with('message', [
+                'type' => 'info',
+                'content' => __('The selected job offer is under approval.')
+            ]);
         }
 
         if ($jobOffer->status != JobOffer::STATUS_ACTIVE)
         {
-            return redirect()->back()->with('info', 'The selected action is available only for active job offers.');
+            return redirect()->back()->with('message', [
+                'type' => 'error',
+                'content' => __('The selected action is available only for active job offers.')
+            ]);
         }
 
         $jobOfferTypes = JobOfferType::getMoreExpensivePackages($jobOffer->jobOfferType->price, app()->getLocale());
@@ -104,12 +122,18 @@ class PaymentController extends Controller
     {
         if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
         {
-            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+            return redirect()->back()->with('message', [
+                'type' => 'info',
+                'content' => __('The selected job offer is under approval.')
+            ]);
         }
 
         if ($jobOffer->status != JobOffer::STATUS_ACTIVE)
         {
-            return redirect()->back()->with('info', 'The selected action is available only for active job offers.');
+            return redirect()->back()->with('message', [
+                'type' => 'error',
+                'content' => __('The selected action is available only for active job offers.')
+            ]);
         }
 
         $jobOffer::setUser($user);
@@ -123,7 +147,10 @@ class PaymentController extends Controller
     {
         if ($jobOffer->status == JobOffer::STATUS_UNDER_APPROVAL)
         {
-            return redirect()->back()->with('info', 'The selected job offer is under approval.');
+            return redirect()->back()->with('message', [
+                'type' => 'info',
+                'content' => __('The selected job offer is under approval.')
+            ]);
         }
 
         $user->load('invoiceDetails');
@@ -140,7 +167,10 @@ class PaymentController extends Controller
 
             if (empty($jobOfferType->price))
             {
-                return redirect()->back()->with('error', 'Something went wrong. Please contact the support or try again.');
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('Something went wrong. Please contact the support or try again.')
+                ]);
             }
         }
 
@@ -177,7 +207,10 @@ class PaymentController extends Controller
                 {
                     return redirect()
                         ->route('company.payment.preview', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false'])
-                        ->with('error', __('There was an error with the service. Please, contact the support.'));
+                        ->with('message', [
+                            'type' => 'error',
+                            'content' => __('There was an error with the service. Please, contact the support.')
+                        ]);
                 }
 
                 try {
@@ -188,21 +221,39 @@ class PaymentController extends Controller
                     );
                 } catch (\Stripe\Exception\RateLimitException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the support.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\InvalidRequestException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\AuthenticationException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\ApiConnectionException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\ApiErrorException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (Exception $e) {
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 }
             }
             else
@@ -211,21 +262,39 @@ class PaymentController extends Controller
                     $price = retrieveStripePrice($jobOffer->jobOfferType->stripe_price_id);
                 } catch (\Stripe\Exception\RateLimitException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\InvalidRequestException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\AuthenticationException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\ApiConnectionException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\ApiErrorException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (Exception $e) {
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 }
             }
 
@@ -250,21 +319,39 @@ class PaymentController extends Controller
                     $stripeCustomer = \Stripe\Customer::retrieve($user->stripe_customer_id);
                 } catch (\Stripe\Exception\RateLimitException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\InvalidRequestException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\AuthenticationException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\ApiConnectionException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (\Stripe\Exception\ApiErrorException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 } catch (Exception $e) {
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the support.')
+                    ]);
                 }
                 $paymentData['customer'] = $stripeCustomer->id;
             }
@@ -277,27 +364,48 @@ class PaymentController extends Controller
                 $checkoutSession = \Stripe\Checkout\Session::create($paymentData);
             } catch (\Stripe\Exception\RateLimitException $e) {
                 $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('There was an error with the service. Please, contact the support.')
+                ]);
             } catch (\Stripe\Exception\InvalidRequestException $e) {
                 $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('There was an error with the service. Please, contact the support.')
+                ]);
             } catch (\Stripe\Exception\AuthenticationException $e) {
                 $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('There was an error with the service. Please, contact the support.')
+                ]);
             } catch (\Stripe\Exception\ApiConnectionException $e) {
                 $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('There was an error with the service. Please, contact the support.')
+                ]);
             } catch (\Stripe\Exception\ApiErrorException $e) {
                 $this->createApiError($e, $jobOffer->id);
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('There was an error with the service. Please, contact the support.')
+                ]);
             } catch (Exception $e) {
-                return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                return redirect()->back()->with('message', [
+                    'type' => 'error',
+                    'content' => __('There was an error with the service. Please, contact the support.')
+                ]);
             }
 
             return Inertia::location($checkoutSession->url);
         }
 
-        return redirect()->back()->with('info', 'The selected job offer is under approval.');
+        return redirect()->back()->with('message', [
+            'type' => 'info',
+            'content' => __('The selected job offer is under approval.')
+        ]);
     }
 
     public function success(User $user, JobOffer $jobOffer, Request $request)
@@ -313,22 +421,40 @@ class PaymentController extends Controller
                     $data = \Stripe\Checkout\Session::retrieve($request->get('session_id'));
                 } catch (\Stripe\Exception\RateLimitException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the service.')
+                    ]);
                 } catch (\Stripe\Exception\InvalidRequestException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the service.')
+                    ]);
                 } catch (\Stripe\Exception\AuthenticationException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the service.')
+                    ]);
                 } catch (\Stripe\Exception\ApiConnectionException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the service.')
+                    ]);
                 } catch (\Stripe\Exception\ApiErrorException $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the service.')
+                    ]);
                 } catch (Exception $e) {
                     $this->createApiError($e, $jobOffer->id);
-                    return redirect()->back()->with('info', __('There was an error with the service. Please, contact the service.'));
+                    return redirect()->back()->with('message', [
+                        'type' => 'error',
+                        'content' => __('There was an error with the service. Please, contact the service.')
+                    ]);
                 }
 
                 Order::create([
@@ -383,13 +509,22 @@ class PaymentController extends Controller
                 $user->stripe_customer_id = $data->customer;
                 $user->save();
 
-                return redirect()->route('company.joboffers.index', $user)->with('success', __('The order has been successfully paid.'));
+                return redirect()->route('company.joboffers.index', $user)->with('message', [
+                    'type' => 'success',
+                    'content' => __('The order has been successfully paid.')
+                ]);
             }
 
-            return redirect()->route('company.joboffers.index', $user)->with('info', __('The order has been already paid.'));
+            return redirect()->route('company.joboffers.index', $user)->with('message', [
+                'type' => 'error',
+                'content' => __('The order has been already paid.')
+            ]);
         }
         
-        return redirect()->route('company.joboffers.index', $user)->with('info', __('No stripe session ID provided.')); 
+        return redirect()->route('company.joboffers.index', $user)->with('message', [
+            'type' => 'error',
+            'content' => __('No stripe session ID provided.')
+        ]);
     }
 
     public function cancel(User $user, JobOffer $jobOffer)
@@ -402,7 +537,10 @@ class PaymentController extends Controller
 
         return redirect()
             ->route('company.payment.preview', [$user, $jobOffer, 'upgrade' => request()->has('upgrade') && request()->get('upgrade') == 'true' ? 'true' : 'false'])
-            ->with('error', __('The payment was not completed.'));
+            ->with('message', [
+                'type' => 'warning',
+                'content' => __('The payment was not completed.')
+            ]);
     }
 
     private function createApiError($e, $jobOfferId)

@@ -32,17 +32,26 @@ class AuthDataController extends Controller
 				'password' => Hash::make($request->new_password),
 			]);
 	
-			return redirect()->back()->with('successPass', __('The password has been successfully changed.'));
+			return redirect()->back()->with('message', [
+				'type' => 'success',
+				'content' => __('The password has been successfully changed.')
+			]);
 		}
 
-		return redirect()->back()->with('errorPass', __('The password does not match.'));
+		return redirect()->back()->with('message', [
+            'type' => 'error',
+            'content' => __('The password does not match.')
+        ]);
     }
 
 	public function changeEmail(User $user, Request $request)
     {
 		if ($request->email == $user->email)
 		{
-			return redirect()->back()->with('errorEmail', __('Please provide a different email from the previous one.'));
+			return redirect()->back()->with('message', [
+				'type' => 'error',
+				'content' => __('Please provide a different email from the previous one.')
+			]);
 		}
 
         $request->validate([

@@ -11,7 +11,6 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class JobOfferController extends Controller
@@ -111,7 +110,10 @@ class JobOfferController extends Controller
     {
         $jobOffer->delete();
 
-        return redirect()->route('company.joboffers.index', $user)->with('success', __('The job offer was deleted successfully'));
+        return redirect()->route('company.joboffers.index', $user)->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer was deleted successfully.')
+        ]);
     }
 
     private function prepareTagsJobOffer($data, $user)
