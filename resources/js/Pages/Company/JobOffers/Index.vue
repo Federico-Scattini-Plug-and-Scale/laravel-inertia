@@ -144,8 +144,7 @@ import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
 import Multiselect from '@vueform/multiselect'
 import { Inertia } from '@inertiajs/inertia'
 import { toRef, onBeforeMount } from 'vue'
-import __ from '@/translation'
-import confirmPostRequest from '@/confirmPostRequest'
+import confirmPostRequest from '@/helpers/confirmPostRequest'
 
 export default {
     components: {
