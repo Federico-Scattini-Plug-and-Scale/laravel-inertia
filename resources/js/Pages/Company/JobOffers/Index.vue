@@ -115,9 +115,9 @@
 														<BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.edit', [$page.props.auth.user, item])" as="button">
 															{{ __('Modify') }}
 														</BreezeDropdownLink>
-														<BreezeDropdownLink :href="route($page.props.locale + '.company.joboffers.destroy', [$page.props.auth.user, item])" method="post" as="button">
+														<DropdownElement @click.prevent="deleteOffer(item)">
 															{{ __('Delete') }}
-														</BreezeDropdownLink>
+														</DropdownElement>
 													</template>
 												</BreezeDropdown>
 											</td>
@@ -138,11 +138,14 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
+import DropdownElement from '@/Components/DropdownElement.vue'
 import Pagination from '@/Components/Pagination.vue'
 import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
 import Multiselect from '@vueform/multiselect'
 import { Inertia } from '@inertiajs/inertia'
 import { toRef, onBeforeMount } from 'vue'
+import __ from '@/translation'
+import confirmPostRequest from '@/confirmPostRequest'
 
 export default {
     components: {
@@ -153,6 +156,7 @@ export default {
         Link,
 		Pagination,
 		Multiselect,
+		DropdownElement
 	},
 	props: {
 		jobOffers: Object,
@@ -181,10 +185,15 @@ export default {
             })
         }
 
+		function deleteOffer(item) {
+			confirmPostRequest(route(usePage().props.value.locale + '.company.joboffers.destroy', [usePage().props.value.auth.user, item]))
+		}
+
         return { 
 			form, 
 			submit, 
-			filters
+			filters,
+			deleteOffer
 		}
     },
 }
