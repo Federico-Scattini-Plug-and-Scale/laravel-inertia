@@ -111,7 +111,10 @@ class CompanyController extends Controller
         if (!$user->getHasCompanyDetails())
             $detail->user()->save($user);
 
-        return redirect()->route('company.profile.show', $user)->with('success', __('Your data has been successfully saved.'));
+        return redirect()->route('company.profile.show', $user)->with('message', [
+            'type' => 'success',
+            'content' => __('Your data has been successfully saved.')
+        ]);
     }
 
     public function invoiceData(User $user)
@@ -127,7 +130,10 @@ class CompanyController extends Controller
             'user_id' => $user->id
         ], array_merge($request->validated(), ['is_completed' => true]));
 
-        return redirect()->back()->with('success', __('Your data has been successfully saved.'));
+        return redirect()->back()->with('message', [
+            'type' => 'success',
+            'content' => __('Your data has been successfully saved.')
+        ]);
     }
 
     public function pricing()
