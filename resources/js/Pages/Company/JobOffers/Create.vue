@@ -235,7 +235,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Company/Authenticated.vue'
 import Editor from '@/Components/Editor.vue'
 import { Head, usePage, useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
-import { ref, watch, toRef } from 'vue'
+import { ref, watch } from 'vue'
 import Multiselect from '@vueform/multiselect'
 
 
@@ -287,16 +287,6 @@ export default {
         const mapCenter = ref({lat: 51.093048, lng: 6.842120})
         const myMapRef = ref()
         const canChangeAddress = ref(true)
-		const sectors = toRef(props, 'sectors')
-		const industries = toRef(props, 'industries')
-		const languages = toRef(props, 'languages')
-		const processes = toRef(props, 'processes')
-		const machineTypes = toRef(props, 'machineTypes')
-		const machines = toRef(props, 'machines')
-		const techSkills = toRef(props, 'techSkills')
-		const exp = toRef(props, 'exp')
-		const contracts = toRef(props, 'contracts')
-		const categories = toRef(props, 'categories')
 
         watch([myMapRef, markers], ([googleMap]) => {
             if (googleMap) googleMap.$mapPromise.then(map => map.setCenter(mapCenter.value))
@@ -349,16 +339,6 @@ export default {
 			myMapRef, 
 			canChangeAddress, 
 			setChangeAddress,
-			sectors,
-			industries,
-			languages,
-			processes,
-			machineTypes,
-			machines,
-			techSkills,
-			exp,
-			contracts,
-            categories
 		}
     },
 }

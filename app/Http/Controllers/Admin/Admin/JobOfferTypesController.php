@@ -42,7 +42,10 @@ class JobOfferTypesController extends Controller
 
         JobOfferType::create($payload);
 
-        return redirect()->back()->with('success', __('The job offer type has been created successfully.'));
+        return redirect()->back()->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer type has been created successfully.')
+        ]);
     }
 
     public function edit(JobOfferType $joboffertype)
@@ -56,13 +59,19 @@ class JobOfferTypesController extends Controller
     {
         $joboffertype->update($request->all());
 
-        return redirect()->back()->with('success', __('The job offer type has been updated successfully.'));
+        return redirect()->back()->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer type has been updated successfully.')
+        ]);
     }
 
     public function destroy(JobOfferType $joboffertype)
     {
         $joboffertype->delete();
 
-        return redirect()->back()->with('success', __('The job offer type has been deleted successfully.'));
+        return redirect()->back()->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer type has been deleted successfully.')
+        ]);
     }
 }
