@@ -98,12 +98,12 @@
 														<BreezeDropdownLink v-if="item.status == 'archived'" :href="route($page.props.locale + '.admin.joboffers.restore', item)" method="post" as="button">
 															{{ __('Restore') }}
 														</BreezeDropdownLink>
-														<BreezeDropdownLink v-if="item.status != 'archived'" :href="route($page.props.locale + '.admin.joboffers.archive', item)" method="post" as="button">
+														<DropdownElement v-if="item.status != 'archived'" @click.prevent="archiveOffer(item)">
 															{{ __('Archive') }}
-														</BreezeDropdownLink>
-														<BreezeDropdownLink :href="route($page.props.locale + '.admin.joboffers.destroy', item)" method="post" as="button">
+														</DropdownElement>
+														<DropdownElement @click.prevent="deleteOffer(item)">
 															{{ __('Delete') }}
-														</BreezeDropdownLink>
+														</DropdownElement>
 													</template>
 												</BreezeDropdown>
 											</td>
@@ -124,11 +124,13 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
+import DropdownElement from '@/Components/DropdownElement.vue'
 import Pagination from '@/Components/Pagination.vue'
 import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
 import Multiselect from '@vueform/multiselect'
 import { Inertia } from '@inertiajs/inertia'
 import { toRef, onBeforeMount } from 'vue'
+import confirmPostRequest from '@/helpers/confirmPostRequest'
 
 export default {
     components: {
@@ -139,6 +141,7 @@ export default {
         Link,
 		Pagination,
 		Multiselect,
+		DropdownElement,
     },
 	props: {
 		jobOffers: Object,
@@ -166,10 +169,20 @@ export default {
             })
         }
 
+		function deleteOffer(item) {
+			confirmPostRequest(route(usePage().props.value.locale + '.admin.joboffers.destroy', item))
+		}
+
+		function archiveOffer(item) {
+			confirmPostRequest(route(usePage().props.value.locale + '.admin.joboffers.archive', item))
+		}
+
         return { 
 			form, 
 			submit, 
-			filters
+			filters,
+			deleteOffer,
+			archiveOffer,
 		}
     },
 }
