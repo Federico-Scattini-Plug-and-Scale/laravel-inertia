@@ -14,11 +14,6 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <form @submit.prevent="submit" class="flex flex-col">
                             <div class="mb-6">
-                                <label class="text-lg font-semibold">{{ __('Admin name') }}</label>
-                                <input type="text" v-model="form.name" class="sm:rounded-lg w-full mt-1">
-                                <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
-                            </div>
-                            <div class="mb-6">
                                 <label class="text-lg font-semibold">{{ __('Email') }}</label>
                                 <input type="text" v-model="form.email" class="sm:rounded-lg w-full mt-1">
                                 <div v-if="errors.email" class="text-red-500">{{ errors.email }}</div>
@@ -50,7 +45,6 @@ export default {
     setup (props) {
         const form = useForm({
             email: props.admin.email,
-            name: props.admin.name,
         })
 
         function submit() {

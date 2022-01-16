@@ -55,14 +55,20 @@ class JobOffersController extends Controller
 
         $jobOffer->company->notify(new JobOfferPublished());
 
-        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been approved.'));
+        return redirect()->route('admin.joboffers.index')->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer has been approved.')
+        ]);
     }
 
     public function archive(JobOffer $jobOffer)
     {
         $jobOffer->delete();
 
-        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been archived.'));
+        return redirect()->route('admin.joboffers.index')->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer has been archived.')
+        ]);
     }
 
     public function restore($jobOfferId)
@@ -75,7 +81,10 @@ class JobOffersController extends Controller
 
         $jobOffer->company->notify(new JobOfferRestored());
 
-        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been deleted.'));
+        return redirect()->route('admin.joboffers.index')->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer has been deleted.')
+        ]);
     }
 
     public function destroy($jobOfferId)
@@ -83,6 +92,9 @@ class JobOffersController extends Controller
         $jobOffer = JobOffer::withTrashed()->findOrFail($jobOfferId);
         $jobOffer->forceDelete();
 
-        return redirect()->route('admin.joboffers.index')->with('success', __('The job offer has been deleted.'));
+        return redirect()->route('admin.joboffers.index')->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer has been deleted.')
+        ]);
     }
 }

@@ -12,7 +12,6 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
 						<form @submit.prevent="update()" class="flex flex-col">
 							<label for="name">{{ __('Name') }}</label>
 							<input id="name" type="text" v-model="form.name" class="form-control w-full sm:rounded-lg">
@@ -47,15 +46,13 @@
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue';
 import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3';
-import Alert from '@/Components/Alert.vue'
-import { ref, toRef } from 'vue';
+import { toRef } from 'vue';
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
         Link,
-		Alert
     },
 	props: {
 		jobOfferType: Object

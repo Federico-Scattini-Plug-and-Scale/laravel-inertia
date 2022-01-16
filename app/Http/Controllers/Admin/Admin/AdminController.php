@@ -34,17 +34,18 @@ class AdminController extends Controller
         $request->validate($this->validationRules());
 
         $user->update([
-            'name' => $request->name,
             'email' => $request->email
         ]);
 
-        return redirect()->route('admin.profile', $user);
+        return redirect()->route('admin.profile', $user)->with('message', [
+            'type' => 'success',
+            'content' => __('The data has been modified successfully.')
+        ]);
     }
 
     private function validationRules()
     {
         return [
-            'name' => 'required',
             'email' => 'email|required',
         ];
     }

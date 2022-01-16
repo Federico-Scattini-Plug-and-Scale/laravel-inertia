@@ -55,7 +55,10 @@ class TagController extends Controller
             );
         }
 
-        return redirect()->route('admin.tags.index')->with('success', __('The tag groups have been saved successfully.'));
+        return redirect()->route('admin.tags.index')->with('message', [
+            'type' => 'success',
+            'content' => __('The tag groups have been saved successfully.')
+        ]);
     }
 
     public function edit(TagGroup $taggroup)
@@ -84,7 +87,10 @@ class TagController extends Controller
 
         $taggroup->delete();
 
-        return redirect()->route('admin.tags.index')->with('success', __('The tag group has been deleted successfully.'));
+        return redirect()->route('admin.tags.index')->with('message', [
+            'type' => 'success',
+            'content' => __('The tag group has been deleted successfully.')
+        ]);
     }
 
     public function update(TagGroup $taggroup, Request $request)
@@ -113,14 +119,20 @@ class TagController extends Controller
             );
         }
 
-        return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tags have been updated successfully.'));
+        return redirect()->route('admin.tags.edit', $taggroup)->with('message', [
+            'type' => 'success',
+            'content' => __('The tags have been updated successfully.')
+        ]);
     }
 
     public function destroyTag(TagGroup $taggroup, Tag $tag)
     {
         $tag->delete();
 
-        return redirect()->route('admin.tags.edit', $taggroup)->with('success', __('The tag has been deleted successfully.'));
+        return redirect()->route('admin.tags.edit', $taggroup)->with('message', [
+            'type' => 'success',
+            'content' => __('The tag has been deleted successfully.')
+        ]);
     }
 
     private function rules($elements)

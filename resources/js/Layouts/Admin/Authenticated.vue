@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Toast v-if="$page.props.flash.message" :message="$page.props.flash.message"/>
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
@@ -136,6 +137,7 @@ import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import LangSwitcher from '@/Components/LangSwitcher.vue'
 import { Link } from '@inertiajs/inertia-vue3';
+import Toast from '@/Components/Toast.vue'
 
 export default {
     components: {
@@ -145,7 +147,8 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
         Link,
-        LangSwitcher
+        LangSwitcher,
+        Toast,
     },
 
     data() {

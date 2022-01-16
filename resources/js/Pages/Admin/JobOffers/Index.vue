@@ -12,9 +12,6 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-						<Alert v-if="$page.props.session.success" :message="$page.props.session.success" :type="'success'" class="mb-4"/>
-						<Alert v-if="$page.props.session.info" :message="$page.props.session.info" :type="'info'" class="mb-4"/>
-						<Alert v-if="$page.props.session.error" :message="$page.props.session.error" :type="'error'" class="mb-4"/>
 						<div>
 							<form @submit.prevent="submit" class="mb-6 flex flex-col sm:flex-row sm:space-x-6 sm:items-center space-y-4 sm:space-y-0">
 								<input class="sm:rounded-lg w-full" type="text" v-model="form.filters.title" :placeholder="__('Search by title')">
@@ -128,7 +125,6 @@ import BreezeAuthenticatedLayout from '@/Layouts/Admin/Authenticated.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import Pagination from '@/Components/Pagination.vue'
-import Alert from '@/Components/Alert.vue'
 import { Head, Link, useForm, usePage  } from '@inertiajs/inertia-vue3'
 import Multiselect from '@vueform/multiselect'
 import { Inertia } from '@inertiajs/inertia'
@@ -142,7 +138,6 @@ export default {
         Head,
         Link,
 		Pagination,
-		Alert,
 		Multiselect,
     },
 	props: {

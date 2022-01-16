@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\JobOfferCreateRequest;
+use App\Http\Requests\Admin\JobOfferEditRequest;
 use App\Models\Category;
 use App\Models\JobOffer;
 use App\Models\JobOfferType;
@@ -96,14 +97,60 @@ class JobOfferController extends Controller
 
     public function edit(User $user, JobOffer $jobOffer)
     {
+        $jobOffer->load('tags.tagGroup');
+
         return Inertia::render('Company/JobOffers/Edit', [
-            'jobOffers' => $jobOffer
+            'jobOffer' => $jobOffer,
+            'company' => $user,
+            'tags' => $jobOffer->tags->groupBy('tagGroup.type')->map(fn ($tagGroup) => $tagGroup->map(fn ($tag) => $tag->id))->toArray(),
+            'categories' => Category::getOptions(app()->getLocale()),
+            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale()),
+            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, app()->getLocale()),
+            'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, app()->getLocale()),
+            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, app()->getLocale()),
+            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, app()->getLocale()),
+            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, app()->getLocale()),
+            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, app()->getLocale()),
+            'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, app()->getLocale()),
+            'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, app()->getLocale()),
+            'packages' => JobOfferType::getOptions(app()->getLocale())
         ]);
     }
 
-    public function update(User $user, JobOffer $jobOffer)
+    public function update(User $user, JobOffer $jobOffer, JobOfferEditRequest $request)
     {
-        dd('test');
+        $payload = $request->validated();
+        $tags = $this->prepareTagsJobOffer($payload, $user);
+
+        $data = [
+            'title' => Arr::get($payload, 'title'),
+            'description' => Arr::get($payload, 'description'),
+            'specialization' => Arr::get($payload, 'specialization'),
+            'max_salary' => Arr::get($payload, 'max_salary'),
+            'min_salary' => Arr::get($payload, 'min_salary'),
+            'currency' => Arr::get($payload, 'currency'),
+            'address' => Arr::get($payload, 'address'),
+            'latitude' => Arr::get($payload, 'latitude'),
+            'longitude' => Arr::get($payload, 'longitude'),
+            'company_id' => $user->id,
+            'status' => $jobOffer->status,
+            'locale' => app()->getLocale(),
+            'category_id' => Arr::get($payload, 'category'),
+        ];
+        
+        $jobOffer->update($data);
+        $jobOffer->tags()->sync($tags);
+
+        if ($jobOffer->status == $jobOffer::STATUS_ACTIVE)
+        {
+            $jobOffer->status = $jobOffer::STATUS_UNDER_APPROVAL;
+            $jobOffer->save();
+        }
+
+        return redirect()->back()->with('message', [
+            'type' => 'success',
+            'content' => __('The job offer has been modified successfully.')
+        ]);
     }
 
     public function destroy(User $user, JobOffer $jobOffer)
