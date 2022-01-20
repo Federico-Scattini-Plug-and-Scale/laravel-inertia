@@ -38,7 +38,7 @@ class JobOfferController extends Controller
                     $item->expiring_at = __('Expired');
                 }
                 
-                $item->canUpgrade = empty(JobOfferType::getMoreExpensivePackages($item->jobOfferType->price, app()->getLocale()));
+                $item->canUpgrade = JobOfferType::getMoreExpensivePackages($item->jobOfferType->price, app()->getLocale())->isNotEmpty();
             });
         }
 
@@ -72,7 +72,7 @@ class JobOfferController extends Controller
     {
         $payload = $request->validated();
         $tags = $this->prepareTagsJobOffer($payload, $user);
-
+        
         $data = [
             'title' => Arr::get($payload, 'title'),
             'description' => Arr::get($payload, 'description'),
@@ -81,6 +81,11 @@ class JobOfferController extends Controller
             'min_salary' => Arr::get($payload, 'min_salary'),
             'currency' => Arr::get($payload, 'currency'),
             'address' => Arr::get($payload, 'address'),
+            'region' => Arr::get($payload, 'region'),
+            'province' => Arr::get($payload, 'province'),
+            'city' => Arr::get($payload, 'city'),
+            'country' => Arr::get($payload, 'country'),
+            'postal_code' => Arr::get($payload, 'postal_code'),
             'latitude' => Arr::get($payload, 'latitude'),
             'longitude' => Arr::get($payload, 'longitude'),
             'company_id' => $user->id,
@@ -130,6 +135,11 @@ class JobOfferController extends Controller
             'min_salary' => Arr::get($payload, 'min_salary'),
             'currency' => Arr::get($payload, 'currency'),
             'address' => Arr::get($payload, 'address'),
+            'region' => Arr::get($payload, 'region'),
+            'province' => Arr::get($payload, 'province'),
+            'city' => Arr::get($payload, 'city'),
+            'country' => Arr::get($payload, 'country'),
+            'postal_code' => Arr::get($payload, 'postal_code'),
             'latitude' => Arr::get($payload, 'latitude'),
             'longitude' => Arr::get($payload, 'longitude'),
             'company_id' => $user->id,

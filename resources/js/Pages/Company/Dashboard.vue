@@ -14,7 +14,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div v-if="company.detail == null" class="bg-red-500 text-white sm:rounded-lg p-2 mb-6">
                             {{ __('Your profile is incomplete. Please provide the missing information.') }}
-                            <Link :href="route($page.props.locale + '.company.profile', company)">{{ __('Go to your profile') }}</Link>
+                            <Link :href="route($page.props.locale + '.company.profile.show', company)">{{ __('Go to your profile') }}</Link>
                         </div>
                     </div>
                 </div>

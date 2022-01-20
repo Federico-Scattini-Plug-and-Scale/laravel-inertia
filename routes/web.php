@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LangController;
+use App\Models\JobOffer;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,7 +18,10 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $offers = JobOffer::take(1)->get()->load('company', 'tags:id');
+    return Inertia::render('Front/JobOffers/Listing', [
+        'offers' => $offers,
+    ]);
 })->name('home');
 
 Route::get('/locale', function () {

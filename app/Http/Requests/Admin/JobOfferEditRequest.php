@@ -31,34 +31,39 @@ class JobOfferEditRequest extends FormRequest
             'title' => 'required',
             'description' => 'required',
             'address' => 'required',
+            'region' => 'string',
+            'province' => 'string',
+            'city' => 'string',
+            'country' => 'string',
+            'postal_code' => 'string',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'sectors' => Rule::requiredIf(function() use($request) {
                 return Arr::has($request, 'sectors');
             }),
             'industries' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'industries') && Arr::get($request, 'industries') != 'no validation';
+                return Arr::has($request, 'industries');
             }),
             'languages' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'languages') && Arr::get($request, 'languages') != 'no validation';
+                return Arr::has($request, 'languages');
             }),
             'processes' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'processes') && Arr::get($request, 'processes') != 'no validation';
+                return Arr::has($request, 'processes');
             }),
             'machineTypes' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'machineTypes') && Arr::get($request, 'machineTypes') != 'no validation';
+                return Arr::has($request, 'machineTypes');
             }),
             'machines' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'machines') && Arr::get($request, 'machines') != 'no validation';
+                return Arr::has($request, 'machines');
             }),
             'techSkills' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'techSkills') && Arr::get($request, 'techSkills') != 'no validation';
+                return Arr::has($request, 'techSkills');
             }),
             'exp' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'exp') && Arr::get($request, 'exp') != 'no validation';
+                return Arr::has($request, 'exp');
             }),
             'contracts' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'contracts') && Arr::get($request, 'contracts') != 'no validation';
+                return Arr::has($request, 'contracts');
             }),
             'specialization' =>  'required',
             'category' => 'required',
