@@ -34,6 +34,12 @@
                                     @place_changed="setPlace"
                                     id="googlePlaceInput"
                                     class="w-full mt-1"
+                                    :options="{
+                                        types: ['(regions)'],
+                                        componentRestrictions: {
+                                            country: $page.props.locale
+                                        }
+                                    }"
                                 >
                                 </GMapAutocomplete>
                                 <div v-if="errors.address" class="text-red-500">{{ errors.address }}</div>
@@ -267,6 +273,11 @@ export default {
             title: props.jobOffer.title,
 			description: props.jobOffer.description,
 			address: props.jobOffer.address,
+            region: props.jobOffer.region,
+            province: props.jobOffer.province,
+            city: props.jobOffer.city,
+            country: props.jobOffer.country,
+            postal_code: props.jobOffer.postal_code,
             latitude: props.jobOffer.latitude,
             longitude: props.jobOffer.longitude,
 			sectors: props.tags.group_sector ? props.tags.group_sector : [],
@@ -300,10 +311,38 @@ export default {
             })
         }
 
+        function resetPlace() {
+            form.reset(
+                'latitude',
+                'longitude',
+                'address',
+                'region',
+                'country',
+                'city',
+                'province',
+                'postal_code'
+            )
+        }
+
         function setPlace(e) {
+            resetPlace()
+
             form.latitude = e.geometry.location.lat()
             form.longitude = e.geometry.location.lng()
             form.address = e.formatted_address
+
+            e.address_components.forEach(item => {
+                if (item.types[0] == 'administrative_area_level_1')
+                    form.region = item.long_name
+                if (item.types[0] == 'administrative_area_level_2')
+                    form.province = item.long_name
+                if (item.types[0] == 'locality')
+                    form.city = item.long_name
+                if (item.types[0] == 'country')
+                    form.country = item.long_name
+                if (item.types[0] == 'postal_code')
+                    form.postal_code = item.long_name
+            });
 
             setMarker(
                 {

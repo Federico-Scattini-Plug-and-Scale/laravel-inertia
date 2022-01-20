@@ -31,6 +31,11 @@ class JobOfferEditRequest extends FormRequest
             'title' => 'required',
             'description' => 'required',
             'address' => 'required',
+            'region' => 'string',
+            'province' => 'string',
+            'city' => 'string',
+            'country' => 'string',
+            'postal_code' => 'string',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'sectors' => Rule::requiredIf(function() use($request) {
