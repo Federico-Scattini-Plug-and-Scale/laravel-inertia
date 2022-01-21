@@ -21,7 +21,7 @@ class TagController extends Controller
         }
         else 
         {
-            $tags = TagGroup::getAll(app()->getLocale());
+            $tags = TagGroup::getAll(getCountry());
         }
 
         return Inertia::render('Admin/Tags/Index', [
@@ -50,7 +50,7 @@ class TagController extends Controller
                     'type' => Arr::get($group, 'type'), 
                     'is_active' => Arr::get($group, 'is_active'),
                     'position' => $index,
-                    'locale' => app()->getLocale(),
+                    'locale' => getCountry(),
                 ]
             );
         }
@@ -113,7 +113,7 @@ class TagController extends Controller
                     'is_active' => Arr::get($tag, 'is_active'),
                     'position' => $index,
                     'tag_group_id' => $taggroup->id,
-                    'locale' => app()->getLocale(),
+                    'locale' => getCountry(),
                     'is_approved' => Arr::get($tag, 'is_approved')
                 ]
             );

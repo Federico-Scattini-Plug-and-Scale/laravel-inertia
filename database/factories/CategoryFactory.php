@@ -26,7 +26,7 @@ class CategoryFactory extends Factory
             'description' => $this->faker->text(),
             'position' => 0,
             'is_active' => true,
-            'locale' => $this->faker->randomElement(['en', 'it'])
+            'locale' => $this->faker->randomElement(['gb', 'it'])
         ];
     }
 }

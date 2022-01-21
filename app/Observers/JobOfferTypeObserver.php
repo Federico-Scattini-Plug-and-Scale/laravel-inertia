@@ -14,7 +14,7 @@ class JobOfferTypeObserver
      */
     public function created(JobOfferType $jobOfferType)
     {
-        $jobOfferType->locale = app()->getLocale();
+        $jobOfferType->locale = getCountry();
         $jobOfferType->saveQuietly();
     }
 

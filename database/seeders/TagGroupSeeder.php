@@ -28,7 +28,7 @@ class TagGroupSeeder extends Seeder
         {
             TagGroup::factory()->create([
                 'type' => $type,
-                'locale' => 'en'
+                'locale' => 'gb'
             ]);
         }
         

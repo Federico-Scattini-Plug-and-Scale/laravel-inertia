@@ -49,7 +49,7 @@ class PaymentController extends Controller
         return Inertia::render('Company/PackageCart', [
             'jobOffer' => $jobOffer,
             'company' => $user,
-            'jobOfferTypes' => JobOfferType::getOptions(app()->getLocale())
+            'jobOfferTypes' => JobOfferType::getOptions(getCountry())
         ]);
     }
 
@@ -99,7 +99,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        $jobOfferTypes = JobOfferType::getMoreExpensivePackages($jobOffer->jobOfferType->price, app()->getLocale());
+        $jobOfferTypes = JobOfferType::getMoreExpensivePackages($jobOffer->jobOfferType->price, getCountry());
         
         $jobOfferTypes = $jobOfferTypes->map(function($item) use ($jobOffer)
         {

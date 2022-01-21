@@ -25,7 +25,7 @@ class OrderObserver
             $order->invoice_number = Order::INVOICE_PREFIX . '/' . str_pad($order->id, 4, '0', STR_PAD_LEFT) . '/' . now('Europe/Rome')->year;
         }
 
-        $order->locale = app()->getLocale();
+        $order->locale = getCountry();
         $order->saveQuietly();
     }
 

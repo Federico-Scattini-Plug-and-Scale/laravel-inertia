@@ -20,7 +20,7 @@ class CategoryController extends Controller
         }
         else 
         {
-            $categories = Category::getAll(app()->getLocale());
+            $categories = Category::getAll(getCountry());
         }
 
         return Inertia::render('Admin/Category/Index', [
@@ -47,7 +47,7 @@ class CategoryController extends Controller
                     'name' => Arr::get($category, 'name'), 
                     'is_active' => Arr::get($category, 'is_active'),
                     'position' => $index,
-                    'locale' => app()->getLocale()
+                    'locale' => getCountry()
                 ]
             );
         }

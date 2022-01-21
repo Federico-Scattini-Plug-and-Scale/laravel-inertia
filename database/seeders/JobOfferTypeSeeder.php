@@ -24,13 +24,13 @@ class JobOfferTypeSeeder extends Seeder
             'locale' => 'it',
         ]);
         JobOfferType::factory()->create([
-            'locale' => 'en',
+            'locale' => 'gb',
         ]);
         JobOfferType::factory()->create([
-            'locale' => 'en',
+            'locale' => 'gb',
         ]);
         JobOfferType::factory()->create([
-            'locale' => 'en',
+            'locale' => 'gb',
         ]);
     }
 }

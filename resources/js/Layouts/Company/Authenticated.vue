@@ -99,6 +99,7 @@
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.invoicedata.index', $page.props.auth.user)">
                                 {{ __('Invoice data') }}
                             </BreezeResponsiveNavLink>
+                            <LangSwitcher />
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.logout')" method="post" as="button">
                                 {{ __('Log Out') }}
                             </BreezeResponsiveNavLink>
