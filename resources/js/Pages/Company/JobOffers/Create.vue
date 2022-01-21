@@ -35,7 +35,6 @@
                                     id="googlePlaceInput"
                                     class="w-full mt-1"
                                     :options="{
-                                        types: ['(regions)'],
                                         componentRestrictions: {
                                             country: $page.props.locale
                                         }
