@@ -64,7 +64,6 @@ class JobOfferController extends Controller
             'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, getCountry()),
             'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, getCountry()),
             'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, getCountry()),
-            'packages' => JobOfferType::getOptions(getCountry())
         ]);
     }
 
@@ -126,7 +125,6 @@ class JobOfferController extends Controller
             'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, getCountry()),
             'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, getCountry()),
             'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, getCountry()),
-            'packages' => JobOfferType::getOptions(getCountry())
         ]);
     }
 
