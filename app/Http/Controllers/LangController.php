@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
 class LangController extends Controller
 {
 	public function __invoke()
     {
-		Cookie::queue(cookie()->forever('country', request()->get('country')));
+		session()->put('country', request()->get('country'));
 
 		$route = request()->get('route');
 		$locale = request()->get('locale');
@@ -20,7 +18,7 @@ class LangController extends Controller
 		{
 			return redirect()->back();
 		}
-		
+
 		if (Str::contains($route, 'admin'))
 		{
 			return redirect(route('admin.dashboard', [], true, $locale));

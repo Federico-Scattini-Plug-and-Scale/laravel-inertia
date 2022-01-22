@@ -12,7 +12,6 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cookie;
 use Inertia\Inertia;
 
 class JobOfferController extends Controller
