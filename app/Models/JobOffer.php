@@ -155,6 +155,34 @@ class JobOffer extends Model
         ];
     }
 
+    public function scopeLocation($query, $locations)
+    {
+        if (empty($locations))
+            return $query;
+
+        return $query->where(function($query) use ($locations)
+        {
+            foreach (explode('-', $locations) as $location)
+            {
+                $query
+                    ->orWhere('country', 'LIKE', "%{$location}%")
+                    ->orWhere('city', 'LIKE', "%{$location}%")
+                    ->orWhere('region', 'LIKE', "%{$location}%")
+                    ->orWhere('province', 'LIKE', "%{$location}%");
+            }
+        });
+    }
+
+    public static function getListing($paginate = 100, $locale = 'it', $locations = '')
+    {
+        return self::
+                    with(['company', 'tags:id,name'])
+                    ->where('locale', $locale)
+                    ->location($locations)
+                    ->orderBy('created_at')
+                    ->paginate($paginate);
+    }
+
     private static function filters($query, $filters)
     {
         if (Arr::has($filters, 'title') && !empty(Arr::get($filters, 'title')))

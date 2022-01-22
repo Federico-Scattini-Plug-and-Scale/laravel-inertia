@@ -7,7 +7,6 @@ export default {
 		offers: Object
 	},
 	setup(props) {
-		
 	},
 }
 </script>

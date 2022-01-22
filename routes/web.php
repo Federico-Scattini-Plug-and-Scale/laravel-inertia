@@ -1,10 +1,8 @@
 <?php
 
+use App\Http\Controllers\Front\JobOffersController;
 use App\Http\Controllers\LangController;
-use App\Models\JobOffer;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +15,11 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    $offers = JobOffer::take(1)->get()->load('company', 'tags:id');
-    return Inertia::render('Front/JobOffers/Listing', [
-        'offers' => $offers,
-    ]);
-})->name('home');
-
-Route::get('/locale', function () {
-    return App::getLocale();
-});
-
 Route::get('/lang', LangController::class)->name('lang');
+
+Route::localized(function () {
+    Route::name('joboffers.')->group(function ()
+    {
+        Route::get('/{locations?}', [JobOffersController::class, 'index'])->name('listing');
+    });
+});
