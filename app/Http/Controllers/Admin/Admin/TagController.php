@@ -148,7 +148,7 @@ class TagController extends Controller
             {
                 $rules['tags.'.$index.'.type'] = [
                     'required',
-                    Rule::unique('tag_groups', 'type')->ignore($element['id'], 'id')
+                    Rule::unique('tag_groups', 'type')->ignore($element['id'], 'id')->where('locale', $element['locale'] ?? getCountry())
                 ];
             }
         }
