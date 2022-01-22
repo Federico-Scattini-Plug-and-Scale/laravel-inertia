@@ -102,6 +102,14 @@ class JobOfferController extends Controller
 
     public function edit(User $user, JobOffer $jobOffer)
     {
+        if (getCountry() != $jobOffer->locale)
+        {
+            return redirect()->route('company.joboffers.index', $user)->with('message', [
+                'type' => 'info',
+                'content' => __('The job offer that you were editing is posted in another country. If yuo want to edit it, please change the country.')
+            ]);
+        }
+
         $jobOffer->load('tags.tagGroup');
 
         return Inertia::render('Company/JobOffers/Edit', [
