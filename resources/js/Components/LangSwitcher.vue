@@ -47,7 +47,7 @@ export default {
         })
 
         function switchLoc () {
-            Inertia.get(route('lang', {locale: switcher.value.lang, route: usePage().props.value.route, country: switcher.value.country}))
+            Inertia.reload({data: {changeLocale: true, locale: switcher.value.lang, country: switcher.value.country}})
         }
 
         return {

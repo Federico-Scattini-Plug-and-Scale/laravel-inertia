@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Front\JobOffersController;
-use App\Http\Controllers\LangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/lang', LangController::class)->name('lang');
 
 Route::localized(function () {
     Route::name('joboffers.')->group(function ()
