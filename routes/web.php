@@ -20,6 +20,6 @@ Route::get('/lang', LangController::class)->name('lang');
 Route::localized(function () {
     Route::name('joboffers.')->group(function ()
     {
-        Route::get('/{locations?}', [JobOffersController::class, 'index'])->name('listing');
+        Route::get('/{category?}/{locations?}', [JobOffersController::class, 'index'])->name('listing');
     });
 });

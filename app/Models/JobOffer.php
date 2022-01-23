@@ -173,11 +173,16 @@ class JobOffer extends Model
         });
     }
 
-    public static function getListing($paginate = 100, $locale = 'it', $locations = '')
+    public static function getListing($paginate = 100, $locale = 'it', $category = 'all', $locations = '')
     {
         return self::
-                    with(['company', 'tags:id,name'])
+                    with(['company.detail:id,name', 'tags:id,name', 'category:id,name'])
+                    ->whereHas('category', function ($q) use ($category)
+                    {
+                        $q->where('name', $category);
+                    })
                     ->where('locale', $locale)
+                    ->where('status', self::STATUS_ACTIVE)
                     ->location($locations)
                     ->orderBy('created_at')
                     ->paginate($paginate);

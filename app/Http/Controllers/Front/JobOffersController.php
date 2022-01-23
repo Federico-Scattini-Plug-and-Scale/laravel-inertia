@@ -9,9 +9,9 @@ use Inertia\Inertia;
 
 class JobOffersController extends Controller
 {
-    public function index($locations = null)
+    public function index($category = 'all', $locations = null)
     {
-        $offers = JobOfferResource::collection(JobOffer::getListing(100, getCountry(), $locations));
+        $offers = JobOfferResource::collection(JobOffer::getListing(100, getCountry(), $category, $locations));
 
         return Inertia::render('Front/JobOffers/Listing', [
             'offers' => $offers,
