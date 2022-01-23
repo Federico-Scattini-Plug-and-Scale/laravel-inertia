@@ -8,6 +8,7 @@ use App\Models\JobOfferType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class JobOfferFactory extends Factory
 {
@@ -28,9 +29,11 @@ class JobOfferFactory extends Factory
         $status = $this->faker->randomElement(['active', 'inactive', 'unpaid']);
         $jobOfferType = JobOfferType::all()->random();
         $categoriesId = array_map(fn ($item) => $item['id'], Category::select('id')->get()->toArray());
+        $title = $this->faker->text(40);
         
         return [
-            'title' => $this->faker->text(40),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'description' => $this->faker->text(200),
             'status' => $status,
             'specialization' => $this->faker->text(50),

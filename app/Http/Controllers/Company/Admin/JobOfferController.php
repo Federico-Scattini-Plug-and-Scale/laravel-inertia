@@ -12,6 +12,7 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class JobOfferController extends Controller
@@ -74,6 +75,7 @@ class JobOfferController extends Controller
         
         $data = [
             'title' => Arr::get($payload, 'title'),
+            'slug' => Str::slug(Arr::get($payload, 'title')),
             'description' => Arr::get($payload, 'description'),
             'specialization' => Arr::get($payload, 'specialization'),
             'max_salary' => Arr::get($payload, 'max_salary'),
@@ -135,6 +137,7 @@ class JobOfferController extends Controller
 
         $data = [
             'title' => Arr::get($payload, 'title'),
+            'slug' => Str::slug(Arr::get($payload, 'title')),
             'description' => Arr::get($payload, 'description'),
             'specialization' => Arr::get($payload, 'specialization'),
             'max_salary' => Arr::get($payload, 'max_salary'),

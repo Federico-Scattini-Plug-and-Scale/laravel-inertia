@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -45,6 +46,7 @@ class CategoryController extends Controller
                 ['id' => Arr::get($category, 'id')],
                 [
                     'name' => Arr::get($category, 'name'), 
+                    'slug' => Str::slug(Arr::get($category, 'name')),
                     'is_active' => Arr::get($category, 'is_active'),
                     'position' => $index,
                     'locale' => getCountry()
@@ -67,7 +69,7 @@ class CategoryController extends Controller
 
     public function update(Category $category, CategoryRequest $request)
     {
-        $category->update($request->all());
+        $category->update(array_merge($request->all(), ['slug' => Str::slug($request->name)]));
 
         return redirect()->back()->with('message', [
             'type' => 'success',
@@ -88,7 +90,7 @@ class CategoryController extends Controller
     private function rules()
     {
         return [
-            'categories.*.name' => 'required',
+            'categories.*.name' => 'required|unique:categories',
             'categories.*.is_active' => 'required'
         ];
     }

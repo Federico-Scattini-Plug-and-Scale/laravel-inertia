@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JobOfferResource;
+use App\Models\Category;
 use App\Models\JobOffer;
 use Inertia\Inertia;
 
@@ -15,6 +16,14 @@ class JobOffersController extends Controller
 
         return Inertia::render('Front/JobOffers/Listing', [
             'offers' => $offers,
+        ]);
+    }
+
+    public function show(Category $category, JobOffer $jobOffer)
+    {
+        return Inertia::render('Front/JobOffers/Offer', [
+            'offer' => $jobOffer,
+            'category' => $category
         ]);
     }
 }

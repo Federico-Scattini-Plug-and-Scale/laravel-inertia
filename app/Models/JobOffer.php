@@ -175,12 +175,19 @@ class JobOffer extends Model
 
     public static function getListing($paginate = 100, $locale = 'it', $category = 'all', $locations = '')
     {
-        return self::
-                    with(['company.detail:id,name', 'tags:id,name', 'category:id,name'])
-                    ->whereHas('category', function ($q) use ($category)
-                    {
-                        $q->where('name', $category);
-                    })
+        $query = self::
+                    with(['company.detail:id,name', 'tags:id,name', 'category:id,name']);
+    
+        if (__($category) != __('all'))
+        {
+            $query
+                ->whereHas('category', function ($q) use ($category)
+                {
+                    $q->where('slug', $category);
+                });
+        }
+                    
+        return $query            
                     ->where('locale', $locale)
                     ->where('status', self::STATUS_ACTIVE)
                     ->location($locations)

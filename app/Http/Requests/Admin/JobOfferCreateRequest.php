@@ -28,7 +28,7 @@ class JobOfferCreateRequest extends FormRequest
         $request = request()->all();
         
         return [
-            'title' => 'required',
+            'title' => 'required|unique:job_offers',
             'description' => 'required',
             'address' => 'required',
             'region' => 'nullable',
