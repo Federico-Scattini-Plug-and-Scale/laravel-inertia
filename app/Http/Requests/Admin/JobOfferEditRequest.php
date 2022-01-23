@@ -28,7 +28,7 @@ class JobOfferEditRequest extends FormRequest
         $request = request()->all();
         
         return [
-            'title' => 'required|unique:job_offers',
+            'title' => 'required|unique:job_offers,title,'.$this->jobOffer->id,
             'description' => 'required',
             'address' => 'required',
             'region' => 'string',

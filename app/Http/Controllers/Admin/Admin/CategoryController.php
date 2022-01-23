@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -31,14 +32,13 @@ class CategoryController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules());
+        $categories = $request->get('categories');
+        $validator = Validator::make($request->all(), $this->rules($categories));
 
         if ($validator->fails())
         {
             return redirect()->back()->withInput()->withErrors($validator, 'categories');
         }
-
-        $categories = $request->get('categories');
 
         foreach ($categories as $index => $category)
         {
@@ -87,11 +87,16 @@ class CategoryController extends Controller
         ]);
     }
 
-    private function rules()
+    private function rules($elements)
     {
-        return [
-            'categories.*.name' => 'required|unique:categories',
-            'categories.*.is_active' => 'required'
-        ];
+        $rules = [];
+        
+        foreach ($elements as $index => $element)
+        {
+            $rules['categories.'.$index.'.name'] = 'required|unique:categories,name,'.$element['id'];
+            $rules['categories.'.$index.'.is_active'] = 'required';
+        }
+
+        return $rules;
     }
 }
