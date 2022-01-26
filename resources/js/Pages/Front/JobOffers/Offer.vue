@@ -1,6 +1,6 @@
 <template>
   	{{ offer }}
-	{{ category }}
+		{{ category }}
 </template>
 <script>
 export default {

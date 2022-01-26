@@ -176,7 +176,7 @@ class JobOffer extends Model
     public static function getListing($paginate = 100, $locale = 'it', $category = 'all', $locations = '')
     {
         $query = self::
-                    with(['company.detail:id,name', 'tags:id,name', 'category:id,name']);
+                    with(['company.detail:id,name', 'tags:id,name', 'category:id,name,slug']);
     
         if (__($category) != __('all'))
         {

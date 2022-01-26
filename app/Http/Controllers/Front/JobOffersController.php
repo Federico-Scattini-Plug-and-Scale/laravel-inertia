@@ -19,11 +19,15 @@ class JobOffersController extends Controller
         ]);
     }
 
-    public function show(Category $category, JobOffer $jobOffer)
+    public function show($categorySlug, $slug, JobOffer $jobOffer)
     {
+        if ($slug != $jobOffer->slug || $categorySlug != $jobOffer->category->slug)
+        {
+            return redirect()->route('joboffers.show',[$jobOffer->category->slug, $jobOffer->slug, $jobOffer], 301);
+        }
+
         return Inertia::render('Front/JobOffers/Offer', [
             'offer' => $jobOffer,
-            'category' => $category
         ]);
     }
 }

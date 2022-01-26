@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::localized(function () {
     Route::name('joboffers.')->group(function ()
     {
-        Route::get('/{category:slug}/{jobOffer:slug}', [JobOffersController::class, 'show'])->name('show');
+        Route::get('/{categorySlug}/{slug},{jobOffer}', [JobOffersController::class, 'show'])->name('show');
         Route::get('/{category?}/{locations?}', [JobOffersController::class, 'index'])->name('listing');
     });
 });
