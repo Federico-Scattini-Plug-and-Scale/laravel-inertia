@@ -1,0 +1,19 @@
+{
+  "No translation available." : "Nessuna traduzione disponibile.",
+  "Job offer types" : "Tipi di offerte",
+  "Create a new job offer type" : "Crea un nuovo tipo di offerta",
+  "Name" : "Nome",
+  "Stripe name" : "Nome stripe",
+  "Price" : "Prezzo",
+  "Ranking" : "Ranking",
+  "Stripe product ID" : "ID prodotto stripe",
+  "Stripe price ID" : "ID prezzo stripe",
+  "Active" : "Attivo",
+  "Free" : "Gratis",
+  "Modify" : "Modifica",
+  "Delete" : "Elimina",
+  "Yes" : "Si",
+  "No" : "No",
+  "The offer type has been created successfully." : "Il tipo di offerta è stata create correttamente.",
+  "all" : "tutte"
+}

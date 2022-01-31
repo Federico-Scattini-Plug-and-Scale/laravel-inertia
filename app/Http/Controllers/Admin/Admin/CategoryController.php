@@ -7,7 +7,9 @@ use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -20,7 +22,7 @@ class CategoryController extends Controller
         }
         else 
         {
-            $categories = Category::getAll(app()->getLocale());
+            $categories = Category::getAll(getCountry());
         }
 
         return Inertia::render('Admin/Category/Index', [
@@ -30,14 +32,13 @@ class CategoryController extends Controller
 
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules());
+        $categories = $request->get('categories');
+        $validator = Validator::make($request->all(), $this->rules($categories));
 
         if ($validator->fails())
         {
             return redirect()->back()->withInput()->withErrors($validator, 'categories');
         }
-
-        $categories = $request->get('categories');
 
         foreach ($categories as $index => $category)
         {
@@ -45,9 +46,10 @@ class CategoryController extends Controller
                 ['id' => Arr::get($category, 'id')],
                 [
                     'name' => Arr::get($category, 'name'), 
+                    'slug' => Str::slug(Arr::get($category, 'name')),
                     'is_active' => Arr::get($category, 'is_active'),
                     'position' => $index,
-                    'locale' => app()->getLocale()
+                    'locale' => getCountry()
                 ]
             );
         }
@@ -67,7 +69,7 @@ class CategoryController extends Controller
 
     public function update(Category $category, CategoryRequest $request)
     {
-        $category->update($request->all());
+        $category->update(array_merge($request->all(), ['slug' => Str::slug($request->name)]));
 
         return redirect()->back()->with('message', [
             'type' => 'success',
@@ -85,11 +87,16 @@ class CategoryController extends Controller
         ]);
     }
 
-    private function rules()
+    private function rules($elements)
     {
-        return [
-            'categories.*.name' => 'required',
-            'categories.*.is_active' => 'required'
-        ];
+        $rules = [];
+        
+        foreach ($elements as $index => $element)
+        {
+            $rules['categories.'.$index.'.name'] = 'required|unique:categories,name,'.$element['id'];
+            $rules['categories.'.$index.'.is_active'] = 'required';
+        }
+
+        return $rules;
     }
 }

@@ -11,14 +11,12 @@ use App\Models\JobOfferType;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\JobOffers\JobOfferExtended;
-use App\Notifications\JobOffers\JobOfferPublished;
 use App\Notifications\JobOffers\JobOfferUnderApproval;
 use App\Notifications\JobOffers\OrderPaid;
 use App\Notifications\JobOffers\JobOfferUpgrade;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class PaymentController extends Controller
@@ -49,7 +47,7 @@ class PaymentController extends Controller
         return Inertia::render('Company/PackageCart', [
             'jobOffer' => $jobOffer,
             'company' => $user,
-            'jobOfferTypes' => JobOfferType::getOptions(app()->getLocale())
+            'jobOfferTypes' => JobOfferType::getOptions(getCountry(), empty($user->detail) ? true : $user->detail->nr_of_free_trials < 1)
         ]);
     }
 
@@ -99,7 +97,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        $jobOfferTypes = JobOfferType::getMoreExpensivePackages($jobOffer->jobOfferType->price, app()->getLocale());
+        $jobOfferTypes = JobOfferType::getMoreExpensivePackages($jobOffer->jobOfferType->price, getCountry());
         
         $jobOfferTypes = $jobOfferTypes->map(function($item) use ($jobOffer)
         {
@@ -164,6 +162,7 @@ class PaymentController extends Controller
         {
             $isUpgrade = true;
             $jobOfferType->price = Arr::get($jobOffer->drafts->last()->data, 'data.price');
+            $jobOfferType->name = Arr::get($jobOffer->drafts->last()->data, 'data.name');
 
             if (empty($jobOfferType->price))
             {
@@ -172,6 +171,13 @@ class PaymentController extends Controller
                     'content' => __('Something went wrong. Please contact the support or try again.')
                 ]);
             }
+        }
+        else if ($jobOfferType->is_free && $jobOffer->status == JobOffer::STATUS_ACTIVE)
+        {
+            return redirect()->route('company.joboffers.index', $user)->with('message', [
+                'type' => 'info',
+                'content' => __('The selected job offer is already active for free.')
+            ]);
         }
 
         return Inertia::render('Company/PaymentPreview', [
@@ -195,6 +201,36 @@ class PaymentController extends Controller
     {
         if ($jobOffer->status != JobOffer::STATUS_UNDER_APPROVAL)
         {
+            if ($jobOffer->jobOfferType->is_free)
+            {
+                if ($user->detail == null || $user->detail->nr_of_free_trials < 1)
+                {
+                    return redirect()->route('company.joboffers.index', $user)->with('message', [
+                        'type' => 'error',
+                        'content' => __('You do not have any free trial available.')
+                    ]);
+                }
+
+                $jobOffer->status = JobOffer::STATUS_UNDER_APPROVAL;
+                $jobOffer->save();
+
+                $user->notify(new JobOfferUnderApproval());
+
+                $user->detail->nr_of_free_trials -= 1;
+                $user->save();
+
+                // Order::create([
+                //     'user_id' => $user->id,
+                //     'job_offer_id' => $jobOffer->id,
+                //     'locale' => $jobOffer->locale
+                // ]);
+
+                return redirect()->route('company.joboffers.index', $user)->with('message', [
+                    'type' => 'success',
+                    'content' => __('The order has been successfully paid.')
+                ]);
+            }
+
             setStripeKey();
 
             $isUpgrade = request()->has('upgrade') && request()->get('upgrade') == 'true';
@@ -474,19 +510,16 @@ class PaymentController extends Controller
 
                 $isUpgrade = request()->has('upgrade') && request()->get('upgrade') == 'true';
 
-                if ($jobOffer->status != JobOffer::STATUS_CART && $jobOffer->status != JobOffer::STATUS_ACTIVE)
-                {
-                    $jobOffer->status = JobOffer::STATUS_ACTIVE;
-                    $jobOffer->published_at = Carbon::now('Europe/Rome');
-                    $jobOffer->validity_days += JobOffer::VALIDITY;
-
-                    $user->notify(new JobOfferPublished());
-                }
-                elseif ($jobOffer->status == JobOffer::STATUS_ACTIVE)
+                if ($jobOffer->status == JobOffer::STATUS_ACTIVE)
                 {
                     if ($isUpgrade)
                     {
                         $jobOffer->job_offer_type_id = Arr::get($jobOffer->drafts->last()->data, 'data.id');
+
+                        if ($jobOffer->jobOfferType->is_free)
+                        {
+                            $jobOffer->validity_days = JobOffer::VALIDITY;
+                        }
 
                         $user->notify(new JobOfferUpgrade());
                     }

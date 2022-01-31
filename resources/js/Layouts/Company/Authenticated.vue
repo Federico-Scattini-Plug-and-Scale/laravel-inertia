@@ -22,6 +22,9 @@
                                 <BreezeNavLink :href="route($page.props.locale + '.company.joboffers.index', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.joboffers.index')">
                                     {{ __('Job offers') }}
                                 </BreezeNavLink>
+                                <BreezeNavLink :href="route($page.props.locale + '.company.invoices.index', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.invoices.index')">
+                                    {{ __('Invoices') }}
+                                </BreezeNavLink>
                             </div>
                         </div>
 
@@ -81,6 +84,9 @@
                         <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.joboffers.index', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.joboffers.index')">
                             {{ __('Job Offers') }}
                         </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.invoices.index', $page.props.auth.user)" :active="route().current($page.props.locale + '.company.invoices.index')">
+                            {{ __('Invoices') }}
+                        </BreezeResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -99,6 +105,7 @@
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.invoicedata.index', $page.props.auth.user)">
                                 {{ __('Invoice data') }}
                             </BreezeResponsiveNavLink>
+                            <LangSwitcher />
                             <BreezeResponsiveNavLink :href="route($page.props.locale + '.company.logout')" method="post" as="button">
                                 {{ __('Log Out') }}
                             </BreezeResponsiveNavLink>

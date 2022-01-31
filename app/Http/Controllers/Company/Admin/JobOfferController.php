@@ -12,6 +12,7 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class JobOfferController extends Controller
@@ -24,7 +25,7 @@ class JobOfferController extends Controller
     public function index(User $user)
     {
         $filters = request()->has('filters') ? request()->get('filters') : [];
-        $jobOffers = JobOffer::getByUser($user->id, app()->getLocale(), 10, $filters);
+        $jobOffers = JobOffer::getByUser($user->id, getCountry(), 10, $filters);
 
         if (!empty($jobOffers))
         {
@@ -38,7 +39,7 @@ class JobOfferController extends Controller
                     $item->expiring_at = __('Expired');
                 }
                 
-                $item->canUpgrade = JobOfferType::getMoreExpensivePackages($item->jobOfferType->price, app()->getLocale())->isNotEmpty();
+                $item->canUpgrade = JobOfferType::getMoreExpensivePackages($item->jobOfferType->price, getCountry())->isNotEmpty();
             });
         }
 
@@ -54,17 +55,16 @@ class JobOfferController extends Controller
     {
         return Inertia::render('Company/JobOffers/Create', [
             'company' => $user,
-            'categories' => Category::getOptions(app()->getLocale()),
-            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale()),
-            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, app()->getLocale()),
-            'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, app()->getLocale()),
-            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, app()->getLocale()),
-            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, app()->getLocale()),
-            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, app()->getLocale()),
-            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, app()->getLocale()),
-            'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, app()->getLocale()),
-            'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, app()->getLocale()),
-            'packages' => JobOfferType::getOptions(app()->getLocale())
+            'categories' => Category::getOptions(getCountry()),
+            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, getCountry()),
+            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, getCountry()),
+            'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, getCountry()),
+            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, getCountry()),
+            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, getCountry()),
+            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, getCountry()),
+            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, getCountry()),
+            'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, getCountry()),
+            'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, getCountry()),
         ]);
     }
 
@@ -75,6 +75,7 @@ class JobOfferController extends Controller
         
         $data = [
             'title' => Arr::get($payload, 'title'),
+            'slug' => Str::slug(Arr::get($payload, 'title')),
             'description' => Arr::get($payload, 'description'),
             'specialization' => Arr::get($payload, 'specialization'),
             'max_salary' => Arr::get($payload, 'max_salary'),
@@ -90,7 +91,7 @@ class JobOfferController extends Controller
             'longitude' => Arr::get($payload, 'longitude'),
             'company_id' => $user->id,
             'status' => JobOffer::STATUS_CART,
-            'locale' => app()->getLocale(),
+            'locale' => getCountry(),
             'category_id' => Arr::get($payload, 'category'),
         ];
         
@@ -102,23 +103,30 @@ class JobOfferController extends Controller
 
     public function edit(User $user, JobOffer $jobOffer)
     {
+        if (getCountry() != $jobOffer->locale)
+        {
+            return redirect()->route('company.joboffers.index', $user)->with('message', [
+                'type' => 'info',
+                'content' => __('The job offer that you were editing is posted in another country. If yuo want to edit it, please change the country.')
+            ]);
+        }
+
         $jobOffer->load('tags.tagGroup');
 
         return Inertia::render('Company/JobOffers/Edit', [
             'jobOffer' => $jobOffer,
             'company' => $user,
             'tags' => $jobOffer->tags->groupBy('tagGroup.type')->map(fn ($tagGroup) => $tagGroup->map(fn ($tag) => $tag->id))->toArray(),
-            'categories' => Category::getOptions(app()->getLocale()),
-            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale()),
-            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, app()->getLocale()),
-            'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, app()->getLocale()),
-            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, app()->getLocale()),
-            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, app()->getLocale()),
-            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, app()->getLocale()),
-            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, app()->getLocale()),
-            'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, app()->getLocale()),
-            'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, app()->getLocale()),
-            'packages' => JobOfferType::getOptions(app()->getLocale())
+            'categories' => Category::getOptions(getCountry()),
+            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, getCountry()),
+            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, getCountry()),
+            'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, getCountry()),
+            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, getCountry()),
+            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, getCountry()),
+            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, getCountry()),
+            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, getCountry()),
+            'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, getCountry()),
+            'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, getCountry()),
         ]);
     }
 
@@ -129,6 +137,7 @@ class JobOfferController extends Controller
 
         $data = [
             'title' => Arr::get($payload, 'title'),
+            'slug' => Str::slug(Arr::get($payload, 'title')),
             'description' => Arr::get($payload, 'description'),
             'specialization' => Arr::get($payload, 'specialization'),
             'max_salary' => Arr::get($payload, 'max_salary'),
@@ -144,7 +153,7 @@ class JobOfferController extends Controller
             'longitude' => Arr::get($payload, 'longitude'),
             'company_id' => $user->id,
             'status' => $jobOffer->status,
-            'locale' => app()->getLocale(),
+            'locale' => getCountry(),
             'category_id' => Arr::get($payload, 'category'),
         ];
         
@@ -180,7 +189,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'sectors') && Arr::get($data, 'sectors') != 'no validation' && !empty(Arr::get($data, 'sectors')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_SECTOR, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_SECTOR, getCountry());
 
             foreach (Arr::get($data, 'sectors') as $tag)
             {
@@ -195,7 +204,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'industries') && Arr::get($data, 'industries') != 'no validation' && !empty(Arr::get($data, 'industries')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_INDUSTRY, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_INDUSTRY, getCountry());
 
             foreach (Arr::get($data, 'industries') as $tag)
             {
@@ -210,7 +219,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'languages') && Arr::get($data, 'languages') != 'no validation' && !empty(Arr::get($data, 'languages')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_LANGUAGE, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_LANGUAGE, getCountry());
 
             foreach (Arr::get($data, 'languages') as $tag)
             {
@@ -225,7 +234,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'processes') && Arr::get($data, 'processes') != 'no validation' && !empty(Arr::get($data, 'processes')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_PROCESS_TYPE, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_PROCESS_TYPE, getCountry());
 
             foreach (Arr::get($data, 'processes') as $tag)
             {
@@ -240,7 +249,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'machineTypes') && Arr::get($data, 'machineTypes') != 'no validation' && !empty(Arr::get($data, 'machineTypes')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_MACHINE_TYPE, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_MACHINE_TYPE, getCountry());
 
             foreach (Arr::get($data, 'machineTypes') as $tag)
             {
@@ -255,7 +264,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'machines') && Arr::get($data, 'machines') != 'no validation' && !empty(Arr::get($data, 'machines')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_MACHINE, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_MACHINE, getCountry());
 
             foreach (Arr::get($data, 'machines') as $tag)
             {
@@ -270,7 +279,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'techSkills') && Arr::get($data, 'techSkills') != 'no validation' && !empty(Arr::get($data, 'techSkills')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_TECH_SKILLS, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_TECH_SKILLS, getCountry());
 
             foreach (Arr::get($data, 'techSkills') as $tag)
             {
@@ -285,7 +294,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'exp') && Arr::get($data, 'exp') != 'no validation' && !empty(Arr::get($data, 'exp')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_EXP, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_EXP, getCountry());
 
             foreach (Arr::get($data, 'exp') as $tag)
             {
@@ -300,7 +309,7 @@ class JobOfferController extends Controller
 
         if (Arr::has($data, 'contracts') && Arr::get($data, 'contracts') != 'no validation' && !empty(Arr::get($data, 'contracts')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_CONTRACT, app()->getLocale());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_CONTRACT, getCountry());
 
             foreach (Arr::get($data, 'contracts') as $tag)
             {

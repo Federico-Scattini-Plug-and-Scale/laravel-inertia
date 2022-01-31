@@ -16,7 +16,7 @@ class JobOffersController extends Controller
     public function index()
     {
         $filters = request()->has('filters') ? request()->get('filters') : [];
-        $jobOffers = JobOffer::getForAdmin(app()->getLocale(), 10, $filters);
+        $jobOffers = JobOffer::getForAdmin(getCountry(), 10, $filters);
 
         if (!empty($jobOffers))
         {

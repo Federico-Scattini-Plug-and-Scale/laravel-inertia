@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Order extends Model
 {
@@ -31,5 +32,33 @@ class Order extends Model
     public static function getLastInvoiceNumber()
     {
         return self::orderBy('created_at')->where('invoice_number', '!=', null)->first();
+    }
+
+    public static function getByUser($userId, $paginate = 20, $filters = [])
+    {
+        return self
+                    ::where('user_id', $userId)
+                    ->invoiceNumber(Arr::get($filters, 'number', ''))
+                    ->date(Arr::get($filters, 'date', ''))
+                    ->orderBy('created_at', 'desc')
+                    ->paginate($paginate);
+    }
+
+    public function scopeInvoiceNumber($query, $invoiceNumber)
+    {
+        if (empty($invoiceNumber))
+        {
+            return $query;
+        }
+        return $query->where('invoice_number', $invoiceNumber);
+    }
+
+    public function scopeDate($query, $date)
+    {
+        if (empty($date))
+        {
+            return $query;
+        }
+        return $query->whereDate('created_at', $date);
     }
 }

@@ -40,7 +40,10 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'locales' => config('app.available_locales'),
-            'lang' => fn () => translations(resource_path('lang/' . app()->getLocale() .'/' . app()->getLocale() . '.json')),
+            'countries' => config('countries.availables'),
+            'country' => getCountry(),
+            'countryName' => getCountryName(),
+            'lang' => fn () => translations(resource_path('lang/' . app()->getLocale() . '.json')),
             'route' => fn () => Route::currentRouteName(),
             'flash' => [
                 'message' => fn () => session()->get('message')

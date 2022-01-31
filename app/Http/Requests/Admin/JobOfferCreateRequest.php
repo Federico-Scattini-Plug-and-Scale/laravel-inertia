@@ -28,14 +28,14 @@ class JobOfferCreateRequest extends FormRequest
         $request = request()->all();
         
         return [
-            'title' => 'required',
+            'title' => 'required|unique:job_offers',
             'description' => 'required',
             'address' => 'required',
-            'region' => 'string',
-            'province' => 'string',
-            'city' => 'string',
-            'country' => 'string',
-            'postal_code' => 'string',
+            'region' => 'nullable',
+            'province' => 'nullable',
+            'city' => 'nullable',
+            'country' => 'nullable',
+            'postal_code' => 'nullable',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'sectors' => Rule::requiredIf(function() use($request) {

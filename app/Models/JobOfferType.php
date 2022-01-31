@@ -29,14 +29,21 @@ class JobOfferType extends Model
             ->paginate($pager);
     }
 
-    public static function getOptions($locale = 'it')
+    public static function getOptions($locale = 'it', $withoutFreeTrials = true)
     {
-        return self::
+        $query = self::
             where('locale', $locale)
-            ->where('is_active', true)
-            ->orderBy('price')
-            ->select('id', 'name', 'price', 'currency')
-            ->get();
+            ->where('is_active', true);
+
+        if ($withoutFreeTrials)
+        {
+            $query->where('is_free', false);
+        }
+
+        return $query
+                ->orderBy('price')
+                ->select('id', 'name', 'price', 'currency')
+                ->get();
     }
 
     public static function getMoreExpensivePackages($price, $locale = 'it')
@@ -57,6 +64,11 @@ class JobOfferType extends Model
 
     public function calculateUpgradePrice(JobOffer $jobOffer)
     {
+        if ($jobOffer->jobOfferType->is_free)
+        {
+            return $this->price;
+        }
+
         $pastDays = $jobOffer->validity_days - $jobOffer->getValidityDays();
         $nrOfPackages = $jobOffer->validity_days / 30;
         $pricePerDay = ($jobOffer->jobOfferType->price * $nrOfPackages) / $jobOffer->validity_days;

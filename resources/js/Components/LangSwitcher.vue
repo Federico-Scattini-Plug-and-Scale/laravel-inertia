@@ -1,5 +1,5 @@
 <template>
-    <BreezeDropdown align="right" width="48">
+    <CustomDropdown align="right">
         <template #trigger>
             <span class="inline-flex rounded-md">
                 <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -11,25 +11,49 @@
             </span>
         </template>
         <template #content>
-			<template v-for="(locale, index) in $page.props.locales" :key="index">
-				<a 
-					v-if="$page.props.locale != locale"
-					:href="route('lang', {locale: locale, route : $page.props.route})" 
-					class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-            	>
-                	{{ locale }}
-            	</a>
-			</template>
+            <div class="flex flex-col">
+                <label>{{ __('Language') }}</label>
+                <select v-model="switcher.lang">
+                    <option v-for="(locale, index) in $page.props.locales" :key="index" :value="locale">{{ locale }}</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label>{{ __('Country') }}</label>
+                <select v-model="switcher.country">
+                    <option v-for="(country, index) in $page.props.countries" :key="index" :value="country.label">{{ __(country.value) }}</option>
+                </select>
+            </div>
+            <div class="flex justify-between">
+                <button @click.prevent="switchLoc()">{{ __('Save') }}</button>
+            </div>
         </template>
-    </BreezeDropdown>
+    </CustomDropdown>
 </template>
 
 <script>
-import BreezeDropdown from '@/Components/Dropdown.vue'
+import CustomDropdown from '@/Components/CustomDropdown.vue'
+import { ref } from '@vue/reactivity'
+import { usePage } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
     components: {
-		BreezeDropdown,
-	}
+		CustomDropdown,
+	},
+    setup() {
+        const switcher = ref({
+            lang : usePage().props.value.locale,
+            country: usePage().props.value.country
+        })
+
+        function switchLoc () {
+            Inertia.reload({data: {changeLocale: true, locale: switcher.value.lang, country: switcher.value.country}})
+        }
+
+        return {
+            switcher,
+            switchLoc,
+        }
+    }
 }
 </script>

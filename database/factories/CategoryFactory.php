@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CategoryFactory extends Factory
 {
@@ -21,12 +22,15 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->text(25);
+
         return [
-            'name' => $this->faker->text(25),
+            'name' => $name,
+            'slug' => Str::slug($name),
             'description' => $this->faker->text(),
             'position' => 0,
             'is_active' => true,
-            'locale' => $this->faker->randomElement(['en', 'it'])
+            'locale' => $this->faker->randomElement(['gb', 'it'])
         ];
     }
 }

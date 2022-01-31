@@ -105,7 +105,7 @@
 															{{  __('Pay') }}
 														</BreezeDropdownLink>
 														<template v-else-if="item.status == 'active'">
-															<BreezeDropdownLink :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" as="button">
+															<BreezeDropdownLink v-if="!item.job_offer_type.is_free" :href="route($page.props.locale + '.company.payment.preview', [$page.props.auth.user, item])" as="button">
 																{{ __('Extend validity') }}
 															</BreezeDropdownLink>
 															<BreezeDropdownLink v-if="item.canUpgrade" :href="route($page.props.locale + '.company.payment.upgrade', [$page.props.auth.user, item])" as="button">

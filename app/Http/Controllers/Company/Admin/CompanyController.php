@@ -33,7 +33,7 @@ class CompanyController extends Controller
         return Inertia::render('Company/Profile', [
             'company' => $user,
             'companySectors' => $user->tags->pluck('id'),
-            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, app()->getLocale())
+            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, getCountry())
         ]);
     }
 
@@ -55,7 +55,7 @@ class CompanyController extends Controller
         
         if (!empty($newSectors))
         {
-            $tagsGroup = TagGroup::getByType(TagGroup::GROUP_TYPE_SECTOR, app()->getLocale());
+            $tagsGroup = TagGroup::getByType(TagGroup::GROUP_TYPE_SECTOR, getCountry());
             $newCreatedTags = [];
 
             foreach ($newSectors as $sector) {
