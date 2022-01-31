@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Company\Admin\CompanyController;
+use App\Http\Controllers\Company\Admin\InvoiceController;
 use App\Http\Controllers\Company\Admin\JobOfferController;
 use App\Http\Controllers\Company\Auth\AuthDataController;
 use App\Http\Controllers\Company\PaymentController;
@@ -89,6 +90,17 @@ Route::localized(function () {
                 ->name('success');
             Route::get(trans('routes.cancel'), [PaymentController::class, 'cancel'])
                 ->name('cancel');
+        });
+
+        //Invoices
+        Route::prefix(trans('routes.invoices'))->name('invoices.')->group(function ()
+        {
+            Route::get('/', [InvoiceController::class, 'index'])
+                ->name('index');
+            Route::get('/{invoice}/' . trans('routes.download'), [InvoiceController::class, 'download'])
+                ->name('download');
+            Route::get('/{invoice}/' . trans('routes.preview'), [InvoiceController::class, 'preview'])
+                ->name('preview');
         });
     });
 });

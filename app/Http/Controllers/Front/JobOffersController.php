@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JobOfferResource;
-use App\Models\Category;
 use App\Models\JobOffer;
 use Inertia\Inertia;
 
