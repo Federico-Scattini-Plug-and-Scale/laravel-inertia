@@ -31,11 +31,17 @@ class InvoiceController extends Controller
 
     public function download(User $user, Order $invoice)
     {
-        return App::make('dompdf.wrapper')->loadView('invoices.invoice')->download();
+        return App::make('dompdf.wrapper')->loadView('invoices.invoice', [
+            'invoice' => $invoice,
+            'user' => $user->invoiceDetails
+        ])->download();
     }
 
     public function preview(User $user, Order $invoice)
     {
-        return App::make('dompdf.wrapper')->loadView('invoices.invoice')->stream();
+        return App::make('dompdf.wrapper')->loadView('invoices.invoice', [
+            'invoice' => $invoice,
+            'user' => $user->invoiceDetails
+        ])->stream();
     }
 }

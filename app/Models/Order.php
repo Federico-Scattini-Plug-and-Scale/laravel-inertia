@@ -31,7 +31,7 @@ class Order extends Model
 
     public static function getLastInvoiceNumber()
     {
-        return self::orderBy('created_at')->where('invoice_number', '!=', null)->first();
+        return self::orderBy('created_at', 'desc')->where('invoice_number', '!=', null)->first();
     }
 
     public static function getByUser($userId, $paginate = 20, $filters = [])
