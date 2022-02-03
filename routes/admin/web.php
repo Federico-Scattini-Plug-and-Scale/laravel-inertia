@@ -83,6 +83,10 @@ Route::localized(function () {
                 ->name('restore');
             Route::post('{jobOffer}/' . trans('routes.archive'), [JobOffersController::class, 'archive'])
                 ->name('archive');
+            Route::get('{jobOffer}/' . trans('routes.edit'), [JobOffersController::class, 'edit'])
+                ->name('edit');
+            Route::post('{jobOffer}/' . trans('routes.edit'), [JobOffersController::class, 'update'])
+                ->name('update');
             Route::post('{jobOffer}/' . trans('routes.destroy'), [JobOffersController::class, 'destroy'])
                 ->name('destroy');
         });

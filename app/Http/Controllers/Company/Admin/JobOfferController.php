@@ -39,6 +39,7 @@ class JobOfferController extends Controller
                     $item->expiring_at = __('Expired');
                 }
                 
+                $item->published_at_formatted = optional($item->published_at)->format('d-m-Y');
                 $item->canUpgrade = JobOfferType::getMoreExpensivePackages($item->jobOfferType->price, getCountry())->isNotEmpty();
             });
         }

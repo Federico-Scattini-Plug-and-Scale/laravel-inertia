@@ -46,6 +46,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = ['detail'];
 
+    const ADMIN = 'admin';
+    const COMPANY = 'company';
+    const APPLICANT = 'applicant';
+
     public function detail()
     {
         return $this->morphTo();
@@ -74,5 +78,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getHasInvoiceDetails()
     {
         return $this->invoiceDetails()->exists();
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == User::ADMIN;
+    }
+
+    public function isCompany()
+    {
+        return $this->role == User::COMPANY;
+    }
+
+    public function isApplicant()
+    {
+        return $this->role == User::APPLICANT;
     }
 }

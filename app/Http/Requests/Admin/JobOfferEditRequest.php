@@ -27,7 +27,7 @@ class JobOfferEditRequest extends FormRequest
     {
         $request = request()->all();
 
-        return [
+        $rules = [
             'title' => 'required|unique:job_offers,title,'.$this->jobOffer->id,
             'description' => 'required',
             'address' => 'required',
@@ -86,5 +86,14 @@ class JobOfferEditRequest extends FormRequest
                 }),
             ]
         ];
+
+        if (auth()->user()->isAdmin())
+        {
+            $rules['validity_days'] = 'required|integer';
+            $rules['published_at'] = 'required|date';
+            $rules['status'] = 'required';
+        }
+
+        return $rules;
     }
 }
