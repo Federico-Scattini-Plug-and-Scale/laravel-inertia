@@ -3,8 +3,8 @@
 
     <BreezeValidationErrors class="mb-4" />
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-        {{ status }}
+    <div v-if="$page.props.session.status" class="mb-4 font-medium text-sm text-green-600">
+        {{ $page.props.session.status }}
     </div>
 
     <form @submit.prevent="submit">
@@ -40,7 +40,7 @@
 <script>
 import BreezeButton from '@/Components/Button.vue'
 import BreezeCheckbox from '@/Components/Checkbox.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
+import BreezeGuestLayout from '@/Layouts/Company/Guest.vue'
 import BreezeInput from '@/Components/Input.vue'
 import BreezeLabel from '@/Components/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
@@ -61,7 +61,6 @@ export default {
 
     props: {
         canResetPassword: Boolean,
-        status: String,
     },
 
     data() {

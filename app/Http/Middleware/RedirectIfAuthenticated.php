@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,13 +21,13 @@ class RedirectIfAuthenticated
             $role = Auth::user()->role; 
             
             switch ($role) {
-                case 'admin':
+                case User::ADMIN:
                     return redirect()->route('admin.dashboard');
                     break;
-                case 'company':
+                case User::COMPANY:
                     return redirect()->route('company.dashboard', Auth::user());
                     break; 
-                case 'applicant':
+                case User::APPLICANT:
                     return redirect()->route('applicant.dashboard');
                     break; 
             

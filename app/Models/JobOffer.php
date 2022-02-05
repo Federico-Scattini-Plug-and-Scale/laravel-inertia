@@ -15,6 +15,10 @@ class JobOffer extends Model
 
     protected $guarded = [];
 
+    protected $dates = [
+        'published_at'
+    ];
+
     const STATUS_ACTIVE = 'active';
     const STATUS_UNDER_APPROVAL = 'under approval';
     const STATUS_UNPAID = 'unpaid';
@@ -22,6 +26,7 @@ class JobOffer extends Model
     const STATUS_CART = 'cart';
     const STATUS_ARCHIVED = 'archived';
     const VALIDITY = 30;
+    const FREE_VALIDITY = 15;
 
     public function jobOfferType()
     {

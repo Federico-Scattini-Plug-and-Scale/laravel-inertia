@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,9 +15,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/applicant/dashboard', function () {
-    return Inertia::render('Applicant/Dashboard');
-})->middleware(['auth.applicant', 'role:applicant'])
-    ->name('applicant.dashboard');
+Route::localized(function ()
+{
+    Route::prefix(Lang::uri('applicant/{user}'))->middleware(['auth.applicant', 'role:applicant', 'verified:applicant'])->name('applicant.')->group(function () {
+        Route::get(Lang::uri('dashboard'), function () {
+            return Inertia::render('Applicant/Dashboard');
+        })->name('dashboard');
+    });
+});
 
 require __DIR__ . '/auth.php';

@@ -47,7 +47,8 @@ class HandleInertiaRequests extends Middleware
             'route' => fn () => Route::currentRouteName(),
             'flash' => [
                 'message' => fn () => session()->get('message')
-            ]
+            ],
+            'session' => fn () => session()->all()
         ]);
     }
 }

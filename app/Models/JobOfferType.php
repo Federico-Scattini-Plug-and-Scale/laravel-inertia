@@ -42,7 +42,7 @@ class JobOfferType extends Model
 
         return $query
                 ->orderBy('price')
-                ->select('id', 'name', 'price', 'currency')
+                ->select('id', 'name', 'price', 'currency', 'is_free')
                 ->get();
     }
 
@@ -50,6 +50,7 @@ class JobOfferType extends Model
     {
         return self::
             where('locale', $locale)
+            ->where('is_free', '!=', true)
             ->where('is_active', true)
             ->where('price', '>', $price)
             ->orderBy('price')

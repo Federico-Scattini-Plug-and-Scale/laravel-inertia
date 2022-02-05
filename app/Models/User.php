@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Extensions\Traits\MustVerifyEmail as TraitsMustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, TraitsMustVerifyEmail;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +47,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = ['detail'];
 
+    const ADMIN = 'admin';
+    const COMPANY = 'company';
+    const APPLICANT = 'applicant';
+
     public function detail()
     {
         return $this->morphTo();
@@ -74,5 +79,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getHasInvoiceDetails()
     {
         return $this->invoiceDetails()->exists();
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == User::ADMIN;
+    }
+
+    public function isCompany()
+    {
+        return $this->role == User::COMPANY;
+    }
+
+    public function isApplicant()
+    {
+        return $this->role == User::APPLICANT;
     }
 }

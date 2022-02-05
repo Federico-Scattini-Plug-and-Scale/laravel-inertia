@@ -26,16 +26,16 @@ class JobOfferEditRequest extends FormRequest
     public function rules()
     {
         $request = request()->all();
-        
-        return [
+
+        $rules = [
             'title' => 'required|unique:job_offers,title,'.$this->jobOffer->id,
             'description' => 'required',
             'address' => 'required',
-            'region' => 'string',
-            'province' => 'string',
-            'city' => 'string',
-            'country' => 'string',
-            'postal_code' => 'string',
+            'region' => 'nullable',
+            'province' => 'nullable',
+            'city' => 'nullable',
+            'country' => 'nullable',
+            'postal_code' => 'nullable',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'sectors' => Rule::requiredIf(function() use($request) {
@@ -86,5 +86,14 @@ class JobOfferEditRequest extends FormRequest
                 }),
             ]
         ];
+
+        if (auth()->user()->isAdmin())
+        {
+            $rules['validity_days'] = 'required|integer';
+            $rules['published_at'] = 'required|date';
+            $rules['status'] = 'required';
+        }
+
+        return $rules;
     }
 }

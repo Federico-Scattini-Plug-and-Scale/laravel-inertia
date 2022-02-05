@@ -70,7 +70,7 @@
 												</span>
 											</td>
 											<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-												<p v-if="item.published_at != null" class="text-gray-900 whitespace-nowrap">{{ item.published_at }}</p>
+												<p v-if="item.published_at_formatted != null" class="text-gray-900 whitespace-nowrap">{{ item.published_at_formatted }}</p>
 												<span v-else class="relative inline-block px-3 py-1 font-semibold leading-tight text-red-900">
 												<span aria-hidden="" class="absolute inset-0 opacity-50 rounded-full bg-red-200"></span>
 												<span class="relative">{{ __('Expired') }}</span>
@@ -95,6 +95,9 @@
 														</span>
 													</template>
 													<template #content>
+														<BreezeDropdownLink :href="route($page.props.locale + '.admin.joboffers.edit', item)">
+															{{ __('Modify') }}
+														</BreezeDropdownLink>
 														<BreezeDropdownLink v-if="item.status == 'archived'" :href="route($page.props.locale + '.admin.joboffers.restore', item)" method="post" as="button">
 															{{ __('Restore') }}
 														</BreezeDropdownLink>

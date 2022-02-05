@@ -21,7 +21,8 @@
 								</div>
 								<div class="flex flex-col">
 									<span class="font-semibold">{{ __('Package') }}</span>
-									<span>{{ jobOffer.job_offer_type.name + ' - ' + jobOffer.job_offer_type.price + ' ' + jobOffer.job_offer_type.currency }}</span>
+									<span>{{ jobOffer.job_offer_type.name }}</span>
+									<span v-if="!jobOffer.job_offer_type.is_free">{{ ' - ' + jobOffer.job_offer_type.price + ' ' + jobOffer.job_offer_type.currency }}</span>
 								</div>
 							</div>
 						</div>

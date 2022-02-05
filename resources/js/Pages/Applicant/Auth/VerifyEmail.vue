@@ -15,15 +15,15 @@
                 Resend Verification Email
             </BreezeButton>
 
-            <Link :href="route($page.props.locale + '.logout')" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
+            <Link :href="route($page.props.locale + '.applicant.logout')" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
         </div>
     </form>
 </template>
 
 <script>
 import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import BreezeGuestLayout from '@/Layouts/Applicant/Guest.vue'
+import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
@@ -34,10 +34,6 @@ export default {
         Link,
     },
 
-    props: {
-        status: String,
-    },
-
     data() {
         return {
             form: this.$inertia.form()
@@ -46,13 +42,13 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route($page.props.locale + '.verification.send'))
+            this.form.post(this.route(usePage().props.value.locale + '.applicant.verification.send'))
         },
     },
 
     computed: {
         verificationLinkSent() {
-            return this.status === 'verification-link-sent';
+            return usePage().props.value.session.status === 'verification-link-sent';
         }
     }
 }

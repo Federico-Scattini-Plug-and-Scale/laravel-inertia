@@ -19,8 +19,7 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         return Inertia::render('Applicant/Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
+            'canResetPassword' => Route::has(app()->getLocale().'.applicant.password.request'),
         ]);
     }
 
@@ -36,7 +35,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('applicant.dashboard');
+        return redirect()->route('applicant.dashboard', auth()->user());
     }
 
     /**
