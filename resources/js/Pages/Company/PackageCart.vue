@@ -21,7 +21,7 @@
 											<label class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer" :class="{ 'border border-red-500' : form.job_offer_type_id == jobOfferType.id }">
 												<input class="hidden package-radio" type="radio" v-model="form.job_offer_type_id" :value="jobOfferType.id">
 												<span class="text-xs font-semibold uppercase">{{ jobOfferType.name }}</span>
-												<span class="text-xl font-bold mt-2">{{ jobOfferType.price + ' ' + jobOfferType.currency }}</span>
+												<span v-if="!jobOfferType.is_free" class="text-xl font-bold mt-2">{{ jobOfferType.price + ' ' + jobOfferType.currency }}</span>
 											</label>
 										</div>
 									</div>
@@ -55,7 +55,7 @@ export default {
     },
     setup (props) {
         const form = useForm({
-            job_offer_type_id: props.jobOffer.job_offer_type_id != null ? props.jobOffer.job_offer_type_id : props.jobOfferTypes[0].id 
+            job_offer_type_id: props.jobOfferTypes[0].id 
 		})
 
         function submit() {

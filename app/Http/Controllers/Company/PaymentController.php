@@ -44,10 +44,16 @@ class PaymentController extends Controller
             ]);
         }
 
+        $withoutFreeTrials = !empty($jobOffer->jobOfferType) && $jobOffer->jobOfferType->is_free ?
+                                    true 
+                                    : (empty($user->detail) ? 
+                                    true 
+                                    : $user->detail->nr_of_free_trials < 1);
+    
         return Inertia::render('Company/PackageCart', [
             'jobOffer' => $jobOffer,
             'company' => $user,
-            'jobOfferTypes' => JobOfferType::getOptions(getCountry(), empty($user->detail) ? true : $user->detail->nr_of_free_trials < 1)
+            'jobOfferTypes' => JobOfferType::getOptions(getCountry(), $withoutFreeTrials)
         ]);
     }
 
@@ -218,12 +224,6 @@ class PaymentController extends Controller
 
                 $user->detail->nr_of_free_trials -= 1;
                 $user->save();
-
-                // Order::create([
-                //     'user_id' => $user->id,
-                //     'job_offer_id' => $jobOffer->id,
-                //     'locale' => $jobOffer->locale
-                // ]);
 
                 return redirect()->route('company.joboffers.index', $user)->with('message', [
                     'type' => 'success',
