@@ -15,8 +15,7 @@ class ChangeColumnJobOfferIdInOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign(['job_offer_id']);
-            $table->dropColumn('job_offer_id');
-            $table->foreignId('job_offer_id')->nullable()->references('id')->on('job_offers')->nullOnDelete();
+            $table->foreign('job_offer_id')->nullable()->references('id')->on('job_offers')->nullOnDelete();
         });
     }
 
@@ -28,7 +27,8 @@ class ChangeColumnJobOfferIdInOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            //
+            $table->dropForeign(['job_offer_id']);
+            $table->foreign('job_offer_id')->references('id')->on('job_offers');
         });
     }
 }
