@@ -5,6 +5,7 @@ use App\Http\Controllers\Company\Admin\InvoiceController;
 use App\Http\Controllers\Company\Admin\JobOfferController;
 use App\Http\Controllers\Company\Auth\AuthDataController;
 use App\Http\Controllers\Company\PaymentController;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,87 +20,87 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::localized(function () {
-    Route::prefix(trans('routes.company') . '/{user}')->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
+    Route::prefix(Lang::uri('company/{user}'))->middleware(['auth.company', 'role:company', 'verified:company'])->name('company.')->group(function () {
         Route::get('dashboard', [CompanyController::class, 'index'])
             ->name('dashboard');
         
         //Profile
-        Route::prefix(trans('routes.profile'))->name('profile.')->group(function ()
+        Route::prefix(Lang::uri('profile'))->name('profile.')->group(function ()
         {
             Route::get('/', [CompanyController::class, 'show'])
                 ->name('show');
-            Route::post(trans('routes.edit'), [CompanyController::class, 'edit'])
+            Route::post(Lang::uri('edit'), [CompanyController::class, 'edit'])
                 ->name('edit'); 
         });
         
         //Auth data
-        Route::prefix(trans('routes.auth-data'))->name('authdata.')->group(function () 
+        Route::prefix(Lang::uri('auth-data'))->name('authdata.')->group(function () 
         {
             Route::get('/', [AuthDataController::class, 'index'])
                 ->name('index');
-            Route::post(trans('routes.edit-password'), [AuthDataController::class, 'changePassword'])
+            Route::post(Lang::uri('edit-password'), [AuthDataController::class, 'changePassword'])
                 ->name('password.edit');
-            Route::post(trans('routes.edit-email'), [AuthDataController::class, 'changeEmail'])
+            Route::post(Lang::uri('edit-email'), [AuthDataController::class, 'changeEmail'])
                 ->name('email.edit');
         });
 
         //Invoice data
-        Route::prefix(trans('routes.invoice-data'))->name('invoicedata.')->group(function () 
+        Route::prefix(Lang::uri('invoice-data'))->name('invoicedata.')->group(function () 
         {
             Route::get('/', [CompanyController::class, 'invoiceData'])
                 ->name('index');
-            Route::post(trans('routes.edit'), [CompanyController::class, 'editInvoiceData'])
+            Route::post(Lang::uri('edit'), [CompanyController::class, 'editInvoiceData'])
                 ->name('edit');
         });
 
         //Job offers managament
-        Route::prefix(trans('routes.job-offers'))->name('joboffers.')->group(function () 
+        Route::prefix(Lang::uri('job-offers'))->name('joboffers.')->group(function () 
         {
             Route::get('/', [JobOfferController::class, 'index'])
                 ->name('index');
-            Route::get(trans('routes.create'), [JobOfferController::class, 'create'])
+            Route::get(Lang::uri('create'), [JobOfferController::class, 'create'])
                 ->name('create');
-            Route::post(trans('routes.store'), [JobOfferController::class, 'store'])
+            Route::post(Lang::uri('store'), [JobOfferController::class, 'store'])
                 ->name('store');
-            Route::get('/{jobOffer}/' . trans('routes.edit'), [JobOfferController::class, 'edit'])
+            Route::get(Lang::uri('/{jobOffer}/edit'), [JobOfferController::class, 'edit'])
                 ->name('edit');
-            Route::post('/{jobOffer}/' . trans('routes.update'), [JobOfferController::class, 'update'])
+            Route::post(Lang::uri('/{jobOffer}/update'), [JobOfferController::class, 'update'])
                 ->name('update');
-            Route::post('/{jobOffer}/' . trans('routes.delete'), [JobOfferController::class, 'destroy'])
+            Route::post(Lang::uri('/{jobOffer}/delete'), [JobOfferController::class, 'destroy'])
                 ->name('destroy');
         });
 
         //Payment
-        Route::prefix('/{jobOffer}/' . trans('routes.payment'))->name('payment.')->group(function () 
+        Route::prefix(Lang::uri('/{jobOffer}/payment'))->name('payment.')->group(function () 
         {
-            Route::get(trans('routes.packages'), [PaymentController::class, 'packages'])
+            Route::get(Lang::uri('packages'), [PaymentController::class, 'packages'])
                 ->name('packages');
-            Route::post(trans('routes.packages'), [PaymentController::class, 'storePackage'])
+            Route::post(Lang::uri('packages'), [PaymentController::class, 'storePackage'])
                 ->name('packages.store');
-            Route::get(trans('routes.upgrade'), [PaymentController::class, 'upgrade'])
+            Route::get(Lang::uri('upgrade'), [PaymentController::class, 'upgrade'])
                 ->name('upgrade');
-            Route::post(trans('routes.upgrade'), [PaymentController::class, 'storeUpgrade'])
+            Route::post(Lang::uri('upgrade'), [PaymentController::class, 'storeUpgrade'])
                 ->name('upgrade.store');
-            Route::get(trans('routes.preview'), [PaymentController::class, 'preview'])
+            Route::get(Lang::uri('preview'), [PaymentController::class, 'preview'])
                 ->name('preview');
-            Route::post(trans('routes.invoice-data'), [PaymentController::class, 'invoiceData'])
+            Route::post(Lang::uri('invoice-data'), [PaymentController::class, 'invoiceData'])
                 ->name('invoicedata');
             Route::get('/', [PaymentController::class, 'payment'])
                 ->name('index');
-            Route::get(trans('routes.success'), [PaymentController::class, 'success'])
+            Route::get(Lang::uri('success'), [PaymentController::class, 'success'])
                 ->name('success');
-            Route::get(trans('routes.cancel'), [PaymentController::class, 'cancel'])
+            Route::get(Lang::uri('cancel'), [PaymentController::class, 'cancel'])
                 ->name('cancel');
         });
 
         //Invoices
-        Route::prefix(trans('routes.invoices'))->name('invoices.')->group(function ()
+        Route::prefix(Lang::uri('invoices'))->name('invoices.')->group(function ()
         {
             Route::get('/', [InvoiceController::class, 'index'])
                 ->name('index');
-            Route::get('/{invoice}/' . trans('routes.download'), [InvoiceController::class, 'download'])
+            Route::get(Lang::uri('/{invoice}/download'), [InvoiceController::class, 'download'])
                 ->name('download');
-            Route::get('/{invoice}/' . trans('routes.preview'), [InvoiceController::class, 'preview'])
+            Route::get(Lang::uri('/{invoice}/preview'), [InvoiceController::class, 'preview'])
                 ->name('preview');
         });
     });
