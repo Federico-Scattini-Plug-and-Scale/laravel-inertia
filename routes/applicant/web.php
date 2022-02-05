@@ -14,9 +14,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/applicant/dashboard', function () {
-    return Inertia::render('Applicant/Dashboard');
-})->middleware(['auth.applicant', 'role:applicant'])
-    ->name('applicant.dashboard');
+Route::localized(function ()
+{
+    Route::prefix(trans('routes.applicant') . '/{user}')->middleware(['auth.applicant', 'role:applicant', 'verified:applicant'])->name('applicant.')->group(function () {
+        Route::get('/dashboard', function () {
+            return Inertia::render('Applicant/Dashboard');
+        })->name('dashboard');
+    });
+});
 
 require __DIR__ . '/auth.php';

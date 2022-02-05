@@ -38,7 +38,7 @@
                                     </template>
 
                                     <template #content>
-                                        <BreezeDropdownLink :href="route($page.props.locale + '.logout')" method="post" as="button">
+                                        <BreezeDropdownLink :href="route($page.props.locale + '.applicant.logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
                                     </template>
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.logout')" method="post" as="button">
+                            <BreezeResponsiveNavLink :href="route($page.props.locale + '.applicant.logout')" method="post" as="button">
                                 Log Out
                             </BreezeResponsiveNavLink>
                         </div>
