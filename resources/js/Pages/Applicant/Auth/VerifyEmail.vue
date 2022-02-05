@@ -22,7 +22,7 @@
 
 <script>
 import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
+import BreezeGuestLayout from '@/Layouts/Applicant/Guest.vue'
 import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
@@ -32,10 +32,6 @@ export default {
         BreezeButton,
         Head,
         Link,
-    },
-
-    props: {
-        status: String,
     },
 
     data() {
@@ -52,7 +48,7 @@ export default {
 
     computed: {
         verificationLinkSent() {
-            return this.status === 'verification-link-sent';
+            return usePage().props.value.session.status === 'verification-link-sent';
         }
     }
 }

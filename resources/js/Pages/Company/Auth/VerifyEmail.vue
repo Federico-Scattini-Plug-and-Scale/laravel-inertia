@@ -5,7 +5,7 @@
         {{ __("Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.") }}
     </div>
 
-    <div class="mb-4 font-medium text-sm text-green-600" v-if="$page.props.session.status" >
+    <div class="mb-4 font-medium text-sm text-green-600" v-if="verificationLinkSent" >
         {{ __('A new verification link has been sent to the email address you provided during registration.') }}
     </div>
 
@@ -22,7 +22,7 @@
 
 <script>
 import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
+import BreezeGuestLayout from '@/Layouts/Company/Guest.vue'
 import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
 
 export default {
@@ -32,10 +32,6 @@ export default {
         BreezeButton,
         Head,
         Link,
-    },
-
-    props: {
-        status: String,
     },
 
     data() {
@@ -52,7 +48,7 @@ export default {
 
     computed: {
         verificationLinkSent() {
-            return this.status === 'verification-link-sent';
+            return usePage().props.value.status === 'verification-link-sent';
         }
     }
 }
