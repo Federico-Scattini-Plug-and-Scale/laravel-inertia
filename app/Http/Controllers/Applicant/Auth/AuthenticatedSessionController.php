@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('applicant.dashboard');
+        return redirect()->route('applicant.dashboard', auth()->user());
     }
 
     /**
