@@ -31,16 +31,17 @@ class ManageJobOffersValidity implements ShouldQueue
      */
     public function handle()
     {
-        $activeJobOffers = JobOffer::getActive();
-
-        $activeJobOffers->each(function($item) {
-            if ($item->published_at < now('Europe/Rome')->subDays($item->validity_days)->endOfDay())
-            {
-                $item->published_at = null;
-                $item->validity_days = 0;
-                $item->status = JobOffer::STATUS_INACTIVE;
-                $item->save();
-            }
+        JobOffer::query()->where('status', JobOffer::STATUS_ACTIVE)->chunk(200, function($jobOffers)
+        {
+            $jobOffers->each(function($item) {
+                if ($item->published_at < now('Europe/Rome')->subDays($item->validity_days)->endOfDay())
+                {
+                    $item->published_at = null;
+                    $item->validity_days = 0;
+                    $item->status = JobOffer::STATUS_INACTIVE;
+                    $item->save();
+                }
+            });
         });
     }
 }
