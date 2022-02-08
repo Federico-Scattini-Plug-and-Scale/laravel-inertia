@@ -130,6 +130,26 @@ class JobOffer extends Model
             ->get();
     }
 
+    public static function getMarkers($locale = 'it', $category = 'all', $locations = '')
+    {
+        $query =  self::
+                    where('status', JobOffer::STATUS_ACTIVE)
+                    ->where('locale', $locale);
+        
+        if (__($category) != __('all'))
+        {
+            $query
+                ->whereHas('category', function ($q) use ($category)
+                {
+                    $q->where('slug', $category);
+                });
+        }
+
+        return $query->location($locations)
+                    ->select(['id', 'longitude', 'latitude', 'title'])
+                    ->get();
+    }
+
     public static function getStatusOptions()
     {
         return [
