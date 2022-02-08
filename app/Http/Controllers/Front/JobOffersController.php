@@ -12,9 +12,11 @@ class JobOffersController extends Controller
     public function index($category = 'all', $locations = null)
     {
         $offers = JobOfferResource::collection(JobOffer::getListing(100, getCountry(), $category, $locations));
+        $markersInfo = JobOffer::getMarkers(getCountry(), $category, $locations);
 
         return Inertia::render('Front/JobOffers/Listing', [
             'offers' => $offers,
+            'markers' => $markersInfo
         ]);
     }
 

@@ -1,18 +1,18 @@
 <template>
-  	<div v-for="(item, index) in offers.data" :key="index">
-		  {{ item }}
-		  <Link :href="route($page.props.locale + '.joboffers.show', [item.category.slug, item.slug, item.id])">{{ __('Check the offer') }}</Link>
-	</div>
+	<Map :markers="markers" />
 </template>
 <script>
 import { Link } from '@inertiajs/inertia-vue3';
+import Map from '@/Components/Map';
 
 export default {
 	components : {
-		Link
+		Link,
+		Map
 	},
 	props: {
-		offers: Object
+		offers: Object,
+		markers: Object
 	},
 	setup(props) {
 	},
