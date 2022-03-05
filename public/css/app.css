@@ -1414,6 +1414,11 @@ select {
 .map {
 	height: 70vh;
 }
+body {
+	background-color: var(--main-bg);
+	color: var(--main-black);
+	font-size: 16px;
+}
 .w-fit-content {
   	width: -webkit-fit-content;
   	width: -moz-fit-content;
@@ -1429,6 +1434,17 @@ select {
 .custom-editor ul {
 	list-style: circle;
 	padding: 25px;
+}
+:root {
+  --main-bg: #F9F9F9;
+  --dark-bg: #3E4144;
+  --cta-blue: #04A1DD;
+  --cta-green: #24AEA4;
+  --titles-color: #36474F;
+  --red-cta: #F45958;
+  --secondary-gray: #676767;
+  --gray-button: #E7E7E6;
+  --main-black: #0E1926;
 }
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
