@@ -5,3 +5,6 @@
 @import '../css/general.css';
 @import '../css/checkout.css';
 @import '../css/variables.css';
+
+/* Components */
+@import '../css/components/navbar.css'
