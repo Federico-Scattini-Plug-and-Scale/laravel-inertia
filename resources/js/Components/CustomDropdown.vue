@@ -1,5 +1,5 @@
 <template>
-    <div class="md:relative">
+    <div class="relative">
         <div @click="open = ! open">
             <slot name="trigger" />
         </div>
@@ -15,10 +15,10 @@
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95">
             <div v-show="open"
-                    class="fixed md:absolute z-50 md:mt-2 md:rounded-md shadow-lg w-screen md:w-80 h-screen md:h-auto wrapper"
+                    class="absolute z-50 mt-2 rounded-md shadow-lg w-80 h-auto wrapper"
                     :class="[alignmentClasses]"
                     style="display: none;">
-                <div class="md:rounded-md ring-1 ring-black ring-opacity-5 h-full p-4" :class="contentClasses">
+                <div class="rounded-md ring-1 ring-black ring-opacity-5 h-full p-4" :class="contentClasses">
                     <slot @closed="open = !open" name="content" />
                 </div>
             </div>
@@ -69,10 +69,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-	@media screen and (max-width: 767px) {
-		.wrapper {
-			top: 0;
-		}
-	}
-</style>

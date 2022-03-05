@@ -42,5 +42,6 @@ export default {
 <style scoped>
 #map {
 	height: 500px; 
+	z-index: 1;
 }
 </style>

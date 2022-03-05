@@ -1,0 +1,91 @@
+nav {
+	position: sticky;
+    top: 0;
+    left: auto;
+    right: 0;
+	z-index: 999;
+	background-color: var(--dark-bg);
+	color: white;
+}
+
+.navbar {
+	height: 60px;
+}
+
+.navbar .navbar__logo {
+	font-weight: 700;
+	font-size: 30px;
+}
+
+.navbar .navbar__links {
+	height: 100%;
+}
+
+.navbar .navbar__links a,
+.navbar .navbar__buttons a {
+	position: relative;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	transition: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+@media screen and (max-width: 1024px){
+	.navbar .navbar__buttons a {
+		display: none !important;
+	}
+}
+
+.navbar .navbar__links a:hover,
+.navbar .navbar__buttons a:hover {
+	font-weight: 500;
+}
+
+.navbar .navbar__links a:hover::after,
+.navbar .navbar__buttons a:hover::after {
+	content: '';
+    width: 100%;
+    height: 4px;
+    background-color: var(--cta-green);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.navbar .navbar__buttons {
+	height: 100%;
+}
+
+
+.navbar .navbar__buttons .cta-dropdown {
+	background-color: var(--cta-green);
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.navbar .navbar__buttons .cta-dropdown:hover {
+	background-color: var(--cta-green-hover);
+	transition: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.mobile-navbar {
+	position: fixed;
+	right: 0;
+	top: 0;
+	height: 100vh;
+	width: 50%;
+	background-color: var(--dark-bg);
+	color: white;
+	z-index: 1001;
+}
+
+.overlay {
+	position: fixed;
+	right: 0;
+	top: 0;
+	height: 100vh;
+	width: 100%;
+	opacity: 0.3;
+	background-color: var(--dark-bg);
+	z-index: 1000;
+}
