@@ -139,6 +139,7 @@ export default {
 
         function switchLoc () {
             Inertia.reload({data: {changeLocale: true, locale: switcher.value.lang, country: switcher.value.country}})
+			if (showMenu.value) toggleNav()
         }
 
 		let showMenu = ref(false);
@@ -149,7 +150,7 @@ export default {
             switcher,
             switchLoc,
 			toggleNav,
-			showMenu
+			showMenu,
         }
 	},
 }

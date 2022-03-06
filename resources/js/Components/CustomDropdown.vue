@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <div @click="open = ! open">
+        <div @click="toggleOpen()">
             <slot name="trigger" />
         </div>
 
@@ -19,7 +19,7 @@
                     :class="[alignmentClasses]"
                     style="display: none;">
                 <div class="rounded-md ring-1 ring-black ring-opacity-5 h-full p-4 dropdown-content" :class="contentClasses">
-                    <slot @closed="open = !open" name="content" />
+                    <slot @closed="toggleOpen()" name="content" />
                 </div>
             </div>
         </transition>
@@ -48,11 +48,14 @@ export default {
             }
         }
 
+        const toggleOpen = () => (open.value = !open.value);
+
         onMounted(() => document.addEventListener('keydown', closeOnEscape))
         onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
 
         return {
             open,
+            toggleOpen
         }
     },
 
