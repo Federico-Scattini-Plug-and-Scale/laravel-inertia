@@ -17,6 +17,10 @@ nav {
 	font-size: 30px;
 }
 
+.navbar .navbar__logo:hover {
+	color: var(--cta-green);
+}
+
 .navbar .navbar__links {
 	height: 100%;
 }
@@ -30,19 +34,13 @@ nav {
 	transition: cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-@media screen and (max-width: 1024px){
-	.navbar .navbar__buttons a {
-		display: none !important;
-	}
-}
-
 .navbar .navbar__links a:hover,
 .navbar .navbar__buttons a:hover {
 	font-weight: 500;
 }
 
-.navbar .navbar__links a:hover::after,
-.navbar .navbar__buttons a:hover::after {
+.navbar .navbar__links .link:hover::after,
+.navbar .navbar__buttons .link:hover::after {
 	content: '';
     width: 100%;
     height: 4px;
@@ -63,9 +61,30 @@ nav {
 	border-radius: 5px;
 }
 
+.navbar .navbar__buttons .cta-dropdown .dropdown-content {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.navbar .navbar__buttons .cta-dropdown .dropdown-content .btn-wrapper{
+	background-color: var(--secondary-gray);
+	border-radius: 5px;
+}
+
+.navbar .navbar__buttons .cta-dropdown .dropdown-content,
+.navbar .navbar__buttons .lang-dropdown .dropdown-content {
+	background-color: var(--dark-bg);
+}
+
 .navbar .navbar__buttons .cta-dropdown:hover {
 	background-color: var(--cta-green-hover);
 	transition: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+
+.navbar .navbar__buttons .lang-dropdown .dropdown-content select {
+	color: var(--main-black);
+	border-radius: 5px;
 }
 
 .mobile-navbar {
@@ -79,6 +98,21 @@ nav {
 	z-index: 1001;
 }
 
+.mobile-navbar .mobile-navbar__links a:hover {
+	font-weight: 500;
+	color: var(--cta-green);
+}
+
+.mobile-navbar .mobile-navbar__buttons .btn-wrapper{
+	background-color: var(--secondary-gray);
+	border-radius: 5px;
+}
+
+.mobile-navbar select {
+	color: var(--main-black);
+	border-radius: 5px;
+}
+
 .overlay {
 	position: fixed;
 	right: 0;
@@ -88,4 +122,24 @@ nav {
 	opacity: 0.3;
 	background-color: var(--dark-bg);
 	z-index: 1000;
+}
+
+@media screen and (max-width: 768px){
+	.navbar .navbar__logo {
+		font-size: 25px;
+	}
+
+	.mobile-navbar {
+		width: 100%;
+	}
+
+	.navbar .cta-dropdown .wrapper {
+		width: 15rem;
+	}
+}
+
+@media screen and (max-width: 1024px){
+	.navbar .navbar__buttons .link {
+		display: none !important;
+	}
 }

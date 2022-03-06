@@ -18,7 +18,7 @@
                     class="absolute z-50 mt-2 rounded-md shadow-lg w-80 h-auto wrapper"
                     :class="[alignmentClasses]"
                     style="display: none;">
-                <div class="rounded-md ring-1 ring-black ring-opacity-5 h-full p-4" :class="contentClasses">
+                <div class="rounded-md ring-1 ring-black ring-opacity-5 h-full p-4 dropdown-content" :class="contentClasses">
                     <slot @closed="open = !open" name="content" />
                 </div>
             </div>
