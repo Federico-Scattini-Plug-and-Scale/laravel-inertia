@@ -8,4 +8,8 @@
 @import '../css/reset.css';
 
 /* Components */
-@import '../css/components/navbar.css'
+@import '../css/components/navbar.css';
+@import '../css/components/footer.css';
+
+/* Pages */
+@import '../css/pages/homepage.css';

@@ -1,6 +1,6 @@
 <template>
 	<nav>
-		<div class="flex justify-between items-center lg:px-8 px-10 navbar container mx-auto">
+		<div class="flex justify-between items-center px-10 md:px-0 navbar container mx-auto">
 			<div class="navbar__logo">
 				<Link>
 					<span>{{  __('Hire ++') }}</span>
@@ -127,10 +127,7 @@ export default {
 		Link,
 		CustomDropdown
 	},
-	props: {
-		offers: Object,
-		markers: Object
-	},
+	props: {},
 	setup() {
 		const switcher = ref({
             lang : usePage().props.value.locale,

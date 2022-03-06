@@ -39,9 +39,19 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-select:focus {
+select:focus, input:focus {
 	outline: 0 !important;
 	cursor: pointer;
 	border: 0 !important;
 	box-shadow: none !important;
+}
+@media screen and (min-width: 640px) {
+	.container {
+		max-width: 95% !important;
+	}
+}
+@media screen and (min-width: 1536px) {
+	.container {
+		max-width: 1536px !important;
+	}
 }

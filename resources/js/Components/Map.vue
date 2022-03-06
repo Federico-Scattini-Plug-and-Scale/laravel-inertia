@@ -39,9 +39,3 @@ export default {
 	}
 }
 </script>
-<style scoped>
-#map {
-	height: 500px; 
-	z-index: 1;
-}
-</style>
