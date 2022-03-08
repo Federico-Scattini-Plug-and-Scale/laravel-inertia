@@ -1213,6 +1213,12 @@ q:before, q:after {
 	box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper input {
 	border: 0 !important;
+	width: 100%;
+}.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect {
+	border: 0;
+}.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect.is-active {
+	border: 0 !important;
+	box-shadow: none !important;
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .icon {
 	color: var(--titles-color);
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper input::-moz-placeholder {

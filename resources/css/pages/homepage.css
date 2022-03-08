@@ -28,6 +28,16 @@
 
 .main .main__content-wrapper .filter-form .filter-form__inputs-wrapper input {
 	border: 0 !important;
+	width: 100%;
+}
+
+.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect {
+	border: 0;
+}
+
+.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect.is-active {
+	border: 0 !important;
+	box-shadow: none !important;
 }
 
 .main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .icon {
