@@ -8,30 +8,46 @@
 			<FilterForm />
 			<div class="listing"></div>
 		</div>
-		<div class="main__map-wrapper hidden lg:block">
+		<div v-if="showMap" class="main__map-wrapper block">
 			<Map :markers="markers" />
 		</div>
 	</div>
 	<footer></footer>
+	<MapTogglerMobile @toggle-mobile-map="toggleMobileMap"/>
 </template>
 <script>
 import { Link } from '@inertiajs/inertia-vue3';
 import Map from '@/Components/Map';
 import Navbar from '@/Components/Navbar';
 import FilterForm from '@/Components/FilterForm';
+import MapTogglerMobile from '@/Components/MapTogglerMobile';
+import { ref } from '@vue/reactivity';
 
 export default {
 	components : {
 		Link,
 		Map,
 		Navbar,
-		FilterForm
+		FilterForm,
+		MapTogglerMobile
 	},
 	props: {
 		offers: Object,
 		markers: Object
 	},
-	setup(props) {
+	setup() {
+		const showMap = ref(false)
+
+		const toggleMobileMap = () => { 
+			showMap.value = !showMap.value
+		}
+
+		if (window.innerWidth >= 1024) showMap.value = true
+
+		return {
+			showMap,
+			toggleMobileMap,
+		}
 	},
 }
 </script>

@@ -6,7 +6,7 @@
 					<i class="fas fa-briefcase icon"></i>
 					<input type="text" :placeholder="__('Category')">
 				</div>
-				<div class="flex gap-x-3 items-center ml-4 input py-2">
+				<div class="flex gap-x-3 items-center md:ml-4 input py-2">
 					<i class="fas fa-map-pin icon"></i>
 					<Multiselect 
                         :options="options"

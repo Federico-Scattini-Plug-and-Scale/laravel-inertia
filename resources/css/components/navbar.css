@@ -124,7 +124,7 @@ nav {
 	z-index: 1000;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 767px){
 	.navbar .navbar__logo {
 		font-size: 25px;
 	}
