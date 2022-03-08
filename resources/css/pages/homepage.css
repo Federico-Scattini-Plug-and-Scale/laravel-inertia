@@ -35,6 +35,14 @@
 	border: 0;
 }
 
+.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect .multiselect-placeholder {
+	color: var(--titles-color) !important;
+}
+
+.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect .multiselect-caret {
+	background-color: var(--titles-color) !important;
+}
+
 .main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect.is-active {
 	border: 0 !important;
 	box-shadow: none !important;
