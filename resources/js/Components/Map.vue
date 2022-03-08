@@ -15,7 +15,7 @@ export default {
 		}
 	},
 	props: {
-		markers: Object
+		markers: Object,
 	},
 	mounted() {
 		let map = L.map('map').setView([51.505, -0.09], 13);

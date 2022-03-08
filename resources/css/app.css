@@ -10,6 +10,7 @@
 /* Components */
 @import '../css/components/navbar.css';
 @import '../css/components/footer.css';
+@import '../css/components/mobile-map-toggler.css';
 
 /* Pages */
 @import '../css/pages/homepage.css';
