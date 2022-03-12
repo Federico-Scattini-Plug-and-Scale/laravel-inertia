@@ -7,7 +7,7 @@
 	</div>
 	<div class="main flex container mx-auto px-10 md:px-0 gap-x-8">
 		<div class="main__content-wrapper">
-			<FilterForm />
+			<FilterForm @toggle-filter-modal="toggleFilterModal"/>
 			<div class="listing"></div>
 		</div>
 		<div v-if="showMap" class="main__map-wrapper block">
@@ -16,6 +16,30 @@
 	</div>
 	<footer></footer>
 	<MapTogglerMobile @toggle-mobile-map="toggleMobileMap"/>
+	<div v-if="openFilterModal" @click="toggleFilterModal()" class="overlay"></div>
+	<div v-if="openFilterModal" class="filter-modal">
+		<div class="flex justify-between">
+			<div>
+				<span>{{ __('More filters') }}</span>
+			</div>
+			<div>
+				<div @click="toggleFilterModal()">
+					<i class="fas fa-times"></i>
+				</div>
+			</div>
+		</div>
+		<div>
+			<span>{{ __('Employement Type') }}</span>
+		</div>
+		<div class="flex justify-between">
+			<div>
+				<button>{{ __('Clear') }}</button>
+			</div>
+			<div>
+				<button>{{ __('Filter') }}</button>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 import { Link } from '@inertiajs/inertia-vue3';
@@ -39,9 +63,14 @@ export default {
 	},
 	setup() {
 		const showMap = ref(false)
+		const openFilterModal = ref(false)
 
 		const toggleMobileMap = () => { 
 			showMap.value = !showMap.value
+		}
+
+		const toggleFilterModal = () => { 
+			openFilterModal.value = !openFilterModal.value
 		}
 
 		if (window.innerWidth >= 1024) showMap.value = true
@@ -49,6 +78,8 @@ export default {
 		return {
 			showMap,
 			toggleMobileMap,
+			openFilterModal,
+			toggleFilterModal,
 		}
 	},
 }
