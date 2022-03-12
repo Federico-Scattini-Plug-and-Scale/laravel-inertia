@@ -57,13 +57,8 @@ class JobOfferController extends Controller
         return Inertia::render('Company/JobOffers/Create', [
             'company' => $user,
             'categories' => Category::getOptions(getCountry()),
-            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, getCountry()),
-            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, getCountry()),
+            'programmingLang' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROGRAMMING_LANGUAGE, $user->id, getCountry()),
             'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, getCountry()),
-            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, getCountry()),
-            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, getCountry()),
-            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, getCountry()),
-            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, getCountry()),
             'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, getCountry()),
             'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, getCountry()),
         ]);
@@ -119,13 +114,8 @@ class JobOfferController extends Controller
             'company' => $user,
             'tags' => $jobOffer->tags->groupBy('tagGroup.type')->map(fn ($tagGroup) => $tagGroup->map(fn ($tag) => $tag->id))->toArray(),
             'categories' => Category::getOptions(getCountry()),
-            'sectors' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_SECTOR, $user->id, getCountry()),
-            'industries' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_INDUSTRY, $user->id, getCountry()),
+            'programmingLang' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROGRAMMING_LANGUAGE, $user->id, getCountry()),
             'languages' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_LANGUAGE, $user->id, getCountry()),
-            'processes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_PROCESS_TYPE, $user->id, getCountry()),
-            'machineTypes' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE_TYPE, $user->id, getCountry()),
-            'machines' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_MACHINE, $user->id, getCountry()),
-            'techSkills' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_TECH_SKILLS, $user->id, getCountry()),
             'exp' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_EXP, $user->id, getCountry()),
             'contracts' => Tag::getOptionsBasedOnType(TagGroup::GROUP_TYPE_CONTRACT, $user->id, getCountry()),
         ]);
@@ -188,26 +178,11 @@ class JobOfferController extends Controller
         $tags = [];
         $newTags = [];
 
-        if (Arr::has($data, 'sectors') && Arr::get($data, 'sectors') != 'no validation' && !empty(Arr::get($data, 'sectors')))
+        if (Arr::has($data, 'programmingLang') && Arr::get($data, 'programmingLang') != 'no validation' && !empty(Arr::get($data, 'programmingLang')))
         {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_SECTOR, getCountry());
+            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_PROGRAMMING_LANGUAGE, getCountry());
 
-            foreach (Arr::get($data, 'sectors') as $tag)
-            {
-                is_string($tag) ? array_push($newTags, [
-                    $tag => [
-                        'groupId' => $group->id,
-                        'groupLocale' => $group->locale 
-                    ]
-                ]) : array_push($tags, $tag);
-            }
-        }
-
-        if (Arr::has($data, 'industries') && Arr::get($data, 'industries') != 'no validation' && !empty(Arr::get($data, 'industries')))
-        {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_INDUSTRY, getCountry());
-
-            foreach (Arr::get($data, 'industries') as $tag)
+            foreach (Arr::get($data, 'programmingLang') as $tag)
             {
                 is_string($tag) ? array_push($newTags, [
                     $tag => [
@@ -223,66 +198,6 @@ class JobOfferController extends Controller
             $group = TagGroup::getByType(TagGroup::GROUP_TYPE_LANGUAGE, getCountry());
 
             foreach (Arr::get($data, 'languages') as $tag)
-            {
-                is_string($tag) ? array_push($newTags, [
-                    $tag => [
-                        'groupId' => $group->id,
-                        'groupLocale' => $group->locale 
-                    ]
-                ]) : array_push($tags, $tag);
-            }
-        }
-
-        if (Arr::has($data, 'processes') && Arr::get($data, 'processes') != 'no validation' && !empty(Arr::get($data, 'processes')))
-        {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_PROCESS_TYPE, getCountry());
-
-            foreach (Arr::get($data, 'processes') as $tag)
-            {
-                is_string($tag) ? array_push($newTags, [
-                    $tag => [
-                        'groupId' => $group->id,
-                        'groupLocale' => $group->locale 
-                    ]
-                ]) : array_push($tags, $tag);
-            }
-        }
-
-        if (Arr::has($data, 'machineTypes') && Arr::get($data, 'machineTypes') != 'no validation' && !empty(Arr::get($data, 'machineTypes')))
-        {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_MACHINE_TYPE, getCountry());
-
-            foreach (Arr::get($data, 'machineTypes') as $tag)
-            {
-                is_string($tag) ? array_push($newTags, [
-                    $tag => [
-                        'groupId' => $group->id,
-                        'groupLocale' => $group->locale 
-                    ]
-                ]) : array_push($tags, $tag);
-            }
-        }
-
-        if (Arr::has($data, 'machines') && Arr::get($data, 'machines') != 'no validation' && !empty(Arr::get($data, 'machines')))
-        {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_MACHINE, getCountry());
-
-            foreach (Arr::get($data, 'machines') as $tag)
-            {
-                is_string($tag) ? array_push($newTags, [
-                    $tag => [
-                        'groupId' => $group->id,
-                        'groupLocale' => $group->locale 
-                    ]
-                ]) : array_push($tags, $tag);
-            }
-        }
-
-        if (Arr::has($data, 'techSkills') && Arr::get($data, 'techSkills') != 'no validation' && !empty(Arr::get($data, 'techSkills')))
-        {
-            $group = TagGroup::getByType(TagGroup::GROUP_TYPE_TECH_SKILLS, getCountry());
-
-            foreach (Arr::get($data, 'techSkills') as $tag)
             {
                 is_string($tag) ? array_push($newTags, [
                     $tag => [

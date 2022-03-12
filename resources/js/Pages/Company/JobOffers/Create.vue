@@ -70,85 +70,20 @@
                                 />
                                 <div v-if="errors.category" class="text-red-500">{{ errors.category }}</div>
                             </div>
-							<div class="mb-6" v-if="sectors.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Sectors') }}</label>
+                            <div class="mb-6" v-if="programmingLang.length != 0">
+                                <label class="text-lg font-semibold">{{ __('Programming languages') }}</label>
                                 <Multiselect 
-                                    v-model="form.sectors" 
-                                    :options="sectors"
+                                    v-model="form.programmingLang" 
+                                    :options="programmingLang"
                                     label="label"
                                     trackBy="value"
-                                    :placeholder="__('Select the sector')"
+                                    :placeholder="__('Select the programming language')"
                                     mode="tags"
                                     :createTag="true"
                                     :searchable="true"
                                     :appendNewTag="true"
                                 />
-                                <div v-if="errors.sectors" class="text-red-500">{{ errors.sectors }}</div>
-                            </div>
-							<div class="mb-6" v-if="industries.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Industries') }}</label>
-                                <Multiselect 
-                                    v-model="form.industries" 
-                                    :options="industries"
-                                    label="label"
-                                    trackBy="value"
-                                    :placeholder="__('Select the industry')"
-                                    mode="tags"
-                                    :createTag="true"
-                                    :searchable="true"
-                                    :appendNewTag="true"
-                                />
-                                <div v-if="errors.industries" class="text-red-500">{{ errors.industries }}</div>
-                            </div>
-							<div class="mb-6">
-                                <label class="text-lg font-semibold">{{ __('Specialization') }}</label>
-                                <input type="text" v-model="form.specialization" class="sm:rounded-lg w-full mt-1">
-                                <div v-if="errors.specialization" class="text-red-500">{{ errors.specialization }}</div>
-                            </div>
-							<div class="mb-6" v-if="processes.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Processes') }}</label>
-                                <Multiselect 
-                                    v-model="form.processes" 
-                                    :options="processes"
-                                    label="label"
-                                    trackBy="value"
-                                    :placeholder="__('Select the process')"
-                                    mode="tags"
-                                    :createTag="true"
-                                    :searchable="true"
-                                    :appendNewTag="true"
-                                />
-                                <div v-if="errors.industries" class="text-red-500">{{ errors.processes }}</div>
-                            </div>
-							<div class="mb-6" v-if="machineTypes.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Machine types') }}</label>
-                                <Multiselect 
-                                    v-model="form.machineTypes" 
-                                    :options="machineTypes"
-                                    label="label"
-                                    trackBy="value"
-                                    :placeholder="__('Select the machine type')"
-                                    mode="tags"
-                                    :createTag="true"
-                                    :searchable="true"
-                                    :appendNewTag="true"
-                                />
-                                <div v-if="errors.machineTypes" class="text-red-500">{{ errors.machineTypes }}</div>
-                            </div>
-							<div class="mb-6" v-if="machines.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Machine') }}</label>
-                                <Multiselect 
-                                    v-model="form.machines" 
-                                    :options="machines"
-                                    label="label"
-                                    trackBy="value"
-                                    :placeholder="__('Select the machine')"
-                                    mode="tags"
-                                    :createTag="true"
-                                    :searchable="true"
-                                    :appendNewTag="true"
-                                />
-                                <div v-if="errors.machines" class="text-red-500">{{ errors.machines }}</div>
+                                <div v-if="errors.programmingLang" class="text-red-500">{{ errors.programmingLang }}</div>
                             </div>
 							<div class="mb-6" v-if="languages.length != 0">
                                 <label class="text-lg font-semibold">{{ __('Language') }}</label>
@@ -164,21 +99,6 @@
                                     :appendNewTag="true"
                                 />
                                 <div v-if="errors.languages" class="text-red-500">{{ errors.languages }}</div>
-                            </div>
-							<div class="mb-6" v-if="techSkills.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Extra technical skills') }}</label>
-                                <Multiselect 
-                                    v-model="form.techSkills" 
-                                    :options="techSkills"
-                                    label="label"
-                                    trackBy="value"
-                                    :placeholder="__('Select the technical skill')"
-                                    mode="tags"
-                                    :createTag="true"
-                                    :searchable="true"
-                                    :appendNewTag="true"
-                                />
-                                <div v-if="errors.techSkills" class="text-red-500">{{ errors.techSkills }}</div>
                             </div>
 							<div class="mb-6" v-if="exp.length != 0">
                                 <label class="text-lg font-semibold">{{ __('Experience') }}</label>
@@ -253,13 +173,8 @@ export default {
     props: {
 		company: Object,
       	errors: Object,
-		sectors: Object,
-		industries: Object,
+		programmingLang: Object,
 		languages: Object,
-		processes: Object,
-		machineTypes: Object,
-		machines: Object,
-		techSkills: Object,
 		exp: Object,
 		contracts: Object,
         categories: Object,
@@ -276,13 +191,8 @@ export default {
             postal_code: '',
             latitude: '',
             longitude: '',
-			sectors: props.sectors.length != 0 ? [] : 'no validation',
-			industries: props.industries.length != 0 ? [] : 'no validation',
+			programmingLang: props.programmingLang.length != 0 ? [] : 'no validation',
 			languages: props.languages.length != 0 ? [] : 'no validation',
-			processes: props.processes.length != 0 ? [] : 'no validation',
-			machineTypes: props.machineTypes.length != 0 ? [] : 'no validation',
-			machines: props.machines.length != 0 ? [] : 'no validation',
-			techSkills: props.techSkills.length != 0 ? [] : 'no validation',
 			exp: props.exp.length != 0 ? [] : 'no validation',
 			contracts: props.contracts.length != 0 ? [] : 'no validation',
 			specialization: '',
