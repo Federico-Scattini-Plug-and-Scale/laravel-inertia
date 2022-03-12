@@ -1,7 +1,9 @@
 <template>
 	<Navbar />
-	<div class="container mx-auto text-center py-10 px-10 md:px-0 main-title-wrapper">
-		<h1 class="font-medium main-title">{{ __('All the IT job offers in one place.') }}</h1>
+	<div class="main-title-wrapper">
+		<div class="container mx-auto text-center py-10 px-10 md:px-0">
+			<h1 class="font-medium main-title">{{ __('All the IT job offers in one place.') }}</h1>
+		</div>
 	</div>
 	<div class="main flex container mx-auto px-10 md:px-0 gap-x-8">
 		<div class="main__content-wrapper">

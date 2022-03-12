@@ -1096,7 +1096,7 @@ q:before, q:after {
     top: 0;
     left: auto;
     right: 0;
-	z-index: 999;
+	z-index: 1002;
 	background-color: var(--dark-bg);
 	color: white;
 }.navbar {
@@ -1153,10 +1153,10 @@ q:before, q:after {
 	right: 0;
 	top: 0;
 	height: 100vh;
-	width: 50%;
+	width: 65%;
 	background-color: var(--dark-bg);
 	color: white;
-	z-index: 1001;
+	z-index: 1002;
 }.mobile-navbar .mobile-navbar__links a:hover {
 	font-weight: 500;
 	color: var(--cta-green);
@@ -1196,8 +1196,9 @@ q:before, q:after {
   background-color: var(--dark-bg);
 }.mobile-map-toggler {
   	position: fixed;
-	left: 50%;
-	bottom: 20px;
+	left: 0;
+	transform: translate(calc(50vw - 50%));
+	bottom: 25px;
 	background-color: var(--main-black);
 	font-weight: 500;
 	padding: 10px;
@@ -1227,6 +1228,10 @@ q:before, q:after {
 	width: 100%;
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect {
 	border: 0;
+}.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect .multiselect-placeholder {
+	color: var(--titles-color) !important;
+}.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect .multiselect-caret {
+	background-color: var(--titles-color) !important;
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper .multiselect.is-active {
 	border: 0 !important;
 	box-shadow: none !important;
