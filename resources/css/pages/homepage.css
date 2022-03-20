@@ -85,10 +85,10 @@
 }
 
 .listing {
-	height: 400vh;
-	background-color: red;
 	z-index: 1;
 	margin-top: 40px;
+	display: flex;
+	flex-direction: column;
 }
 
 .main .main__content-wrapper .filter-form .tech-box-main {

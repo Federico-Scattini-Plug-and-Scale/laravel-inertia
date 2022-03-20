@@ -8,7 +8,19 @@
 	<div class="main flex justify-center container mx-auto px-10 md:px-0 gap-x-8">
 		<div class="main__content-wrapper">
 			<FilterForm @toggle-filter-modal="toggleFilterModal"/>
-			<div class="listing"></div>
+			<div class="listing">
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+				<JobOffer />
+			</div>
 		</div>
 		<div v-if="showMap" class="main__map-wrapper block">
 			<Map :markers="markers" />
@@ -47,6 +59,7 @@ import Map from '@/Components/Map';
 import Navbar from '@/Components/Navbar';
 import FilterForm from '@/Components/FilterForm';
 import MapTogglerMobile from '@/Components/MapTogglerMobile';
+import JobOffer from '@/Components/JobOffer';
 import { ref } from '@vue/reactivity';
 
 export default {
@@ -55,7 +68,8 @@ export default {
 		Map,
 		Navbar,
 		FilterForm,
-		MapTogglerMobile
+		MapTogglerMobile,
+		JobOffer
 	},
 	props: {
 		offers: Object,
