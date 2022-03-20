@@ -96,6 +96,7 @@ class TagController extends Controller
     public function update(TagGroup $taggroup, Request $request)
     {
         $tags = $request->get('tags');
+        $files = $request->file('tags', []);
 
         $validator = Validator::make($request->all(), $this->rules($tags));
 
@@ -106,16 +107,35 @@ class TagController extends Controller
 
         foreach ($tags as $index => $tag)
         {
+            $imageName = null;
+
+            if(!empty($files) && in_array($index, array_keys($files)))
+            {
+                $logo = Arr::get($files[$index], 'icon');
+                if (!empty($logo))
+                {
+                    $imageName = time().'_'.$logo->getClientOriginalName();
+                    $logo->move(public_path() . '/img/', $imageName);
+                }
+            }
+
+            $data = [
+                'name' => Arr::get($tag, 'name'), 
+                'is_active' => Arr::get($tag, 'is_active'),
+                'position' => $index,
+                'tag_group_id' => $taggroup->id,
+                'locale' => getCountry(),
+                'is_approved' => Arr::get($tag, 'is_approved'),
+            ];
+
+            if (!empty($imageName))
+            {
+                $data['icon'] = $imageName;
+            }
+
             Tag::updateOrCreate(
                 ['id' => Arr::get($tag, 'id')],
-                [
-                    'name' => Arr::get($tag, 'name'), 
-                    'is_active' => Arr::get($tag, 'is_active'),
-                    'position' => $index,
-                    'tag_group_id' => $taggroup->id,
-                    'locale' => getCountry(),
-                    'is_approved' => Arr::get($tag, 'is_approved')
-                ]
+                $data
             );
         }
 

@@ -38,26 +38,11 @@ class JobOfferEditRequest extends FormRequest
             'postal_code' => 'nullable',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'sectors' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'sectors');
-            }),
-            'industries' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'industries');
+            'programmingLang' => Rule::requiredIf(function() use($request) {
+                return Arr::has($request, 'programmingLang');
             }),
             'languages' => Rule::requiredIf(function() use($request) {
                 return Arr::has($request, 'languages');
-            }),
-            'processes' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'processes');
-            }),
-            'machineTypes' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'machineTypes');
-            }),
-            'machines' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'machines');
-            }),
-            'techSkills' => Rule::requiredIf(function() use($request) {
-                return Arr::has($request, 'techSkills');
             }),
             'exp' => Rule::requiredIf(function() use($request) {
                 return Arr::has($request, 'exp');

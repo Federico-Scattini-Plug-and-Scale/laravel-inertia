@@ -3,7 +3,7 @@ nav {
     top: 0;
     left: auto;
     right: 0;
-	z-index: 999;
+	z-index: 1002;
 	background-color: var(--dark-bg);
 	color: white;
 }
@@ -92,10 +92,10 @@ nav {
 	right: 0;
 	top: 0;
 	height: 100vh;
-	width: 50%;
+	width: 65%;
 	background-color: var(--dark-bg);
 	color: white;
-	z-index: 1001;
+	z-index: 1002;
 }
 
 .mobile-navbar .mobile-navbar__links a:hover {

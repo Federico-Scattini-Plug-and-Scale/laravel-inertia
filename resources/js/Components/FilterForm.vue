@@ -18,8 +18,144 @@
 				</div>
 				<button class="px-5 py-3 search-btn">{{ __('Search') }}</button>
 			</div>
-			<div>
-
+			<div class="flex mt-5 items-center justify-between">
+				<div class="flex items-center gap-x-1">
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+					<div class="tech-box-main">
+						<div class="tech-box-wrapper">
+							<div class="tech-box">
+								<Link class="tech-box__link">
+									<div class="tech-box__icon-wrapper">
+										<i class="fab fa-php"></i>
+									</div>
+									<!-- <span class="texh-box__label">PHP</span> -->
+								</Link>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<button class="more-filters-btn" @click.prevent="$emit('toggle-filter-modal')">{{ __('More filters') }}</button>
+				</div>
 			</div>
 			<div>
 
@@ -50,7 +186,7 @@ export default {
 		]
 
         return {
-			options
+			options,
         }
 	},
 }

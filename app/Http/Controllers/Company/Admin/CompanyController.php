@@ -86,7 +86,7 @@ class CompanyController extends Controller
 
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
-            $imageName = $logo->getClientOriginalName();
+            $imageName = time().'_'.$logo->getClientOriginalName();
             $logo->move(public_path() . '/img/', $imageName);
 
             if (!empty($oldLogo))

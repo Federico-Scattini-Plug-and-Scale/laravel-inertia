@@ -13,7 +13,6 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
 	padding: 0;
-	border: 0;
 	font-size: 100%;
 	vertical-align: baseline;
 }
@@ -39,7 +38,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-select:focus, input:focus {
+nav select:focus, nav input:focus, .main select:focus, .main input:focus {
 	outline: 0 !important;
 	cursor: pointer;
 	border: 0 !important;

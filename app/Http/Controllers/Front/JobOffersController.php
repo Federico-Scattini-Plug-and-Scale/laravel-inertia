@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 class JobOffersController extends Controller
 {
-    public function index($category = 'all', $locations = null)
+    public function index($category = 'all', $tech = 'all', $locations = null)
     {
         $offers = JobOfferResource::collection(JobOffer::getListing(100, getCountry(), $category, $locations));
         $markersInfo = JobOffer::getMarkers(getCountry(), $category, $locations);
