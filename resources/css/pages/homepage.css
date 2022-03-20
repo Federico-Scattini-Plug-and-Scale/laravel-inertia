@@ -204,7 +204,7 @@
 	height: 100vh;
 	opacity: 0.3;
 	background-color: gray;
-	z-index: 1100;
+	z-index: 1002;
 }
 
 @media screen and (max-width: 767px){
@@ -243,7 +243,7 @@
 		position: fixed !important;
 		top: 0;
 		left: 0;
-		z-index: 1000;
+		z-index: 1003;
 		height: 100%;
 		width: 100%;
 	}

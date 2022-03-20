@@ -1064,7 +1064,6 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
 	padding: 0;
-	border: 0;
 	font-size: 100%;
 	vertical-align: baseline;
 }article, aside, details, figcaption, figure, 
@@ -1082,7 +1081,7 @@ q:before, q:after {
 }table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}select:focus, input:focus {
+}nav select:focus, nav input:focus, .main select:focus, .main input:focus {
 	outline: 0 !important;
 	cursor: pointer;
 	border: 0 !important;
@@ -1208,7 +1207,7 @@ q:before, q:after {
 	font-weight: 500;
 	padding: 10px;
 	border-radius: 5px;
-	z-index: 1001;
+	z-index: 1004;
 	color: white;
 	box-shadow: 5px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }/* Pages */.main-title-wrapper {
@@ -1357,7 +1356,7 @@ q:before, q:after {
 	height: 100vh;
 	opacity: 0.3;
 	background-color: gray;
-	z-index: 1100;
+	z-index: 1002;
 }@media screen and (max-width: 767px){
 	.main .main__content-wrapper .filter-form-wrapper .filter-form .filter-form__inputs-wrapper {
 		flex-direction: column;
@@ -1392,7 +1391,7 @@ q:before, q:after {
 		position: fixed !important;
 		top: 0;
 		left: 0;
-		z-index: 1000;
+		z-index: 1003;
 		height: 100%;
 		width: 100%;
 	}

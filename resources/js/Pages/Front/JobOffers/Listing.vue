@@ -5,7 +5,7 @@
 			<h1 class="font-medium main-title">{{ __('All the IT job offers in one place.') }}</h1>
 		</div>
 	</div>
-	<div class="main flex container mx-auto px-10 md:px-0 gap-x-8">
+	<div class="main flex justify-center container mx-auto px-10 md:px-0 gap-x-8">
 		<div class="main__content-wrapper">
 			<FilterForm @toggle-filter-modal="toggleFilterModal"/>
 			<div class="listing"></div>

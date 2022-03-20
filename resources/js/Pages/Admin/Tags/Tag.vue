@@ -37,6 +37,11 @@
 											</span>
 										</div>
 										<div class="flex flex-col justify-center items-center">
+											<label>{{ __('Icon') }}</label>
+											<span v-if="element.icon">{{ element.icon }}</span>
+											<input type="file" class="form-control" @change="setIcon($event, element)" />
+										</div>
+										<div class="flex flex-col justify-center items-center">
 											<label>{{ __('Active') }}</label>
 											<input type="checkbox" class="form-control" v-model="element.is_active" />
 										</div>
@@ -102,7 +107,8 @@ export default {
                 name: '', 
                 is_active: false, 
                 position: tags.value.length,
-                is_approved: true
+                is_approved: true,
+				icon: ''
             });
         }
 
@@ -112,7 +118,11 @@ export default {
             });
         }
 
-        return { remove, add, changePosition, taggroup }
+		function setIcon(e, element) {
+			element.icon = e.target.files[0]
+		}
+
+        return { remove, add, changePosition, taggroup, setIcon }
     },
 }
 </script>
