@@ -19,6 +19,7 @@
 							<span>{{ __('Milano MI, via Roma 20') }}</span>
 						</div>
 					</div>
+					<span class="mobile job-offer__info-salary">{{ __('10k - 12k EUR') }}</span>
 					<div class="job-offer__tags">
 						<span class="job-offer__tags-tag">{{ __('Back-end') }}</span>
 						<span class="job-offer__tags-tag">{{ __('Full-time') }}</span>
@@ -28,7 +29,7 @@
 			</div>
 			<div class="job-offer__right">
 				<div class="job-offer__right-top">
-					<span class="job-offer__right-salary">{{ __('10000 - 12000 EUR') }}</span>
+					<span class="job-offer__right-salary">{{ __('10k - 12k EUR') }}</span>
 					<i class="far fa-bookmark"></i>
 				</div>
 				<div class="job-offer__right-bottom">

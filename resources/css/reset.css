@@ -54,3 +54,9 @@ nav select:focus, nav input:focus, .main select:focus, .main input:focus {
 		max-width: 1536px !important;
 	}
 }
+@media screen and (max-width: 767px) {
+	.container {
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+	}
+}
