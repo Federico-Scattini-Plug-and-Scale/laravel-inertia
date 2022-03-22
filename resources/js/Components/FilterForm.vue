@@ -18,7 +18,7 @@
 				</div>
 				<button class="px-5 py-3 search-btn">{{ __('Search') }}</button>
 			</div>
-			<div class="flex mt-5 items-center justify-between">
+			<div class="flex mt-5 items-center justify-between tech-section">
 				<div class="flex items-center gap-x-1">
 					<div class="tech-box-main">
 						<div class="tech-box-wrapper">
@@ -157,8 +157,18 @@
 					<button class="more-filters-btn" @click.prevent="$emit('toggle-filter-modal')">{{ __('More filters') }}</button>
 				</div>
 			</div>
-			<div>
-
+			<div class="sub-filter-section">
+				<div class="flex items-center">
+					<span class="mr-2">{{ __('Order by:') }}</span>
+					<select class="order-select">
+						<option value="">{{ __('Date') }}</option>
+						<option value="">{{ __('Date') }}</option>
+						<option value="">{{ __('Date') }}</option>
+					</select>
+				</div>
+			</div>
+			<div class="mobile-section">
+				mobile
 			</div>
 		</form>
 	</div>

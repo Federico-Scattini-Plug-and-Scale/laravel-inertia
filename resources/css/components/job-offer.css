@@ -26,10 +26,9 @@
 	color: var(--titles-color);
 	font-weight: 600;
 	font-size: 20px;
-	margin-bottom: 10px;
 }
 
-.job-offer .job-offer__left .company-logo-wrapper{
+.job-offer .job-offer__left .company-logo-wrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -76,7 +75,7 @@
 	margin-top: 10px;
 }
 
-.job-offer .job-offer__left .job-offer__info .job-offer__tags .job-offer__tags-tag{
+.job-offer .job-offer__left .job-offer__info .job-offer__tags .job-offer__tags-tag {
 	background-color: rgba(4, 159, 220, 0.1);
 	color: var(--cta-blue);
 	font-weight: 500;
@@ -94,6 +93,8 @@
 
 .job-offer .job-offer__right .job-offer__right-top {
 	display: flex;
+	align-items: center;
+	justify-content: end;
 }
 
 .job-offer .job-offer__right .job-offer__right-top .job-offer__right-salary {
@@ -110,8 +111,6 @@
 .job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
 	font-weight: 600;
 	color: var(--secondary-gray);
-	margin-left: 20px;
-	margin-right: 10px;
 }
 
 .job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-time {
@@ -188,4 +187,51 @@
     line-height: 15px;
     text-align: center;
     margin-top: 5px;
+}
+
+@media screen and (max-width: 767px){
+	.job-offer .job-offer__right-salary,
+	.job-offer .job-offer__right-tech,
+	.job-offer .job-offer__right-time,
+	.job-offer .job-offer__left .job-offer__info .job-offer__tags,
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-box .job-offer__info-company { 
+		display: none !important;
+	}
+
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-title {
+		font-size: 15px !important;
+	}
+
+	.job-offer .mobile {
+		display: block !important;
+	}
+
+	.job-offer .job-offer__info-salary {
+		color: var(--green-money);
+		font-weight: 500;
+		font-size: 13px;
+	}
+
+	.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
+		font-size: 13px;
+	}
+
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-box .job-offer__info-location {
+		font-size: 13px !important;
+	}
+}
+
+@media screen and (min-width: 768px){
+	.job-offer .mobile {
+		display: none !important;
+	}
+
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-title {
+		margin-bottom: 10px;
+	}
+
+	.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
+		margin-left: 20px;
+		margin-right: 10px;
+	}
 }

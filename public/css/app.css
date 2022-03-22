@@ -1095,6 +1095,11 @@ q:before, q:after {
 	.container {
 		max-width: 1536px !important;
 	}
+}@media screen and (max-width: 767px) {
+	.container {
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+	}
 }/* Components */nav {
 	position: -webkit-sticky;
 	position: sticky;
@@ -1231,8 +1236,7 @@ q:before, q:after {
 	color: var(--titles-color);
 	font-weight: 600;
 	font-size: 20px;
-	margin-bottom: 10px;
-}.job-offer .job-offer__left .company-logo-wrapper{
+}.job-offer .job-offer__left .company-logo-wrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -1264,7 +1268,7 @@ q:before, q:after {
 }.job-offer .job-offer__left .job-offer__info .job-offer__tags {
 	display: flex;
 	margin-top: 10px;
-}.job-offer .job-offer__left .job-offer__info .job-offer__tags .job-offer__tags-tag{
+}.job-offer .job-offer__left .job-offer__info .job-offer__tags .job-offer__tags-tag {
 	background-color: rgba(4, 159, 220, 0.1);
 	color: var(--cta-blue);
 	font-weight: 500;
@@ -1278,6 +1282,8 @@ q:before, q:after {
 	justify-content: space-between;
 }.job-offer .job-offer__right .job-offer__right-top {
 	display: flex;
+	align-items: center;
+	justify-content: end;
 }.job-offer .job-offer__right .job-offer__right-top .job-offer__right-salary {
 	color: var(--green-money);
 	font-weight: 500;
@@ -1288,8 +1294,6 @@ q:before, q:after {
 }.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
 	font-weight: 600;
 	color: var(--secondary-gray);
-	margin-left: 20px;
-	margin-right: 10px;
 }.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-time {
 	color: var(--secondary-gray);
 }.job-offer .job-offer__right .job-offer__right-tech {
@@ -1342,6 +1346,49 @@ q:before, q:after {
     line-height: 15px;
     text-align: center;
     margin-top: 5px;
+}@media screen and (max-width: 767px){
+	.job-offer .job-offer__right-salary,
+	.job-offer .job-offer__right-tech,
+	.job-offer .job-offer__right-time,
+	.job-offer .job-offer__left .job-offer__info .job-offer__tags,
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-box .job-offer__info-company { 
+		display: none !important;
+	}
+
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-title {
+		font-size: 15px !important;
+	}
+
+	.job-offer .mobile {
+		display: block !important;
+	}
+
+	.job-offer .job-offer__info-salary {
+		color: var(--green-money);
+		font-weight: 500;
+		font-size: 13px;
+	}
+
+	.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
+		font-size: 13px;
+	}
+
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-box .job-offer__info-location {
+		font-size: 13px !important;
+	}
+}@media screen and (min-width: 768px){
+	.job-offer .mobile {
+		display: none !important;
+	}
+
+	.job-offer .job-offer__left .job-offer__info .job-offer__info-title {
+		margin-bottom: 10px;
+	}
+
+	.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
+		margin-left: 20px;
+		margin-right: 10px;
+	}
 }/* Pages */.main-title-wrapper {
 	position: -webkit-sticky;
 	position: sticky;
@@ -1489,6 +1536,15 @@ q:before, q:after {
 	opacity: 0.3;
 	background-color: gray;
 	z-index: 1002;
+}.main .main__content-wrapper .filter-form-wrapper .filter-form .sub-filter-section {
+	padding-top: 30px;
+	padding-bottom: 20px;
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}.main .main__content-wrapper .filter-form-wrapper .filter-form .sub-filter-section .order-select {
+	border: 0 !important;
+	background-color: transparent !important;
 }@media screen and (max-width: 767px){
 	.main .main__content-wrapper .filter-form-wrapper .filter-form .filter-form__inputs-wrapper {
 		flex-direction: column;
@@ -1510,6 +1566,15 @@ q:before, q:after {
 
 	.main-title-wrapper .main-title {
 		font-size: 30px;
+	}
+
+	.main .main__content-wrapper .filter-form-wrapper .filter-form .tech-section,
+	.main .main__content-wrapper .filter-form-wrapper .filter-form .sub-filter-section {
+		display: none !important;
+	}
+
+	.main .main__content-wrapper .filter-form-wrapper .filter-form .mobile-section {
+		display: block;
 	}
 }@media screen and (max-width: 1023px) {
 	.main-title-wrapper, 
@@ -1541,6 +1606,10 @@ q:before, q:after {
 		height: 100vh;
 		border-radius: 5px 5px 0 0;
 		box-shadow: 5px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	}
+}@media screen and (min-width: 768px) {
+	.main .main__content-wrapper .filter-form-wrapper .filter-form .mobile-section {
+		display: none !important;
 	}
 }.hover\:border-gray-300:hover{
   --tw-border-opacity: 1;
