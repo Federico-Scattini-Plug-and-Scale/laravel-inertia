@@ -81,4 +81,18 @@ class Tag extends Model
             ->orderBy('position')
             ->get();
     }
+
+    public static function getByGroupType($groupType, $locale, $select = ['*'])
+    {
+        return self::
+            whereHas('tagGroup', function ($q) use ($groupType)
+            {
+                $q->where('type', $groupType);
+            })
+            ->where('is_active', true)
+            ->where('locale', $locale)
+            ->orderBy('position')
+            ->select($select)
+            ->get();
+    }
 }

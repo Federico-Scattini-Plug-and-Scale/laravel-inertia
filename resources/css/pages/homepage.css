@@ -128,7 +128,6 @@
 }
 
 .main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__icon-wrapper { 
-	background: linear-gradient(-90deg, rgb(65, 173, 250), rgb(21, 124, 252));
     display: flex;
     -webkit-box-align: center;
     align-items: center;
@@ -152,17 +151,16 @@
     fill: rgb(255, 255, 255);
 }
 
-.main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__icon-wrapper svg { 
+.main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__icon-wrapper .tech-box__icon { 
 	width: 35px;
-    fill: rgb(255, 255, 255);
-	color: white;
 }
 
 .main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__label { 
-    font-size: 11px;
+    font-size: 12px;
     line-height: 15px;
     text-align: center;
     margin-top: 5px;
+		color: var(--secondary-gray);
 }
 
 .main .main__content-wrapper .filter-form .more-filters-btn {
