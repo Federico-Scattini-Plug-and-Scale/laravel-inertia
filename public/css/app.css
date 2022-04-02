@@ -1221,7 +1221,7 @@ q:before, q:after {
 	justify-content: space-between;
 	width: 100%;
 	background-color: white;
-	box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.11);
 	padding: 10px 20px;
 	border-radius: 5px;
 	margin-bottom: 20px;
@@ -1405,7 +1405,7 @@ q:before, q:after {
 	flex: 37%;
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper {
 	border-radius: 5px;
-	box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.11);
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper input {
 	border: 0 !important;
 	width: 100%;
@@ -1447,7 +1447,6 @@ q:before, q:after {
 	background-color: var(--main-bg);
 }.listing {
 	z-index: 1;
-	margin-top: 40px;
 	display: flex;
 	flex-direction: column;
 }.main .main__content-wrapper .filter-form .tech-box-main {
