@@ -38,6 +38,11 @@ class JobOffer extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function mainTech()
+    {
+        return $this->hasOne(Tag::class);
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);

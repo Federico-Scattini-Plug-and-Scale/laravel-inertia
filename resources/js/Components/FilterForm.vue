@@ -4,7 +4,13 @@
 			<div class="flex bg-white pl-5 filter-form__inputs-wrapper">
 				<div class="flex gap-x-3 items-center input py-2">
 					<i class="fas fa-briefcase icon"></i>
-					<input type="text" :placeholder="__('Category')">
+					<Multiselect 
+                        :options="options"
+                        label="label"
+                        trackBy="label"
+                        :placeholder="__('Category')"
+                        :searchable="true"
+                    />				
 				</div>
 				<div class="flex gap-x-3 items-center md:ml-4 input py-2">
 					<i class="fas fa-map-pin icon"></i>

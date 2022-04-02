@@ -72,7 +72,18 @@
                                 <div v-if="errors.category" class="text-red-500">{{ errors.category }}</div>
                             </div>
                             <div class="mb-6" v-if="programmingLang.length != 0">
-                                <label class="text-lg font-semibold">{{ __('Programming language') }}</label>
+                                <label class="text-lg font-semibold">{{ __('Must have programming language') }}</label>
+                                <Multiselect 
+                                    v-model="form.tech_id" 
+                                    :options="programmingLang"
+                                    label="label"
+                                    trackBy="value"
+                                    :placeholder="__('Select the programming language')"
+                                />
+                                <div v-if="errors.programmingLang" class="text-red-500">{{ errors.programmingLang }}</div>
+                            </div>
+                            <div class="mb-6" v-if="programmingLang.length != 0">
+                                <label class="text-lg font-semibold">{{ __('Nice to have programming language') }}</label>
                                 <Multiselect 
                                     v-model="form.programmingLang" 
                                     :options="programmingLang"
@@ -202,7 +213,8 @@ export default {
 			min_salary: props.jobOffer.min_salary,
 			max_salary: props.jobOffer.max_salary,
 			currency: props.jobOffer.currency,
-            category: props.jobOffer.category_id
+            category: props.jobOffer.category_id,
+            tech_id: props.jobOffer.tech_id
 		})
 
 		const markers = ref([])
