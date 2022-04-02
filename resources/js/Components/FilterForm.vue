@@ -4,7 +4,13 @@
 			<div class="flex bg-white pl-5 filter-form__inputs-wrapper">
 				<div class="flex gap-x-3 items-center input py-2">
 					<i class="fas fa-briefcase icon"></i>
-					<input type="text" :placeholder="__('Category')">
+					<Multiselect 
+                        :options="options"
+                        label="label"
+                        trackBy="label"
+                        :placeholder="__('Category')"
+                        :searchable="true"
+                    />				
 				</div>
 				<div class="flex gap-x-3 items-center md:ml-4 input py-2">
 					<i class="fas fa-map-pin icon"></i>
@@ -20,134 +26,14 @@
 			</div>
 			<div class="flex mt-5 items-center justify-between tech-section">
 				<div class="flex items-center gap-x-1">
-					<div class="tech-box-main">
+					<div class="tech-box-main" v-for="tech in technologies" :key="tech.id">
 						<div class="tech-box-wrapper">
 							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
+								<Link class="tech-box__link" :href="tech.url">
+									<div class="tech-box__icon-wrapper" :style="{backgroundColor: tech.bg_color ?? '#c2c2c2'}">
+										<img :src="tech.icon_url" class="tech-box__icon" />
 									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div class="tech-box-main">
-						<div class="tech-box-wrapper">
-							<div class="tech-box">
-								<Link class="tech-box__link">
-									<div class="tech-box__icon-wrapper">
-										<i class="fab fa-php"></i>
-									</div>
-									<!-- <span class="texh-box__label">PHP</span> -->
+									<span class="tech-box__label">{{ tech.name }}</span>
 								</Link>
 							</div>
 						</div>
@@ -185,6 +71,7 @@ export default {
 		Multiselect,
 	},
 	props: {
+		technologies: Object
 	},
 	setup() {
 		const options = [

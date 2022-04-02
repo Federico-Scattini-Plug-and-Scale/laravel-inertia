@@ -1221,7 +1221,7 @@ q:before, q:after {
 	justify-content: space-between;
 	width: 100%;
 	background-color: white;
-	box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.11);
 	padding: 10px 20px;
 	border-radius: 5px;
 	margin-bottom: 20px;
@@ -1405,7 +1405,7 @@ q:before, q:after {
 	flex: 37%;
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper {
 	border-radius: 5px;
-	box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.11);
 }.main .main__content-wrapper .filter-form .filter-form__inputs-wrapper input {
 	border: 0 !important;
 	width: 100%;
@@ -1447,7 +1447,6 @@ q:before, q:after {
 	background-color: var(--main-bg);
 }.listing {
 	z-index: 1;
-	margin-top: 40px;
 	display: flex;
 	flex-direction: column;
 }.main .main__content-wrapper .filter-form .tech-box-main {
@@ -1476,7 +1475,6 @@ q:before, q:after {
     text-decoration: none;
     border-radius: 50%;
 }.main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__icon-wrapper { 
-	background: linear-gradient(-90deg, rgb(65, 173, 250), rgb(21, 124, 252));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1495,15 +1493,14 @@ q:before, q:after {
     box-shadow: rgb(228 232 240) 0px 0px 0px 5px;
     color: rgb(255, 255, 255);
     fill: rgb(255, 255, 255);
-}.main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__icon-wrapper svg { 
+}.main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__icon-wrapper .tech-box__icon { 
 	width: 35px;
-    fill: rgb(255, 255, 255);
-	color: white;
 }.main .main__content-wrapper .filter-form .tech-box-main .tech-box-wrapper .tech-box .tech-box__label { 
-    font-size: 11px;
+    font-size: 12px;
     line-height: 15px;
     text-align: center;
     margin-top: 5px;
+		color: var(--secondary-gray);
 }.main .main__content-wrapper .filter-form .more-filters-btn {
 	background-color: var(--gray-button);
 	min-height: 40px;

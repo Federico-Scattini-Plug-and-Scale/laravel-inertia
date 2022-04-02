@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -121,7 +122,9 @@ class TagController extends Controller
 
             $data = [
                 'name' => Arr::get($tag, 'name'), 
+                'slug' => Str::slug(Arr::get($tag, 'name')), 
                 'is_active' => Arr::get($tag, 'is_active'),
+                'bg_color' => Arr::get($tag, 'bg_color'),
                 'position' => $index,
                 'tag_group_id' => $taggroup->id,
                 'locale' => getCountry(),

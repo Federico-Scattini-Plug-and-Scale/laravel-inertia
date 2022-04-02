@@ -41,6 +41,9 @@
 											<span v-if="element.icon">{{ element.icon }}</span>
 											<input type="file" class="form-control" @change="setIcon($event, element)" />
 										</div>
+                                        <div>
+                                            <input type="color" v-model="element.bg_color">
+                                        </div>
 										<div class="flex flex-col justify-center items-center">
 											<label>{{ __('Active') }}</label>
 											<input type="checkbox" class="form-control" v-model="element.is_active" />
@@ -108,7 +111,8 @@ export default {
                 is_active: false, 
                 position: tags.value.length,
                 is_approved: true,
-				icon: ''
+				icon: '',
+                bg_color: ''
             });
         }
 

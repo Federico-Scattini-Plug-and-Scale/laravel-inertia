@@ -69,7 +69,8 @@ class JobOfferEditRequest extends FormRequest
                 Rule::requiredIf(function() use($request) {
                     return Arr::has($request, 'min_salary') && Arr::get($request, 'min_salary' > 0);
                 }),
-            ]
+            ],
+            'tech_id' => 'required'
         ];
 
         if (auth()->user()->isAdmin())

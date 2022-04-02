@@ -7,7 +7,7 @@
 	</div>
 	<div class="main flex justify-center container mx-auto px-10 md:px-0 gap-x-8">
 		<div class="main__content-wrapper">
-			<FilterForm @toggle-filter-modal="toggleFilterModal"/>
+			<FilterForm :technologies="technologies" @toggle-filter-modal="toggleFilterModal"/>
 			<div class="listing">
 				<JobOffer />
 				<JobOffer />
@@ -73,7 +73,8 @@ export default {
 	},
 	props: {
 		offers: Object,
-		markers: Object
+		markers: Object,
+		technologies: Object
 	},
 	setup() {
 		const showMap = ref(false)

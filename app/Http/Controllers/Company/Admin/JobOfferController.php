@@ -89,6 +89,7 @@ class JobOfferController extends Controller
             'status' => JobOffer::STATUS_CART,
             'locale' => getCountry(),
             'category_id' => Arr::get($payload, 'category'),
+            'tech_id' => Arr::get($payload, 'tech_id')
         ];
         
         $jobOffer = JobOffer::create($data);
@@ -146,6 +147,7 @@ class JobOfferController extends Controller
             'status' => $jobOffer->status,
             'locale' => getCountry(),
             'category_id' => Arr::get($payload, 'category'),
+            'tech_id' => Arr::get($payload, 'tech_id')
         ];
         
         $jobOffer->update($data);
