@@ -9,6 +9,7 @@
 	padding: 10px 20px;
 	border-radius: 5px;
 	margin-bottom: 20px;
+	transition: transform .4s;
 }
 
 .job-offer .job-offer__left {
@@ -233,5 +234,9 @@
 	.job-offer .job-offer__right .job-offer__right-bottom .job-offer__right-tag {
 		margin-left: 20px;
 		margin-right: 10px;
+	}
+
+	.job-offer:hover {
+		transform: scale(1.03);
 	}
 }
