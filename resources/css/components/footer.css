@@ -1,4 +1,6 @@
 footer {
-  height: 200px;
-  background-color: var(--dark-bg);
+  	background-color: var(--dark-bg);
+	color: white;
+	z-index: 1009;
+	position: relative;
 }
