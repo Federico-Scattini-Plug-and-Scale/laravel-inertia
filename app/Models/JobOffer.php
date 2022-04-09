@@ -27,6 +27,11 @@ class JobOffer extends Model
     const STATUS_ARCHIVED = 'archived';
     const VALIDITY = 30;
     const FREE_VALIDITY = 15;
+    const FILTERS = [
+        'employementType',
+        'salaryRange',
+        'seniority',
+    ];
 
     public function jobOfferType()
     {

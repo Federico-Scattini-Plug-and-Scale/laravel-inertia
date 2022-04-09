@@ -15,21 +15,42 @@ class JobOffersController extends Controller
     {
         $offers = JobOfferResource::collection(JobOffer::getListing(100, getCountry(), $category, $locations));
         $markersInfo = JobOffer::getMarkers(getCountry(), $category, $locations);
-        $technologies = Tag::getByGroupType(
-                TagGroup::GROUP_TYPE_PROGRAMMING_LANGUAGE, 
-                getCountry(), 
-                ['id', 'name', 'slug', 'icon', 'bg_color']
-            )
-            ->each(function ($element) use ($category, $locations)
-            {
-                $element->icon_url = url('/img/' . $element->icon);
-                $element->url = url(sprintf('/%s/%s/%s%s', $category, $element->slug, $locations ?? '', queryParams()));
-            });
 
+        $technologies = Tag::getByGroupType(
+            TagGroup::GROUP_TYPE_PROGRAMMING_LANGUAGE, 
+            getCountry(), 
+            ['id', 'name', 'slug', 'icon', 'bg_color']
+        )
+        ->each(function ($element) use ($category, $locations)
+        {
+            $element->icon_url = url('/img/' . $element->icon);
+            $element->url = url(sprintf('/%s/%s/%s%s', $category, $element->slug, $locations ?? '', queryParams()));
+        });
+
+        $employementTypes = Tag::getByGroupType(
+            TagGroup::GROUP_TYPE_CONTRACT,
+            getCountry(),
+            ['id', 'name']
+        );
+
+        $seniorities = Tag::getByGroupType(
+            TagGroup::GROUP_TYPE_EXP,
+            getCountry(),
+            ['id', 'name']
+        );
+
+        $filters = array_filter(request()->all(), function ($filter)
+        {
+            return in_array($filter, JobOffer::FILTERS);
+        }, ARRAY_FILTER_USE_KEY);
+        
         return Inertia::render('Front/JobOffers/Listing', [
             'offers' => $offers,
             'markers' => $markersInfo,
-            'technologies' => $technologies
+            'technologies' => $technologies,
+            'employementTypes' => $employementTypes,
+            'seniorities' => $seniorities,
+            'filters' => $filters
         ]);
     }
 

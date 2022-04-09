@@ -39,3 +39,17 @@ body {
 	background-color: var(--secondary-gray);
 	color: white;
 }
+
+.primary-btn {
+	color: white;
+	background-color: var(--cta-blue);
+	padding: 7px 10px;
+	font-weight: 500;
+	border-radius: 0.375rem;
+	align-items: center;
+	display: inline-flex;
+}
+
+.primary-btn:hover {
+	background-color: var(--cta-blue-hover);
+}

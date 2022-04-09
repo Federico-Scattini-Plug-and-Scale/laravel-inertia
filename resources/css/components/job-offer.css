@@ -235,7 +235,9 @@
 		margin-left: 20px;
 		margin-right: 10px;
 	}
+}
 
+@media screen and (min-width: 801px){
 	.job-offer:hover {
 		transform: scale(1.03);
 	}
